@@ -2,16 +2,27 @@
 #include "Finance.h"
 
 int main() {
-	double S = 100., K = 100., r = 0.1, sigma = 0.25, time = 1.0;
-	int N = 400;
-	PRINT(option_price_call_european_binomial(S, K, r, sigma, time, N));
-	PRINT(option_price_put_european_binomial(S, K, r, sigma, time, N));
-	PRINT(option_price_call_american_binomial(S, K, r, sigma, time, N));
-	PRINT(option_price_put_american_binomial(S, K, r, sigma, time, N));
-	PRINT(option_price_call_american_binomial(S, K, r, sigma, time, N));
-	PRINT(option_price_put_american_binomial(S, K, r, sigma, time, N));
-	PRINT(option_price_put_european_finite_diff_explicit(S, K, r, sigma, time, N, N));
-
+	double Expiry = 2.0, Strike = 20., Spot = 30., Vol = 0.2, r = 0.05;
+	unsigned long NumberOfPaths = 1000;
+	PayOffCall thePayOff(Strike);
+	VanillaOption theOption(thePayOff, Expiry);
+	ParametersConstant VolParam(Vol);
+	ParametersConstant rParam(r);
+	StatisticsMean gatherer;
+	ConvergenceTable gathererTwo(gatherer);
+	SimpleMonteCarlo(theOption,
+		Spot,
+		VolParam,
+		rParam,
+		NumberOfPaths,
+		gathererTwo);
+	vector<vector<double> > results = gathererTwo.GetResultsSoFar();
+	cout << "\nFor the call price the results are \n";
+	for (unsigned long i = 0; i < results.size(); i++) {
+		for (unsigned long j = 0; j < results[i].size(); j++)
+			cout << results[i][j] << " ";
+		cout << "\n";
+	}
 
 	system("pause");
 	return 0;

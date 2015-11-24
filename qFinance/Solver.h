@@ -10,6 +10,7 @@
 #include <functional>
 #include <cassert>
 #include <map>
+#include <cmath>
 #include <Eigen/Dense>
 #include <Eigen/Cholesky>
 using namespace std;
@@ -100,7 +101,7 @@ void ldlt_decomp(vector<vector<double> > dat);
 
 // Section: Utility
 // print helper
-#define PRINT(EX) cout << #EX << ": " << EX << endl
+#define PRINT(EX) cout << #EX << ": " << endl << EX << endl
 #define SEP cout << string(60, '-') << endl
 
 int sgn(double x);
@@ -199,6 +200,12 @@ public:
 	static double simpson(const std::function<double(double)> &f, double a = 0.0, double b = 1.0, int n = 100);	
 };
 
+class Fibonacci {
+public:
+	static int statArray(int n);
+
+};
+
 namespace mymath {
 	double f1(double x);
 
@@ -247,25 +254,6 @@ namespace mymath {
 		*/
 	};
 }
-
-// Section: Test
-
-void hello();
-void goodbye();
-typedef void(*FunctionPointer0d)();
-
-double add(double a, double b);
-double multiply(double a, double b);
-double substract(double a, double b);
-double dividedby(double a, double b);
-typedef double(*FunctionPointer2d)(double, double);
-
-double testFunctionPointer(FunctionPointer0d& fpv, FunctionPointer2d& fp2, double a = 10., double b = 5.);
-
-enum ShapeType { circle, square, rectangle };
-enum BeverageType { water = 10, coca = 25, pepsi, juice = 50 };
-
-void testEnum();
 
 // Data Structure and Algorithm Analysis
 // dsaa
@@ -348,7 +336,7 @@ namespace dsaa{
 		}
 		const Vector& operator=(const Vector& rhs) {
 			cout << "const Vector& operator=(const Vector& rhs)" << endl;
-			if (this != &rhs) return *this;
+			if (this == &rhs) return *this;
 			delete[] objs;
 			size_ = rhs.size_;
 			capacity_ = rhs.capacity_;
@@ -564,7 +552,218 @@ namespace dsaa{
 }
 
 
+// Section: Test
 
+void hello();
+void goodbye();
+typedef void(*FunctionPointer0d)();
 
+double add(double a, double b);
+double multiply(double a, double b);
+double substract(double a, double b);
+double dividedby(double a, double b);
+typedef double(*FunctionPointer2d)(double, double);
+
+double testFunctionPointer(FunctionPointer0d& fpv, FunctionPointer2d& fp2, double a = 10., double b = 5.);
+
+enum ShapeType { circle, square, rectangle };
+enum BeverageType { water = 10, coca = 25, pepsi, juice = 50 };
+
+void testEnum();
+
+// Section: Design Patterns
+class PayOff {
+public:
+	PayOff() {}
+	virtual ~PayOff() {}
+	virtual PayOff* clone() const = 0;
+	virtual double operator()(double Spot) const = 0;
+};
+
+class PayOffCall : public PayOff {
+	double Strike;
+public:
+	PayOffCall(double Strike_);
+	virtual ~PayOffCall() {}
+	virtual PayOff* clone() const;
+	virtual double operator()(double Spot) const;
+};
+
+class PayOffPut : public PayOff {
+	double Strike;
+public:
+	PayOffPut(double Strike_);
+	virtual ~PayOffPut() {}
+	virtual PayOff* clone() const;
+	virtual double operator()(double Spot) const;
+};
+
+class PayOffFactory {
+public:
+	typedef PayOff* (*CreatePayOffFunction)(double);
+	// refer to pointer to functions which take in a double and returns PayOff*
+	static PayOffFactory& Instance();
+	~PayOffFactory() {}
+	void RegisterPayOff(string, CreatePayOffFunction);
+	PayOff* CreatePayOff(string PayOffId, double Strike);
+private:
+	map<string, CreatePayOffFunction> TheCreatorFunctions;
+	// STL map class to associate objects with string identifiers
+	PayOffFactory() {}
+	PayOffFactory(const PayOffFactory&) {}
+	PayOffFactory& operator=(const PayOffFactory&) { return *this; }
+};
+
+template<class T>
+class PayOffHelper{
+public:
+	static PayOff* Create(double);
+	PayOffHelper(string);
+};
+
+template<class T>
+PayOff* PayOffHelper<T>::Create(double Strike) { 
+	return new T(Strike);
+}
+
+template<class T>
+PayOffHelper<T>::PayOffHelper(string id) {
+	PayOffFactory& thePayOffFactory = PayOffFactory::Instance();
+	thePayOffFactory.RegisterPayOff(id, PayOffHelper<T>::Create);
+}
+
+template<class T>
+class Wrapper {
+	T* DataPtr;
+public:
+	Wrapper() { DataPtr = 0; }
+	Wrapper(T* inner) { DataPtr = inner; }
+	Wrapper(const T& inner) { DataPtr = inner.clone(); }
+	Wrapper(const Wrapper<T>& wp);
+	Wrapper& operator=(const Wrapper<T>& wp);
+	~Wrapper() { if (DataPtr != 0) delete DataPtr; SEP; }
+	T& operator*() { return *DataPtr; }
+	const T& operator*() const { return *DataPtr; }
+	T* operator->() { return DataPtr; }
+	const T* operator->() const { return DataPtr; }
+};
+
+template<class T>
+Wrapper<T>::Wrapper(const Wrapper<T>& wp) {	
+	DataPtr = (wp.DataPtr != 0) ? wp.DataPtr->clone() : 0;
+}
+
+template<class T>
+Wrapper<T>& Wrapper<T>::operator=(const Wrapper<T>& wp) {
+	if (this == &wp) return *this;	
+	if (DataPtr != 0) delete DataPtr;
+	DataPtr = (wp.DataPtr != 0) ? wp.DataPtr->clone() : 0;
+	return *this;
+}
+
+class PayOffBridge {
+	PayOff* ThePayOffPtr;
+public:
+	PayOffBridge(const PayOffBridge& original);
+	PayOffBridge(const PayOff& innerPayOff);
+	PayOffBridge& operator=(const PayOffBridge& original);
+	~PayOffBridge();
+	inline double operator()(double Spot) const;
+};
+
+inline double PayOffBridge::operator()(double Spot) const {
+	//return ThePayOffPtr->operator()(Spot);
+	return (*ThePayOffPtr)(Spot);
+}
+
+class VanillaOption {
+	double Expiry;
+	PayOffBridge ThePayOff;
+public:
+	VanillaOption(const PayOffBridge& ThePayOff_, double Expiry_);
+	double GetExpiry() const;
+	double OptionPayOff(double Spot) const;
+};
+
+class ParametersInner {
+public:
+	ParametersInner() {}
+	virtual ~ParametersInner() {}
+	virtual ParametersInner* clone() const = 0;
+	virtual double Integral(double time1, double time2) const = 0;
+	virtual double IntegralSquare(double time1, double time2) const = 0;
+};
+
+class ParametersConstant : public ParametersInner {
+	double Constant;
+	double ConstantSquare;
+public:
+	ParametersConstant(double constant);
+	virtual ParametersInner* clone() const;
+	virtual double Integral(double time1, double time2) const;
+	virtual double IntegralSquare(double time1, double time2) const;	
+};
+
+class Parameters{
+	ParametersInner* InnerObjectPtr;
+public:
+	Parameters(const ParametersInner& innerObject);
+	Parameters(const Parameters& original);
+	Parameters& operator= (const Parameters& original);
+	virtual ~Parameters();
+	inline double Integral(double time1, double time2) const;
+	inline double IntegralSquare(double time1, double time2) const;
+	double Mean(double time1, double time2) const;
+	double RootMeanSquare(double time1, double time2) const;	
+};
+
+inline double Parameters::Integral(double time1, double time2) const {
+	return InnerObjectPtr->Integral(time1, time2);
+}
+
+inline double Parameters::IntegralSquare(double time1, double time2) const {
+	return InnerObjectPtr->IntegralSquare(time1, time2);
+}
+
+class StatisticsMC {
+public:
+	StatisticsMC() {}
+	virtual ~StatisticsMC() {}
+	virtual StatisticsMC* clone() const = 0;
+	virtual void DumpOneResult(double result) = 0;
+	virtual vector<vector<double> > GetResultsSoFar() const = 0;
+};
+
+class StatisticsMean : public StatisticsMC {
+public:
+	StatisticsMean();
+	virtual StatisticsMC* clone() const;
+	virtual void DumpOneResult(double result);
+	virtual vector<vector<double> > GetResultsSoFar() const;
+private:
+	double RunningSum;
+	unsigned long PathsDone;
+};
+
+class ConvergenceTable : public StatisticsMC {
+public:
+	ConvergenceTable(const Wrapper<StatisticsMC>& Inner_);
+	virtual StatisticsMC* clone() const;
+	virtual void DumpOneResult(double result);
+	virtual vector<vector<double> > GetResultsSoFar() const;
+private:
+	Wrapper<StatisticsMC> Inner;
+	vector<vector<double> > ResultsSoFar;
+	unsigned long StoppingPoint;
+	unsigned long PathsDone;
+};
+
+void SimpleMonteCarlo(
+	const VanillaOption &TheOption,
+	double Spot,
+	const Parameters& Vol,
+	const Parameters& r,
+	unsigned long NumberOfPaths,
+	StatisticsMC& gatherer);
 
 #endif

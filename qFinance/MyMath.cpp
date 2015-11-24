@@ -66,6 +66,22 @@ double Integral::simpson(const std::function<double(double)> &f, double a, doubl
 	return (dx / 6) * (f(a) + f(b) + 4 * sum1 + 2 * sum2);
 }
 
+// fibonacci
+int Fibonacci::statArray(int n) {
+	const int sz = 100;
+	static int f[sz];
+	f[0] = f[1] = 1;
+	int i;
+	for (i = 0; i < sz; i++) {
+		if (f[i] == 0) break;
+	}
+	while (i <= n) {
+		f[i] = f[i - 1] + f[i - 2];
+		i++;
+	}
+	return f[n];
+}
+
 namespace mymath {
 	double f1(double x) {
 		// return (2 * x + 1.);

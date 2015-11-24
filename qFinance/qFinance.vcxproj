@@ -81,6 +81,7 @@
   <ItemGroup>
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="DatStrAlgoAs.cpp" />
+    <ClCompile Include="DesignPatterns.cpp" />
     <ClCompile Include="EigenIO.cpp" />
     <ClCompile Include="Finance.cpp" />
     <ClCompile Include="Main.cpp" />
