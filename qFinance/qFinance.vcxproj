@@ -82,6 +82,7 @@
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="DatStrAlgoAs.cpp" />
     <ClCompile Include="DesignPatterns.cpp" />
+    <ClCompile Include="Leetcode.cpp" />
     <ClCompile Include="EigenIO.cpp" />
     <ClCompile Include="Finance.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -93,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Finance.h" />
+    <ClInclude Include="Leetcode.h" />
     <ClInclude Include="Solver.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

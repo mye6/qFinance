@@ -917,3 +917,100 @@
 	PRINT(vega);
 	PRINT(rho);
 	
+	
+	
+	double Expiry = 2.0, Strike = 20., Spot = 30., Vol = 0.2, r = 0.05;
+	unsigned long NumberOfPaths = 1000;
+	PayOffCall thePayOff(Strike);
+	VanillaOption theOption(thePayOff, Expiry);
+	ParametersConstant VolParam(Vol);
+	ParametersConstant rParam(r);
+	StatisticsMean gatherer;
+	ConvergenceTable gathererTwo(gatherer);
+	SimpleMonteCarlo(theOption,
+		Spot,
+		VolParam,
+		rParam,
+		NumberOfPaths,
+		gathererTwo);
+	vector<vector<double> > results = gathererTwo.GetResultsSoFar();
+	cout << "\nFor the call price the results are \n";
+	for (unsigned long i = 0; i < results.size(); i++) {
+		for (unsigned long j = 0; j < results[i].size(); j++)
+			cout << results[i][j] << " ";
+		cout << "\n";
+	}
+	
+	// An example of tail recursive function
+void print(int n) {
+	if (n < 0)  return;
+	cout << " " << n;	
+	print(n - 1); // The last executed statement is recursive call, and not used in print(n)
+}
+
+// A NON-tail-recursive function.  The function is not tail
+// recursive because the value returned by fact(n-1) is used in
+// fact(n) and call to fact(n-1) is not the last thing done by fact(n)
+unsigned int fact(unsigned int n) {
+	if (n == 0) return 1;
+	return n*fact(n - 1);
+}
+
+Employee empl("John Burke", 25.0);
+	Manager mgr("Jan Kovacs", 1200.0, true);
+	Supervisor sup("Denise Zephyr", 780.0, "Accounting");
+
+	// Assume all employees worked 40 hours this period.
+
+	cout << "For Employee:" << endl;
+	cout << "Name: " << empl.getName() << endl;
+	cout << "Pay: " << empl.pay(40.0) << endl;
+
+	cout << "Changing the Employee's name..." << endl;
+	empl.setName("Doug Conners");
+	cout << "New Name: " << empl.getName() << endl;
+
+	cout << endl;
+	cout << "For Manager:" << endl;
+	cout << "Name: " << mgr.getName() << endl;
+	cout << "Salaried: " << mgr.getSalaried() << endl;
+	cout << "Pay: " << mgr.pay(40.0) << endl;
+
+	cout << "Changing the Manager's salaried status..." << endl;
+	mgr.setSalaried(false);
+	cout << "New Pay: " << mgr.pay(40.0) << endl;
+
+	cout << endl;
+	cout << "For Supervisor:" << endl;
+	cout << "Name: " << sup.getName() << endl;
+	cout << "Pay: " << sup.pay(40.0) << endl;
+	cout << "Dept: " << sup.getDept() << endl;
+
+	cout << "Changing the Supervisor's pay rate..." << endl;
+	sup.setPayRate(900.0);
+	cout << "New Pay: " << sup.pay(40.0) << endl;le
+	
+	
+	// leetcode
+	vector<int> nums{2, 1, 3, 5};
+	PRINT(Solution::rob(nums));
+	
+	for (int i = 1; i < 10; ++i) {
+		PRINT(i);
+		PRINT(Solution::climbStairs(i));
+		SEP;
+	}
+	
+	vector<TreeNode *> vec = Solution::generateTrees(3);
+	for (size_t i = 0; i < vec.size(); ++i) {
+		Solution::printTree(vec[i]);
+		SEP;
+	}
+	
+	
+	
+
+
+
+
+	

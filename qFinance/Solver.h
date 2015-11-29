@@ -8,9 +8,11 @@
 #include <string>
 #include <vector>
 #include <functional>
+#include <numeric>
 #include <cassert>
 #include <map>
 #include <cmath>
+#include <iomanip>
 #include <Eigen/Dense>
 #include <Eigen/Cholesky>
 using namespace std;
@@ -171,6 +173,26 @@ string toBinary(const unsigned char val = 255);
 
 void printBinary(const unsigned char val = 255);
 
+/*
+* Fisher–Yates shuffle Algorithm
+* O(n) time complexity
+* given a function rand()
+* The idea is to start from the last element,
+* swap it with a randomly selected element from the whole array (including last)
+*/
+void swap(int& x, int& y);
+void randomize(vector<int>& a);
+
+/*
+* XOR swap uses XOR bitwise operation
+* A^B = B^A
+* (A^B)^C = A^(B^C)
+* A^0 = A
+* A^A = 0
+*/
+void swap_xor(int& x, int& y);
+
+
 // Section: My Math
 // calculate the derivative via f'(x) = (f(x + h/2) - f(x - h/2))/h
 
@@ -203,8 +225,9 @@ public:
 class Fibonacci {
 public:
 	static int statArray(int n);
-
 };
+
+unsigned int fact(unsigned int n);
 
 namespace mymath {
 	double f1(double x);
@@ -570,6 +593,38 @@ enum ShapeType { circle, square, rectangle };
 enum BeverageType { water = 10, coca = 25, pepsi, juice = 50 };
 
 void testEnum();
+
+class Employee {
+public:
+	Employee(string theName, float thePayRate);
+	string getName() const;
+	void setName(string theName);
+	float getPayRate() const;
+	void setPayRate(float thePayRate);
+	float pay(float hoursWorked) const;
+protected:
+	string name;
+	float payRate;
+};
+
+class Manager : public Employee {
+public:
+	Manager(string theName, float thePayRate, bool isSalaried);
+	bool getSalaried() const;
+	void setSalaried(bool isSalaried);
+	float pay(float hoursWorked) const;
+protected:
+	bool salaried;
+};
+
+class Supervisor : public Manager {
+public:
+	Supervisor(string theName, float thePayRate, string theDept);
+	string getDept() const;
+	void setDept(string theDept);
+protected:
+	string dept;
+};
 
 // Section: Design Patterns
 class PayOff {

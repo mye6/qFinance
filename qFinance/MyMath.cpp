@@ -69,17 +69,24 @@ double Integral::simpson(const std::function<double(double)> &f, double a, doubl
 // fibonacci
 int Fibonacci::statArray(int n) {
 	const int sz = 100;
-	static int f[sz];
+	static int f[sz]; // static array to help save computing time
 	f[0] = f[1] = 1;
 	int i;
+	// skip the ones that are already computed
 	for (i = 0; i < sz; i++) {
 		if (f[i] == 0) break;
 	}
+	// compute un-computed ones through n
 	while (i <= n) {
 		f[i] = f[i - 1] + f[i - 2];
 		i++;
 	}
 	return f[n];
+}
+
+unsigned int fact(unsigned int n) {
+	if (n == 0) return 1;
+	return n*fact(n - 1);
 }
 
 namespace mymath {

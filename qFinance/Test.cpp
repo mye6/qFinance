@@ -42,5 +42,26 @@ void testEnum() {
 	case juice: PRINT("lots of sugar"); break;
 	default: break;
 	}
-
 }
+
+Employee::Employee(string theName, float thePayRate)
+	: name(theName), payRate(thePayRate) {}
+string Employee::getName() const { return name; }
+void Employee::setName(string theName) { name = theName; }
+float Employee::getPayRate() const { return payRate; }
+void Employee::setPayRate(float thePayRate) { payRate = thePayRate; }
+float Employee::pay(float hoursWorked) const { return hoursWorked * payRate; }
+
+Manager::Manager(string theName, float thePayRate, bool isSalaried)
+	: Employee(theName, thePayRate), salaried(isSalaried) {}
+bool Manager::getSalaried() const { return salaried; }
+void Manager::setSalaried(bool isSalaried) { salaried = isSalaried; }
+float Manager::pay(float hoursWorked) const {
+	if (salaried) return payRate;
+	return Employee::pay(hoursWorked);
+}
+
+Supervisor::Supervisor(string theName, float thePayRate, string theDept)
+	: Manager(theName, thePayRate, true), dept(theDept) {}
+string Supervisor::getDept() const { return dept; }
+void Supervisor::setDept(string theDept) { dept = theDept; }

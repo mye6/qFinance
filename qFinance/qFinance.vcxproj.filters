@@ -48,12 +48,18 @@
     <ClCompile Include="DesignPatterns.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="Leetcode.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Finance.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="Solver.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Leetcode.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>

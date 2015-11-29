@@ -114,3 +114,43 @@ string toBinary(const unsigned char val) {
 void printBinary(const unsigned char val) {	
 	PRINT(toBinary(val));
 }
+
+/*
+* Fisher–Yates shuffle Algorithm
+* O(n) time complexity
+* given a function rand()
+* The idea is to start from the last element,
+* swap it with a randomly selected element from the whole array (including last)
+*/
+void swap(int& x, int& y) {
+	// pass by reference
+	int tmp = x;
+	x = y;
+	y = tmp;
+}
+void randomize(vector<int>& a) {
+	if (a.size() == 0 || a.size() == 1) return;
+	int n = a.size();
+	srand((unsigned int)time(NULL));
+	// Use a different seed value so that we don't get same
+	// result each time we run this program
+	for (int i = n - 1; i > 0; --i) {
+		int j = rand() % (i + 1); // Pick a random index from 0 to i
+		swap(a[i], a[j]);
+	}
+}
+
+/*
+* XOR swap uses XOR bitwise operation
+* A^B = B^A
+* (A^B)^C = A^(B^C)
+* A^0 = A
+* A^A = 0
+*/
+void swap_xor(int& x, int& y) {
+	if (x != y) {
+		x ^= y;
+		y ^= x;
+		x ^= y;
+	}
+}
