@@ -192,6 +192,8 @@ void randomize(vector<int>& a);
 */
 void swap_xor(int& x, int& y);
 
+int randi(int n);
+
 
 // Section: My Math
 // calculate the derivative via f'(x) = (f(x + h/2) - f(x - h/2))/h

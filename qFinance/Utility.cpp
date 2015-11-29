@@ -154,3 +154,8 @@ void swap_xor(int& x, int& y) {
 		x ^= y;
 	}
 }
+
+int randi(int n) {
+	//srand((unsigned int)time(NULL));
+	return rand() % (n + 1);
+}
