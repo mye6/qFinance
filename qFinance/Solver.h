@@ -577,8 +577,11 @@ namespace dsaa{
 }
 
 
-// Section: Test
 
+
+
+
+// Section: Test
 void hello();
 void goodbye();
 typedef void(*FunctionPointer0d)();
@@ -590,6 +593,7 @@ double dividedby(double a, double b);
 typedef double(*FunctionPointer2d)(double, double);
 
 double testFunctionPointer(FunctionPointer0d& fpv, FunctionPointer2d& fp2, double a = 10., double b = 5.);
+void test_upperbound(const vector<int>& vec, int num);
 
 enum ShapeType { circle, square, rectangle };
 enum BeverageType { water = 10, coca = 25, pepsi, juice = 50 };

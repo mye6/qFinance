@@ -128,6 +128,7 @@ void swap(int& x, int& y) {
 	x = y;
 	y = tmp;
 }
+
 void randomize(vector<int>& a) {
 	if (a.size() == 0 || a.size() == 1) return;
 	int n = a.size();

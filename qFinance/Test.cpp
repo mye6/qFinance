@@ -17,6 +17,14 @@ double testFunctionPointer(FunctionPointer0d& fpv, FunctionPointer2d& fp2, doubl
 	return (*fp2)(a, b);
 }
 
+void test_upperbound(const vector<int>& vec, int num) {
+	vector<int> v(vec);
+	sort(v.begin(), v.end());
+	vector<int>::iterator up;
+	up = std::upper_bound(v.begin(), v.end(), 20);
+	cout << "upper_bound at position " << (up - v.begin()) << '\n';
+}
+
 void testEnum() {
 	ShapeType shape = square;
 	PRINT(shape);
