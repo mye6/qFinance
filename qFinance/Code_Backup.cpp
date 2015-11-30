@@ -1024,6 +1024,13 @@ Employee empl("John Burke", 25.0);
 		cout << "The deepest left child is " << result->val << endl;
 	else
 		cout << "There is no left leaf in the given tree";
+	
+	
+	
+	vector<int> vec{ 10, 20, 15, 30, 20, 10, 10, 20, 9, 21 };
+	PRINT(vec); SEP;
+	merge_sort<int>(vec);
+	PRINT(vec);
 
 
 

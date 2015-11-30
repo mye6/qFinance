@@ -1,7 +1,7 @@
 #include "Leetcode.h"
 
 
-// Section: Dynamic Programming
+/* Section: Dynamic Programming */
 int Solution::rob(vector<int>& nums) {
 	int n = nums.size(), pre = 0, cur = 0;
 	for (int i = 0; i < n; ++i) {
@@ -213,7 +213,7 @@ int NumMatrix::sumRegion(int row1, int col1, int row2, int col2) {
 int NumMatrix::a(int i, int j) { return (i >= 0 && j >= 0) ? accum[i][j] : 0; }
 
 
-// Section: Binomial Tree
+/* Section: Binomial Tree */
 void Solution::deepestLeftLeafUtil(TreeNode *root, int lvl, int& maxlvl, bool isLeft, TreeNode **resPtr) {
 	// Base case
 	if (root == NULL) return;
@@ -237,3 +237,15 @@ TreeNode* Solution::deepestLeftLeaf(TreeNode *root) {
 	return result;
 }
 
+
+/* Section: Math */
+int Solution::mySqrt(int x) {
+	if (x<2) return x; // to avoid mid = 0
+	int low = 0, high = x, mid;
+	while (low<high) {
+		mid = (low + high) / 2;
+		if (x / mid >= mid) low = mid + 1;
+		else high = mid;
+	}
+	return high - 1;
+};

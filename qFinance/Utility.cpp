@@ -81,8 +81,16 @@ double exp_taylor(double x) {
 	return power_rec(res, (int)n);
 }
 
+/*
+* Prime number:
+* 1. construct status[1..N] to record whether each element is a prime
+* 2. for i in 2 to sqrt(N), get rid of all i*j<=N (j starts with 2)
+* 3. output all numbers with status[i] as true, i.e. prime numbers
+* Complexity: O(n)
+*/
 vector<int> prime_vec(int N) {
 	vector<bool> status(N + 1, true);
+	// status to record whether each element is a prime number
 	status[1] = false;
 	for (int i = 2; i <= sqrt(N); ++i) {
 		if (status[i]) {
@@ -156,6 +164,7 @@ void swap_xor(int& x, int& y) {
 	}
 }
 
+/* generate a random number within [0..n] */
 int randi(int n) {
 	//srand((unsigned int)time(NULL));
 	return rand() % (n + 1);

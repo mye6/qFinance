@@ -12,6 +12,7 @@ struct TreeNode {
 
 class Solution {
 public:
+	/* Section: Dynamic Programming */
 	static int rob(vector<int>& nums); // House Robber
 	static int rob_line(vector<int>& nums, int start, int end); // House Robber 2 Helper
 	static int rob2(vector<int>& nums); // House Robber 2
@@ -26,12 +27,15 @@ public:
 	static int maxSubArray(vector<int>& nums);
 	static bool isSameTree(TreeNode* p, TreeNode* q);
 
-	// Section: Binomial Tree
+	/* Section: Binomial Tree */
 	static void deepestLeftLeafUtil(TreeNode *root,
 		int lvl, int& maxlvl, bool isLeft, TreeNode **resPtr);
 	static TreeNode* deepestLeftLeaf(TreeNode *root);
 	
 	static void printTree(TreeNode* p, int indent = 3);
+
+	/* Section: Math*/
+	static int mySqrt(int x);
 };
 
 class NumArray {
