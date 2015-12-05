@@ -93,10 +93,15 @@
     <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BinarySearchTree.h" />
     <ClInclude Include="dsexceptions.h" />
     <ClInclude Include="Finance.h" />
     <ClInclude Include="Leetcode.h" />
     <ClInclude Include="LinkedList.h" />
+    <ClInclude Include="Matrix.h" />
+    <ClInclude Include="QueueAr.h" />
+    <ClInclude Include="StackAr.h" />
+    <ClInclude Include="StackLi.h" />
     <ClInclude Include="String.h" />
     <ClInclude Include="SeparateChaining.h" />
     <ClInclude Include="Solver.h" />

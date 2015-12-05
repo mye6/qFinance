@@ -77,5 +77,20 @@
     <ClInclude Include="String.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
+    <ClInclude Include="Matrix.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StackAr.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StackLi.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="QueueAr.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BinarySearchTree.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
