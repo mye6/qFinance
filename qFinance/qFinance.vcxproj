@@ -80,7 +80,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Data.cpp" />
-    <ClCompile Include="DatStrAlgoAs.cpp" />
     <ClCompile Include="DesignPatterns.cpp" />
     <ClCompile Include="Leetcode.cpp" />
     <ClCompile Include="EigenIO.cpp" />
@@ -93,8 +92,11 @@
     <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dsexceptions.h" />
     <ClInclude Include="Finance.h" />
     <ClInclude Include="Leetcode.h" />
+    <ClInclude Include="LinkedList.h" />
+    <ClInclude Include="SeparateChaining.h" />
     <ClInclude Include="Solver.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1032,6 +1032,55 @@ Employee empl("John Burke", 25.0);
 	merge_sort<int>(vec);
 	PRINT(vec);
 
+	for (int i = -16; i < 20; ++i) {
+		PRINT(i);
+		PRINT(isPowerOfTwo(i));
+		SEP;
+	}
+	
+	
+	PRINT(hash1("hebing", 7));
+	PRINT(hash2("hebing", 7));
+	PRINT(hash3("hebing", 7));
+	
+	std::list<int> first;                                // empty list of ints
+	std::list<int> second(4, 100);                       // four ints with value 100
+	std::list<int> third(second.begin(), second.end());  // iterating through second
+	std::list<int> fourth(third);                       // a copy of third
+
+	// the iterator constructor can also be used to construct from arrays:
+	int myints[] = { 16, 2, 77, 29 };
+	std::list<int> fifth(myints, myints + sizeof(myints) / sizeof(int));
+
+	std::cout << "The contents of fifth are: ";
+	for (std::list<int>::iterator it = fifth.begin(); it != fifth.end(); it++)
+		std::cout << *it << ' ';
+	cout << endl;
+	
+	
+	List<int>    theList;
+	ListItr<int> theItr = theList.zeroth();
+	printList(theList);
+
+	for (int i = 0; i < 10; i++) {
+		theList.insert(i, theItr);
+		printList(theList);
+		theItr.advance();
+	}
+
+	for (int i = 0; i < 10; i += 2)
+		theList.remove(i);
+
+	for (int i = 0; i < 10; i++)
+		if ((i % 2 == 0) != (theList.find(i).isPastEnd()))
+			cout << "Find fails!" << endl;
+
+	cout << "Finished deletions" << endl;
+	printList(theList);
+
+	List<int> list2;
+	list2 = theList;
+	printList(list2);
 
 
 

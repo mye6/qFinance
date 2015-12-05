@@ -73,3 +73,43 @@ Supervisor::Supervisor(string theName, float thePayRate, string theDept)
 	: Manager(theName, thePayRate, true), dept(theDept) {}
 string Supervisor::getDept() const { return dept; }
 void Supervisor::setDept(string theDept) { dept = theDept; }
+
+double deck_card() {
+	const int N = 26;
+	vector<vector<double> > D(N + 1, vector<double>(N + 1, (double)(INT_MIN)));
+	// row: # red cards, column: # black cards
+	D[0][0] = 0.;
+	for (int r = 1; r <= N; ++r) D[r][0] = 0.;
+	for (int b = 1; b <= N; ++b) D[0][b] = (double)b;
+
+	for (int r = 1; r <= N; ++r)
+		for (int b = 1; b <= N; ++b)
+			D[r][b] = max((double)(b - r), D[r - 1][b] * r / (r + b) + D[r][b - 1] * b / (r + b));
+	return D[N][N];
+}
+
+/*
+world series: Green Book, Dynamic Programming, Page 123
+*/
+double world_series(int n, double payoff) {
+	struct Node {
+		double money;
+		double bet;
+	};
+	vector<vector<Node> > mat(n + 1, vector<Node>(n + 1));
+	for (int j = 0; j <= n - 1; ++j) {
+		mat[n][j].money = payoff;
+		mat[n][j].bet = 0;
+	}
+	for (int i = 0; i <= n - 1; ++i) {
+		mat[i][n].money = -payoff;
+		mat[i][n].bet = 0;
+	}
+	for (int i = n - 1; i >= 0; --i) {
+		for (int j = n - 1; j >= 0; --j) {
+			mat[i][j].money = 0.5 * (mat[i + 1][j].money + mat[i][j + 1].money);
+			mat[i][j].bet = 0.5 * (mat[i + 1][j].money - mat[i][j + 1].money);
+		}
+	}
+	return mat[0][0].bet;
+}

@@ -169,3 +169,17 @@ int randi(int n) {
 	//srand((unsigned int)time(NULL));
 	return rand() % (n + 1);
 }
+
+/*
+* For example for 4 ( 100) and 16(10000), we get following after subtracting 1
+* 3 –> 011
+* 15 –> 01111
+* !(x&(x - 1))
+* x&(x-1) will get an integer, whose digits are determined by x
+*
+*/
+bool isPowerOfTwo(int x) {
+	// return x&(x - 1) == 0; // this does not work as == will be called first
+	// return (x&(x - 1)) == 0; // works for positive integers (>0)
+	return x && (!(x&(x - 1))); // works for non-negative integers (>=0)
+}

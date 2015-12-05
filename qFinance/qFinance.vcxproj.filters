@@ -21,9 +21,6 @@
     <ClCompile Include="Data.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="DatStrAlgoAs.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
     <ClCompile Include="EigenIO.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
@@ -60,6 +57,15 @@
       <Filter>Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="Leetcode.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedList.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dsexceptions.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SeparateChaining.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>
