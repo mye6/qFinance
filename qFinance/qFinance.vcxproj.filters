@@ -48,6 +48,9 @@
     <ClCompile Include="Leetcode.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="String.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Finance.h">
@@ -71,7 +74,7 @@
     <ClInclude Include="Vector.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="mystring.h">
+    <ClInclude Include="String.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>

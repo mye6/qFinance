@@ -190,7 +190,6 @@ ListItr<Object> List<Object>::findPrevious(const Object & x) const {
 template <class Object>
 void List<Object>::remove(const Object& x) {
 	ListItr<Object> p = findPrevious(x);
-
 	if (p.current->next != NULL) {
 		ListNode<Object>* oldNode = p.current->next;
 		p.current->next = p.current->next->next;  // Bypass deleted node

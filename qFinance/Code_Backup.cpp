@@ -1086,6 +1086,15 @@ Employee empl("John Burke", 25.0);
 	Vector<int> vec;
 	vec.push_back(3); vec.push_back(4);
 	PRINT(vec[0]);
+	
+	
+	string s("bingtuo");
+	cout << s << endl;
+	s = "maomao";
+	cout << s << endl;
+	string s2("xiaobao");
+	cout << (s < s2) << endl;
+	cout << s.length() << endl;
 
 
 
