@@ -8,6 +8,10 @@ int main() {
 	
 
 	
+
+
+
+
 	
 
 	system("pause");
