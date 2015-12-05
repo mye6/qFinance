@@ -5,5 +5,6 @@ class Underflow {};
 class Overflow  {};
 class OutOfMemory {};
 class BadIterator {};
+class ArrayIndexOutOfBoundsException{};
 
 #endif

@@ -1081,6 +1081,11 @@ Employee empl("John Burke", 25.0);
 	List<int> list2;
 	list2 = theList;
 	printList(list2);
+	
+	
+	Vector<int> vec;
+	vec.push_back(3); vec.push_back(4);
+	PRINT(vec[0]);
 
 
 

@@ -41,5 +41,4 @@ private:
 int hash(const string & key, int tableSize);
 int hash(int key, int tableSize);
 
-#include "SeparateChaining.cpp"
 #endif

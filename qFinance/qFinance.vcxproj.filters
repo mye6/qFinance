@@ -68,5 +68,11 @@
     <ClInclude Include="SeparateChaining.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mystring.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
