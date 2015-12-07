@@ -1,3 +1,4 @@
+// SeparateChaining.h
 #ifndef SEPARATE_CHAINING_H_
 #define SEPARATE_CHAINING_H_
 
@@ -37,8 +38,8 @@ private:
 	const HashedObj ITEM_NOT_FOUND;
 };
 
-int Hash(const string& key, int tableSize);
-int Hash(int key, int tableSize);
+int Hash(const string& key, int tableSize); // hash a string
+int Hash(int key, int tableSize); // hash an integer
 
 
 /*definition*/
@@ -121,7 +122,7 @@ void HashTable<HashedObj>::makeEmpty() {
 * Deep copy.
 */
 template <class HashedObj>
-const HashTable<HashedObj> &
+const HashTable<HashedObj>&
 HashTable<HashedObj>::operator=(const HashTable<HashedObj>& rhs) {
 	if (this != &rhs)
 		theLists = rhs.theLists;

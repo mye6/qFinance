@@ -99,7 +99,9 @@
     <ClInclude Include="Leetcode.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="Matrix.h" />
+    <ClInclude Include="QuadraticProbing.h" />
     <ClInclude Include="QueueAr.h" />
+    <ClInclude Include="Sort.h" />
     <ClInclude Include="StackAr.h" />
     <ClInclude Include="StackLi.h" />
     <ClInclude Include="String.h" />

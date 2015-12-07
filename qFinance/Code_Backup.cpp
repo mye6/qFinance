@@ -1198,7 +1198,105 @@ Employee empl("John Burke", 25.0);
 			cout << "Find error2!" << endl;
 	}
 	
+	
+	int ITEM_NOT_FOUND = -9999;
+	HashTable<int> H(ITEM_NOT_FOUND);
 
+	const int NUMS = 4000;
+	const int GAP = 37;
+	int i;
+
+	cout << "Checking... (no more output means success)" << endl;
+
+	for (i = GAP; i != 0; i = (i + GAP) % NUMS)
+		H.insert(i);
+	for (i = 1; i < NUMS; i += 2)
+		H.remove(i);
+
+	for (i = 2; i < NUMS; i += 2)
+		if (H.find(i) != i)
+			cout << "Find fails " << i << endl;
+
+	for (i = 1; i < NUMS; i += 2)
+	{
+		if (H.find(i) != ITEM_NOT_FOUND)
+			cout << "OOPS!!! " << i << endl;
+	}
+	
+	
+	
+void checkSort(const vector<int> & a) {
+	for (size_t i = 0; i < a.size(); i++)
+		if (a[i] != i)
+			cout << "Error at " << i << endl;
+	cout << "Finished checksort" << endl;
+}
+
+
+void permute(vector<int> & a){
+	static Random r;
+	for (size_t j = 1; j < a.size(); j++)
+		swap(a[j], a[r.randomInt(0, j)]);
+}
+	
+	
+	const int NUM_ITEMS = 1000;
+
+	vector<int> a(NUM_ITEMS);
+	for (size_t i = 0; i < a.size(); i++)
+		a[i] = i;
+
+	for (int theSeed = 0; theSeed < 20; theSeed++) {
+		permute(a);
+		insertionSort(a);
+		checkSort(a);
+
+		permute(a);
+		heapsort(a);
+		checkSort(a);
+
+		permute(a);
+		shellsort(a);
+		checkSort(a);
+
+		permute(a);
+		mergeSort(a);
+		checkSort(a);
+
+		permute(a);
+		quicksort(a);
+		checkSort(a);
+
+		permute(a);
+		largeObjectSort(a);
+		checkSort(a);
+
+		permute(a);
+		quickSelect(a, NUM_ITEMS / 2);
+		cout << a[NUM_ITEMS / 2 - 1] << " " << NUM_ITEMS / 2 << endl;
+	}
+	
+	int ITEM_NOT_FOUND = -9999;
+	HashTable<int> H(ITEM_NOT_FOUND);
+
+	const int NUMS = 4000;
+	const int GAP = 37;
+	int i;
+
+	cout << "Checking... (no more output means success)" << endl;
+
+	for (i = GAP; i != 0; i = (i + GAP) % NUMS) H.insert(i);
+	
+	for (i = 1; i < NUMS; i += 2) H.remove(i);
+
+	for (i = 2; i < NUMS; i += 2)
+		if (H.find(i) != i)
+			cout << "Find fails " << i << endl;
+
+	for (i = 1; i < NUMS; i += 2) {
+		if (H.find(i) != ITEM_NOT_FOUND)
+			cout << "OOPS!!! " << i << endl;
+	}
 
 
 	

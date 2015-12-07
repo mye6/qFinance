@@ -92,5 +92,11 @@
     <ClInclude Include="BinarySearchTree.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
+    <ClInclude Include="QuadraticProbing.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sort.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
