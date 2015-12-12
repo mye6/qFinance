@@ -86,6 +86,7 @@
     <ClCompile Include="Finance.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MyMath.cpp" />
+    <ClCompile Include="Puzzle.cpp" />
     <ClCompile Include="String.cpp" />
     <ClCompile Include="Processor.cpp" />
     <ClCompile Include="Random.cpp" />
@@ -99,6 +100,7 @@
     <ClInclude Include="Leetcode.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="Matrix.h" />
+    <ClInclude Include="Puzzle.h" />
     <ClInclude Include="QuadraticProbing.h" />
     <ClInclude Include="QueueAr.h" />
     <ClInclude Include="Sort.h" />

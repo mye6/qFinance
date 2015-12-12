@@ -1,5 +1,5 @@
 git status
 git add -A
-git commit -m "by git.sh"
+git commit -m "puzzle.h added"
 git push origin master
 read -rsp $'Press enter to continue...\n'
