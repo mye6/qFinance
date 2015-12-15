@@ -48,3 +48,26 @@ int birthday() {
 	}
 	return n;
 }
+
+/*
+input: number of points
+output: 95% confidence interval, i.e. Lower and Upper bound
+Xi = 1 (if u1^2 + u2^2 < 1); = 0 otherwise
+E(X) = pi/4, pi_hat = 4*X_bar
+X_bar ~ N(mu, sigma^2/n)
+p_hat = X_bar
+mu = p_hat (probability, should be pi/4)
+sigma^2 = p_hat(1-p_hat)
+pi_bar ~ N(4*p_hat, 16*p_hat*(1-p_hat/n)
+*/
+vector<double> pi_estimator(int n) {
+	double xbar = 0., u1, u2;
+	for (int i = 0; i < n; ++i) {
+		u1 = unif(); u2 = unif();
+		if (u1*u1 + u2*u2 < 1.) ++xbar;
+	}
+	xbar /= (double)n;
+	double lower = 4 * xbar - 1.96 * 4 * sqrt(xbar*(1 - xbar) / n);
+	double upper = 4 * xbar + 1.96 * 4 * sqrt(xbar*(1 - xbar) / n);
+	return vector < double > {lower, xbar*4., upper};
+}

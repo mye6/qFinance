@@ -1297,6 +1297,24 @@ void permute(vector<int> & a){
 		if (H.find(i) != ITEM_NOT_FOUND)
 			cout << "OOPS!!! " << i << endl;
 	}
+	
+	
+	//int n = 10000000;
+	//PRINT(pi_estimator(n));
+
+	double xbar = PI / 4.;
+	
+	//PRINT(tmp);
+
+	for (int i = 10; i < 1000000; i *= 10) {
+		PRINT(i);
+		PRINT(pi_estimator(i));
+		double lower = 4 * xbar - 1.96 * 4 * sqrt(xbar*(1 - xbar) / i);
+		double upper = 4 * xbar + 1.96 * 4 * sqrt(xbar*(1 - xbar) / i);
+		vector<double> tmp{ lower, PI, upper };
+		PRINT(tmp);
+		SEP;
+	}
 
 
 	
