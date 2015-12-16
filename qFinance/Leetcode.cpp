@@ -249,3 +249,66 @@ int Solution::mySqrt(int x) {
 	}
 	return high - 1;
 };
+
+/*Section: Array */
+
+/*
+0. boundary check: if size() is 0 or 1, return false;
+1. sort the array, note it is pass by reference here; if pass by const reference, make a copy
+2. check nums[i-1] with nums[i] for i = 1...N-1; if same, return true
+*/
+bool Solution::containsDuplicate(vector<int>& nums) {
+	if (nums.size() == 0 || nums.size() == 1) return false;
+	sort(nums.begin(), nums.end());
+	for (size_t i = 1; i < nums.size(); ++i) {
+		if (nums[i - 1] == nums[i]) return true;
+	}
+	return false;
+}
+
+/*
+1. define a boolean, carry = true
+2. if (++digits[i] % 10) == 0 evaluates to be true, continue (i>=0&&carry)
+3. if carry is true after the loop, insert 1 at the beginning
+*/
+vector<int> Solution::plusOne(vector<int>& digits) {
+	int n = digits.size();
+	bool carry = true;
+	for (int i = n - 1; i >= 0 && carry; --i) {
+		carry = ((++digits[i] % 10) == 0);
+		if (carry) digits[i] = 0; // very important, convert from 10 to 0
+	}
+	if (carry) digits.insert(digits.begin(), 1); // insert at the beginning of a vector
+	return digits;
+}
+
+/*
+1. define idx1, idx2, dist to record location of word1, word2, and distance
+2. update during the loop
+*/
+int Solution::shortestDistance(vector<string>& words, string word1, string word2) {
+	int n(words.size()), idx1(-1), idx2(-1), dist(INT_MAX); // idx1, idx2 to record the location of word1 and word2
+	for (int i = 0; i < n; ++i) {
+		if (words[i] == word1) idx1 = i; // evaluate the equivalence of two strings, s1 == s2
+		else if (words[i] == word2) idx2 = i;
+		if (idx1 != -1 && idx2 != -1) dist = min(dist, abs(idx1 - idx2)); // when both index were detected, record dist
+	}
+	return dist;
+}
+
+// rotate by reverse. time complexity: O(N); space complexity: O(1)
+void Solution::rotate(vector<int>& nums, int k) {
+	int n = nums.size();
+	k = k%n;
+	reverse(nums.begin(), nums.begin() + n); // reverse all numbers
+	reverse(nums.begin(), nums.begin() + k); // reverse 0..k-1 numbers
+	reverse(nums.begin() + k, nums.begin() + n); // reverse k..n-1 numbers
+}
+
+// rotate by copying. time complexity: O(N); space complexity: O(1) 
+void Solution::rotate2(vector<int>& nums, int k) {
+	int n = nums.size();
+	if (n == 0 || k <= 0) return; // boundary check
+	vector<int> tmp(nums); // use copy constructor to copy the vector
+	for (int i = 0; i < n; ++i) nums[(i + k) % n] = tmp[i]; // 
+}

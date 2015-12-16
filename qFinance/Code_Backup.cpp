@@ -1315,6 +1315,31 @@ void permute(vector<int> & a){
 		PRINT(tmp);
 		SEP;
 	}
+	
+	vector<int> nums{ 1, 4, 3, 2, 1 };
+	PRINT(Solution::containsDuplicate(nums));
+	PRINT(nums);
+	nums.insert(nums.begin(), 8);
+	PRINT(nums);
+	
+	
+	vector<int> nums{ 9, 9, 9, 9, 9 };
+	PRINT(Solution::plusOne(nums));
+	string s("abc");
+	s.insert(s.begin(), 'x');
+	PRINT(s);
+	
+	vector<string> words{ "practice", "makes", "perfect", "coding", "makes" };
+	string word1("coding"), word2("practice");
+	PRINT(Solution::shortestDistance(words, word1, word2));
+	
+	
+	vector<int> nums{ 1, 2, 3, 4, 5, 6, 7 };
+	PRINT(nums);
+	rotate(nums,3);
+	SEP;
+	PRINT(nums);
+	
 
 
 	
