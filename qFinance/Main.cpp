@@ -3,23 +3,35 @@
 #include "Puzzle.h"
 #include "Leetcode.h"
 
-bool wordPattern(string pattern, string str) {
-	map<char, int> p2i; // map char to int
-	map<string, int> w2i; // map string to int
-	istringstream in(str); // parse the word strings
-	int i = 0, n = pattern.size();
-	for (string word; in >> word; ++i) {
-		if (p2i[pattern[i]] != w2i[word] || i == n)
-			return false; // if str is longer, or no match, return with false, before recording
-		p2i[pattern[i]] = w2i[word] = i + 1; // record each char/string mapping
-	}	
-	return i == n;
-}
+
+class ValidWordAbbr {
+public:
+	ValidWordAbbr(vector<string> &dictionary) {
+		for (string& d : dictionary) {
+			int n = d.length();
+			string abbr = d[0] + to_string(n) + d[n - 1];
+			mp[abbr].insert(d);
+		}
+	}
+
+	bool isUnique(string word) {
+		int n = word.length();
+		string abbr = word[0] + to_string(n) + word[n - 1];
+		PRINT(mp[abbr].count(word));
+		PRINT(mp[abbr].size());
+		return mp[abbr].count(word) == mp[abbr].size();
+	}
+private:
+	unordered_map<string, unordered_set<string>> mp;
+};
+
 
 
 int main() {
-	string pattern("abba"), str("dog cat cat dog");
-	PRINT(wordPattern(pattern, str));
+	vector<string> vec{ "deer", "door", "cake", "card" };
+	ValidWordAbbr vwa(vec);
+	PRINT(vwa.isUnique("deer"));
+	PRINT(vwa.isUnique("de"));
 
 
 	system("pause");

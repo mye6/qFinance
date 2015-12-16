@@ -1374,6 +1374,10 @@ void permute(vector<int> & a){
 	SEP;
 	cout << w2i << endl;
 	return i == n;
+	
+	
+	string pattern("abba"), str("dog cat cat dog");
+	PRINT(Solution::wordPattern(pattern, str));
 
 
 	
