@@ -226,6 +226,28 @@ int randi(int n);
 bool isPowerOfTwo(int x);
 
 /*
+count how many lines in a file
+input: filename
+output: number of lines
+*/
+int count_lines(const string& filename);
+
+/*
+count how many lines in a number of files
+input: vector of filenames
+output: number of lines
+*/
+int count_lines(const vector<string>& files);
+
+/*
+count how many lines in current directory
+input: no, may require to change inside the function body
+output: number of lines
+*/
+int count_lines();
+
+
+/*
 * Bubble sort:
 * 1. each iteration, compare each pair of adjacent items and swap them if wrong order
 * 2. i: 0 to n-1, j: 0 to n-1-i; compare a[j] and a[j+1] and swap if needed
@@ -466,6 +488,9 @@ vector<T> reservoir_sampling(const vector<T>& a, int k = 1) {
 	}
 	return tmp;
 }
+
+
+
 
 // Section: My Math
 // calculate the derivative via f'(x) = (f(x + h/2) - f(x - h/2))/h

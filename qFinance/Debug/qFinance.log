@@ -1,6 +1,16 @@
-﻿  Leetcode.cpp
+﻿  Utility.cpp
+  Main.cpp
   Generating Code...
   Compiling...
-  Main.cpp
+  Test.cpp
+  Random.cpp
+  Puzzle.cpp
+  Processor.cpp
+  MyMath.cpp
+  Leetcode.cpp
+  Finance.cpp
+  EigenIO.cpp
+  DesignPatterns.cpp
+  Data.cpp
   Generating Code...
   qFinance.vcxproj -> C:\Users\Mao Ye\Documents\Visual Studio 2013\GitPool\qFinance\Debug\qFinance.exe

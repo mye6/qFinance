@@ -1380,4 +1380,7 @@ void permute(vector<int> & a){
 	PRINT(Solution::wordPattern(pattern, str));
 
 
-	
+	vector<string> vec{ "deer", "door", "cake", "card" };
+	ValidWordAbbr vwa(vec);
+	PRINT(vwa.isUnique("deer"));
+	PRINT(vwa.isUnique("de"));

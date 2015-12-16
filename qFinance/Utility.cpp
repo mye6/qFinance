@@ -183,3 +183,48 @@ bool isPowerOfTwo(int x) {
 	// return (x&(x - 1)) == 0; // works for positive integers (>0)
 	return x && (!(x&(x - 1))); // works for non-negative integers (>=0)
 }
+
+/*
+ count how many lines in a file
+ input: filename
+ output: number of lines
+*/
+int count_lines(const string& filename) {
+	int res = 0;
+	ifstream in(filename);
+	string line;
+	while (getline(in, line)) ++res;
+	in.close();
+	return res;
+}
+
+/*
+ count how many lines in a number of files
+ input: vector of filenames
+ output: number of lines
+*/
+int count_lines(const vector<string>& files) {
+	int total = 0;
+	for (size_t i = 0; i < files.size(); ++i) {
+		total += count_lines(files[i]);
+	}
+	return total;
+}
+
+/*
+count how many lines in current directory
+input: no, may require to change inside the function body
+output: number of lines
+*/
+int count_lines() {
+	vector<string> files{
+		"Main.cpp", "Code_Backup.cpp", "Leetcode.h", "Leetcode.cpp",
+		"Solver.h", "Puzzle.h", "Puzzle.cpp", "Random.cpp", "QuadraticProbing.h",
+		"SeparateChaining.h", "Sort.h", "LinkedList.h", "BinarySearchTree.h",
+		"QueueAr.h", "StackLi.h", "StackAr.h", "Matrix.h", "String.h", "String.cpp",
+		"Vector.h", "dsexceptions.h", "Test.cpp", "Utility.cpp", "DesignPatterns.cpp",
+		"MyMath.cpp", "EigenIO.cpp", "Finance.cpp", "Finance.h", "Processor.cpp",
+		"Data.cpp"
+	};
+	return count_lines(files);
+}
