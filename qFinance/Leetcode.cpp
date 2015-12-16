@@ -339,3 +339,18 @@ bool Solution::wordPattern(string pattern, string str) {
 	}
 	return i == n;
 }
+
+
+ValidWordAbbr::ValidWordAbbr(vector<string> &dictionary) {
+	for (string& d : dictionary) {
+		int n = d.length();
+		string abbr = d[0] + to_string(n) + d[n - 1];
+		mp[abbr].insert(d);
+	}
+}
+
+bool ValidWordAbbr::isUnique(string word) {
+	int n = word.length();
+	string abbr = word[0] + to_string(n) + word[n - 1];
+	return mp[abbr].count(word) == mp[abbr].size();
+}

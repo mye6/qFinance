@@ -72,7 +72,14 @@ private:
 	// a(i, j) helps with edge cases
 };
 
-
+// uses an un_ordered map to record the abbreviations
+class ValidWordAbbr {
+public:
+	ValidWordAbbr(vector<string> &dictionary);
+	bool isUnique(string word);
+private:
+	unordered_map<string, unordered_set<string>> mp; // performance, unordered_map, O(1) complexity
+};
 
 #endif
 
