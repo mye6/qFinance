@@ -45,6 +45,9 @@ public:
 	static void rotate(vector<int>& nums, int k);
 	static void rotate2(vector<int>& nums, int k);
 	static int removeElement(vector<int>& nums, int val);
+
+	/*Section: Hash Table*/
+	static bool wordPattern(string pattern, string str);
 };
 
 class NumArray {

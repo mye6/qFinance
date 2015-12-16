@@ -325,3 +325,17 @@ int Solution::removeElement(vector<int>& nums, int val) {
 	}
 	return i;
 }
+
+/*Section: Hash Table*/
+bool Solution::wordPattern(string pattern, string str) {
+	map<char, int> p2i; // map char to int
+	map<string, int> w2i; // map string to int
+	istringstream in(str); // parse the word strings
+	int i = 0, n = pattern.size();
+	for (string word; in >> word; ++i) {
+		if (p2i[pattern[i]] != w2i[word] || i == n)
+			return false; // if str is longer, or no match, return with false, before recording
+		p2i[pattern[i]] = w2i[word] = i + 1; // record each char/string mapping
+	}
+	return i == n;
+}
