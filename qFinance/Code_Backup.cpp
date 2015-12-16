@@ -1340,6 +1340,20 @@ void permute(vector<int> & a){
 	SEP;
 	PRINT(nums);
 	
+	vector<int> nums{ 1, 2, 3, 4, 5, 6, 7 };
+	PRINT(removeElement(nums,4));
+	PRINT(nums);
+	PRINT(removeElement(nums, 5));
+	PRINT(nums);
+	PRINT(removeElement(nums, 2));
+	PRINT(nums);
+	
+	
+	map<char, int> mp;
+	mp['a'] = 2;
+	mp['b'] = 3;
+	PRINT(mp['a']);
+	PRINT(mp['b']);
 
 
 	

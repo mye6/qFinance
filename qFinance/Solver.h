@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include <list>
+#include <set>
 #include <functional>
 #include <numeric>
 #include <cassert>
@@ -151,6 +152,22 @@ vector<vector<double> > reshape_vec1d(const vector<double>& vec, int nrow = 2); 
 vector<double> flatten_vec2d(const vector<vector<double> >& dat); // flatten 2-d vector into 1-d
 
 void print_map(const map<string, vector<double>>& mp, size_t sz = 10);
+
+// output a generic pair
+template<typename Key, typename Value>
+std::ostream& operator<<(std::ostream& os, const std::pair<const Key, Value>& p) {
+	os << p.first << " => " << p.second;
+	return os;
+}
+
+// output a generic map
+template<typename Key, typename Value>
+std::ostream& operator<<(std::ostream& os, const std::map<Key, Value>& mp) {
+	for (map<Key, Value>::const_iterator it = mp.begin(); it != mp.end(); ++it)
+		os << *it << endl;
+	return os;
+}
+
 
 vector<double> sub_vec(const vector<double>& vec, int first = 0, int len = 1);
 // obtain the sub vector with length len starting from the first element

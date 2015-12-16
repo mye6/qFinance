@@ -38,11 +38,13 @@ public:
 	static int mySqrt(int x);
 
 	/*Section: Array */
-	static bool containsDuplicate(vector<int>& nums);
+	static bool containsDuplicate(vector<int>& nums); // sorting
+	static bool containsDuplicate2(vector<int>& nums); // set, or hash map
 	static vector<int> plusOne(vector<int>& digits);
 	static int shortestDistance(vector<string>& words, string word1, string word2);
 	static void rotate(vector<int>& nums, int k);
 	static void rotate2(vector<int>& nums, int k);
+	static int removeElement(vector<int>& nums, int val);
 };
 
 class NumArray {

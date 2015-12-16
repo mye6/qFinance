@@ -266,6 +266,10 @@ bool Solution::containsDuplicate(vector<int>& nums) {
 	return false;
 }
 
+bool Solution::containsDuplicate2(vector<int>& nums) {
+	return set<int>(nums.begin(), nums.end()).size() < nums.size();
+}
+
 /*
 1. define a boolean, carry = true
 2. if (++digits[i] % 10) == 0 evaluates to be true, continue (i>=0&&carry)
@@ -311,4 +315,13 @@ void Solution::rotate2(vector<int>& nums, int k) {
 	if (n == 0 || k <= 0) return; // boundary check
 	vector<int> tmp(nums); // use copy constructor to copy the vector
 	for (int i = 0; i < n; ++i) nums[(i + k) % n] = tmp[i]; // 
+}
+
+// remove val elements using a tracker index, i; fill ith element only by non-val element
+int Solution::removeElement(vector<int>& nums, int val) {
+	int i = 0; // track the non-val elements
+	for (size_t j = 0; j < nums.size(); ++j) {
+		if (nums[j] != val) nums[i++] = nums[j];
+	}
+	return i;
 }
