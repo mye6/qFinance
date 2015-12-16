@@ -1384,3 +1384,7 @@ void permute(vector<int> & a){
 	ValidWordAbbr vwa(vec);
 	PRINT(vwa.isUnique("deer"));
 	PRINT(vwa.isUnique("de"));
+	
+	
+	
+	PRINT(count_lines());

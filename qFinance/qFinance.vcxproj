@@ -91,6 +91,7 @@
     <ClCompile Include="Processor.cpp" />
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="Test.cpp" />
+    <ClCompile Include="ThinkCPP.cpp" />
     <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +110,7 @@
     <ClInclude Include="String.h" />
     <ClInclude Include="SeparateChaining.h" />
     <ClInclude Include="Solver.h" />
+    <ClInclude Include="ThinkCPP.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

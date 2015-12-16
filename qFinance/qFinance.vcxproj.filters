@@ -54,6 +54,9 @@
     <ClCompile Include="Puzzle.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="ThinkCPP.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Finance.h">
@@ -102,6 +105,9 @@
       <Filter>Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="Puzzle.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ThinkCPP.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>
