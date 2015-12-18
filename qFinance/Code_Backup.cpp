@@ -1388,3 +1388,37 @@ void permute(vector<int> & a){
 	
 	
 	PRINT(count_lines());
+	
+	
+	Integer a(2);
+	PRINT(+a);
+	PRINT(a);
+	PRINT(a++);
+	PRINT(++a);
+
+	PRINT(a);
+	Integer b(1);
+	Integer c(2);
+	a = b + c;
+	PRINT(a);
+	a += c;
+	PRINT(a);
+	a += a;
+	PRINT(a);
+
+	PRINT(count_lines());
+	
+	
+	
+	string str("bing mao love");
+	istringstream is(str);
+	string word;
+	while (is >> word) cout << "#" << word << "#" <<endl; // get rid of the space in the middle
+	
+	
+	// vector<int> nums{ 2, 4, 1, 5, 7, 0, 3, 8, 6, 9 };
+	const int n = 11;
+	int v[n] = { 2, 4, 1, 5, 7, 0, 3, 8, 6, 9, 10 };
+	int k = n/2;
+	PRINT(find_kth(v, n, k));
+	

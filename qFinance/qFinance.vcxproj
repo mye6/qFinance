@@ -97,6 +97,7 @@
   <ItemGroup>
     <ClInclude Include="BinarySearchTree.h" />
     <ClInclude Include="dsexceptions.h" />
+    <ClInclude Include="FaqCPP.h" />
     <ClInclude Include="Finance.h" />
     <ClInclude Include="Leetcode.h" />
     <ClInclude Include="LinkedList.h" />

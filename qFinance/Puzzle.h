@@ -42,4 +42,16 @@ pi_bar ~ N(4*p_hat, 16*p_hat*(1-p_hat/n)
 */
 vector<double> pi_estimator(int n = 10);
 
+/*
+QuickSelect(A, k): select the kth smallest element out of an array of n element
+1. given an array, choose a pivot element p of median of n/5 medians
+2. partition A around p, let A1, A2, A3 be the subarray of elements <, ==, > p
+3. if k <= len(A1), return QuickSelect(A1, k)
+4. else if k > len(A1)+len(A2), return QuickSelect(A3, k-len(A1)-len(A2)
+5. Else: return p
+T(n) <= T(7n/10) + O(n)
+Time complexity: O(n); Space complexity: O(n)
+*/
+int find_kth(int* v, int n, int k);
+
 #endif

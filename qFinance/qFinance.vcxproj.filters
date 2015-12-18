@@ -110,5 +110,8 @@
     <ClInclude Include="ThinkCPP.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
+    <ClInclude Include="FaqCPP.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
