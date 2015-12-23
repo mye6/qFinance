@@ -1422,3 +1422,533 @@ void permute(vector<int> & a){
 	int k = n/2;
 	PRINT(find_kth(v, n, k));
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	int numSquares(int n) {
+	if (n <= 0) return 0;
+	// D[i] = the least number of perfect square numbers 
+	// which sum to i. Note that cntPerfectSquares[0] is 0.
+	vector<int> D(n + 1, INT_MAX);
+	D[0] = 0;
+	for (int i = 1; i <= n; i++) {
+		// For each i, it must be the sum of some number (i - j*j) and 
+		// a perfect square number (j*j).
+		for (int j = 1; j*j <= i; j++) {
+			D[i] = min(D[i], D[i - j*j] + 1);
+		}
+	}
+	return D[n];
+}
+
+int nthUglyNumber(int n) {
+	if (n <= 0) return 0; // get rid of corner cases 
+	if (n == 1) return 1; // base case
+	int t2 = 0, t3 = 0, t5 = 0; //pointers for 2, 3, 5
+	vector<int> k(n);
+	k[0] = 1;
+	for (int i = 1; i < n; i++) {
+		k[i] = min(k[t2] * 2, min(k[t3] * 3, k[t5] * 5));
+		if (k[i] == k[t2] * 2) t2++;
+		if (k[i] == k[t3] * 3) t3++;
+		if (k[i] == k[t5] * 5) t5++;
+	}
+	return k[n - 1];
+}
+
+
+int maxProfit(vector<int>& prices) {
+	int n = prices.size();
+	if (n < 2) return 0;
+
+	int has1_doNothing = -prices[0];
+	int has1_Sell = 0;
+	int has0_doNothing = 0;
+	int has0_Buy = -prices[0];	
+	for (int i = 1; i<n; ++i) {
+		has1_doNothing = max(has1_doNothing, has0_Buy);
+		has0_Buy = -prices[i] + has0_doNothing;
+		has0_doNothing = max(has0_doNothing, has1_Sell);
+		has1_Sell = prices[i] + has1_doNothing;
+	}
+	return max(has1_Sell, has0_doNothing);
+}
+
+
+int minimumTotal(vector<vector<int>>& triangle) {
+	vector<int> res(triangle.size(), triangle[0][0]);
+	for (unsigned int i = 1; i < triangle.size(); i++)
+		for (int j = i; j >= 0; j--) {
+		if (j == 0)
+			res[0] += triangle[i][j];
+		else if (j == i)
+			res[j] = triangle[i][j] + res[j - 1];
+		else
+			res[j] = triangle[i][j] + min(res[j - 1], res[j]);
+		}
+	return *min_element(res.begin(), res.end());
+}
+
+// There's a typical DP solution with O(N^2) Time and O(N) space 
+// DP[i] means the result ends at i
+// So for dp[i], dp[i] is max(dp[j]+1), for all j < i and nums[j] < nums[i]
+int lengthOfLIS_1(vector<int>& nums) {
+	const int size = nums.size();
+	if (size == 0) { return 0; }
+	vector<int> dp(size, 1);
+	int res = 1;
+	for (int i = 1; i < size; ++i) {
+		for (int j = 0; j < i; ++j) {
+			if (nums[j] < nums[i]) {
+				dp[i] = max(dp[i], dp[j] + 1);
+			}
+		}
+		res = max(res, dp[i]);
+	}
+	return res;
+}
+
+int minCost(vector<vector<int>>& costs) {
+	int n = costs.size();
+	for (int i = 1; i < n; i++) {
+		costs[i][0] += std::min(costs[i - 1][1], costs[i - 1][2]);
+		costs[i][1] += std::min(costs[i - 1][0], costs[i - 1][2]);
+		costs[i][2] += std::min(costs[i - 1][0], costs[i - 1][1]);
+	}
+	return (n == 0) ? 0 : (std::min(costs[n - 1][0], std::min(costs[n - 1][1], costs[n - 1][2])));
+}
+
+
+int lengthOfLIS_2(vector<int>& nums) {
+	vector<int> res;
+	for (int i = 0; i<nums.size(); i++) {
+		auto it = std::lower_bound(res.begin(), res.end(), nums[i]);
+		if (it == res.end()) res.push_back(nums[i]);
+		else *it = nums[i];
+	}
+	return res.size();
+}
+
+int minPathSum(vector<vector<int>>& grid) {
+	int m = grid.size();
+	int n = grid[0].size();
+	vector<vector<int> > sum(m, vector<int>(n, grid[0][0]));
+	for (int i = 1; i < m; i++)
+		sum[i][0] = sum[i - 1][0] + grid[i][0];
+	for (int j = 1; j < n; j++)
+		sum[0][j] = sum[0][j - 1] + grid[0][j];
+	for (int i = 1; i < m; i++)
+		for (int j = 1; j < n; j++)
+			sum[i][j] = min(sum[i - 1][j], sum[i][j - 1]) + grid[i][j];
+	return sum[m - 1][n - 1];
+}
+
+int uniquePaths(int m, int n) {
+	vector<vector<int> > path(m, vector<int>(n, 1));
+	for (int i = 1; i < m; i++)
+		for (int j = 1; j < n; j++)
+			path[i][j] = path[i - 1][j] + path[i][j - 1];
+	return path[m - 1][n - 1];
+}
+
+
+int maxProduct(vector<int>& A) {
+	int n = A.size();
+	if (n == 0) return 0;
+	int maxProduct = A[0], minProduct = A[0], maxRes = A[0];
+	for (int i = 1; i < n; i++) {
+		if (A[i] >= 0) {
+			maxProduct = max(maxProduct * A[i], A[i]);
+			minProduct = min(minProduct * A[i], A[i]);
+		}
+		else {
+			int temp = maxProduct;
+			maxProduct = max(minProduct * A[i], A[i]);
+			minProduct = min(temp * A[i], A[i]);
+		}
+		maxRes = max(maxRes, maxProduct);
+	}
+	return maxRes;
+}
+
+int maximalSquare(vector<vector<char>>& matrix) {
+	int m = matrix.size();
+	if (!m) return 0;
+	int n = matrix[0].size();
+	vector<vector<int> > size(m, vector<int>(n, 0));
+	int maxsize = 0;
+	for (int j = 0; j < n; j++) {
+		size[0][j] = matrix[0][j] - '0';
+		maxsize = max(maxsize, size[0][j]);
+	}
+	for (int i = 1; i < m; i++) {
+		size[i][0] = matrix[i][0] - '0';
+		maxsize = max(maxsize, size[i][0]);
+	}
+	for (int i = 1; i < m; i++) {
+		for (int j = 1; j < n; j++) {
+			if (matrix[i][j] == '1') {
+				size[i][j] = min(size[i - 1][j - 1], min(size[i - 1][j], size[i][j - 1])) + 1;
+				maxsize = max(maxsize, size[i][j]);
+			}
+		}
+	}
+	return maxsize * maxsize;
+}
+
+
+class Solution1 {
+	bool DP_helper(unordered_map<string, bool>& isScramblePair, string s1, string s2) {
+		int i, len = s1.size();
+		bool res = false;
+		if (len == 0) return true;
+		else if (len == 1) return s1 == s2;
+		
+		if (isScramblePair.count(s1 + s2)) return isScramblePair[s1 + s2];
+		// checked before, return intermediate result directly
+		
+		if (s1 == s2) res = true;
+		for (i = 1; i<len && !res; ++i) {
+			//check s1[0..i-1] with s2[0..i-1] and s1[i..len-1] and s2[i..len-1]
+			res = res || (DP_helper(isScramblePair, s1.substr(0, i), s2.substr(0, i)) && DP_helper(isScramblePair, s1.substr(i, len - i), s2.substr(i, len - i)));
+			//if no match, then check s1[0..i-1] with s2[len-k.. len-1] and s1[i..len-1] and s2[0..len-i]
+			res = res || (DP_helper(isScramblePair, s1.substr(0, i), s2.substr(len - i, i)) && DP_helper(isScramblePair, s1.substr(i, len - i), s2.substr(0, len - i)));
+		}		
+		return isScramblePair[s1 + s2] = res; //save the intermediate results		
+	}
+public:
+	bool isScramble(string s1, string s2) {
+		unordered_map<string, bool> isScramblePair;
+		return DP_helper(isScramblePair, s1, s2);
+	}
+};
+
+
+class Solution {
+public:
+	bool isScramble(string s1, string s2) {		
+		size_t n = s1.length();
+		if (n <= 0) return false; // if s1 is empty, return true		
+		
+		// Dynamic Programming: 
+		// eq[first1][first2][len] == true iff s1[first1 ... first1+len) == s2[first2 ... first2+len)
+		vector<vector<vector<bool> > > eq
+			(n, vector<vector<bool>>(n, vector<bool>(n + 1, false))); // initialize: all false
+
+		// initialize: eq[first1][first2][1] = true iff s1[first1] == s2[first2]
+		for (int first1 = 0; first1 < n; ++first1) {
+			for (int first2 = 0; first2 < n; ++first2) {
+				eq[first1][first2][1] = (s1[first1] == s2[first2]);
+			}
+		}
+
+		// dp: eq[first1][first2][len] = true iff two substrings are both matched.
+		for (size_t len = 2; len <= n; ++len) {
+			for (size_t first1 = 0; first1 + len <= n; ++first1) {
+				for (size_t first2 = 0; first2 + len <= n; ++first2) {
+					for (size_t len1 = 1; len1 < len; ++len1) {
+						size_t len2 = len - len1;
+
+						// two substrings are not swapped
+						if (eq[first1][first2][len1] && eq[first1 + len1][first2 + len1][len2]) {
+							eq[first1][first2][len] = true;
+						}
+
+						// two substrings are swapped
+						if (eq[first1][first2 + len2][len1] && eq[first1 + len1][first2][len2]) {
+							eq[first1][first2][len] = true;
+						}
+					}
+				}
+			}
+		}	
+		
+		return eq[0][0][n];
+	}
+};
+
+int maxProfit(vector<int>& prices) {
+	if (prices.empty()) return 0;
+	int n = prices.size();
+	vector<int> leftProfit(n), rightProfit(n);	
+	int leftMin = prices[0], rightMax = prices[n - 1];
+	leftProfit[0] = 0; rightProfit[n - 1] = 0;
+	for (int i = 1, j = n-2; i <= n-1 && j >= 0; ++i, --j) {
+		leftProfit[i] = max(leftProfit[i - 1], prices[i] - leftMin);
+		leftMin = min(leftMin, prices[i]);
+		rightProfit[j] = max(rightProfit[j + 1], rightMax - prices[j]);
+		rightMax = max(rightMax, prices[j]);
+	}
+	
+	int res = 0;
+	for (int i = 1; i < n; ++i) {
+		res = max(res, leftProfit[i] + rightProfit[i]);
+	}
+	return res;
+}
+
+
+*/
+
+/*
+int minCut(string s) {
+	if (s.empty()) return 0;
+	int n = s.size();
+	vector<vector<bool>> pal(n, vector<bool>(n, false));
+	vector<int> d(n);
+	for (int i = n - 1; i >= 0; i--) {
+		d[i] = n - i - 1;
+		for (int j = i; j<n; j++) {
+			if (s[i] == s[j] && (j - i<2 || pal[i + 1][j - 1])) {
+				pal[i][j] = true;
+				if (j == n - 1)
+					d[i] = 0;
+				else if (d[j + 1] + 1<d[i])
+					d[i] = d[j + 1] + 1;
+			}
+		}
+	}
+	return d[0];
+}
+
+bool isMatch(string str, string pattern) {
+	int s = 0, p = 0, match = 0, idx = -1, ns = str.size(), np = pattern.size();
+	while (s < ns) {
+		// advancing both pointers
+		if (p < np && pattern[p] == '?' || str[s] == pattern[p]) {
+			++s; ++p;
+		}
+		// * found, only advancing pattern pointer
+		else if (p < np && pattern[p] == '*') {
+			idx = p;
+			match = s;			
+			++p;
+		}
+		// last pattern pointer was *, advancing string pointer
+		else if (idx != -1) {
+			p = idx + 1;
+			++match;
+			s = match;
+		}
+		//current pattern pointer is not star, last patter pointer was not *
+		//characters do not match
+		else 
+			return false;
+	}
+	//check for remaining characters in pattern
+	while (p < pattern.length() && pattern[p] == '*')
+		p++;
+	
+	return p == np;
+}
+
+
+int maximalRectangle(vector<vector<char> > &matrix) {
+	if (matrix.empty()) return 0;
+	const int m = matrix.size();
+	const int n = matrix[0].size();
+	vector<int> left(n, 0), right(n, n), height(n, 0);
+	int maxA = 0;
+	for (int i = 0; i<m; i++) {
+		PRINT(i);
+		int cur_left = 0, cur_right = n;
+		for (int j = 0; j<n; j++) { // compute height (can do this from either side)
+			if (matrix[i][j] == '1') height[j]++;
+			else height[j] = 0;
+		}
+		for (int j = 0; j<n; j++) { // compute left (from left to right)
+			if (matrix[i][j] == '1') left[j] = max(left[j], cur_left);
+			else { left[j] = 0; cur_left = j + 1; }
+		}
+		// compute right (from right to left)
+		for (int j = n - 1; j >= 0; j--) {
+			if (matrix[i][j] == '1') right[j] = min(right[j], cur_right);
+			else { right[j] = n; cur_right = j; }
+		}
+		// compute the area of rectangle (can do this from either side)
+		for (int j = 0; j<n; j++)
+			maxA = max(maxA, (right[j] - left[j])*height[j]);
+		PRINT(height);
+		PRINT(left);
+		PRINT(right);
+
+		SEP;
+	}
+	return maxA;
+}
+
+int longestValidParentheses(string s) {
+	stack<int> stk;
+	stk.push(-1);
+	int maxL = 0;
+	for (int i = 0; i<s.size(); i++) {
+		int t = stk.top();
+		if (t != -1 && s[i] == ')' && s[t] == '(') {
+			stk.pop();
+			maxL = max(maxL, i - stk.top());
+		}
+		else
+			stk.push(i);
+	}
+	return maxL;
+}
+
+
+class Solution3 {
+public:
+	bool isMatch(string s, string p) {
+		if (p.empty())    return s.empty();
+
+		if ('*' == p[1])
+			// x* matches empty string or at least one character: x* -> xx*
+			// *s is to ensure s is non-empty
+			return (isMatch(s, p.substr(2)) || !s.empty() && (s[0] == p[0] || '.' == p[0]) && isMatch(s.substr(1), p));
+		else
+			return !s.empty() && (s[0] == p[0] || '.' == p[0]) && isMatch(s.substr(1), p.substr(1));
+	}
+};
+
+class Solution4 {
+public:
+	bool isMatch(string s, string p) {
+		/**
+		* f[i][j]: if s[0..i-1] matches p[0..j-1]
+		* if p[j - 1] != '*'
+		*      f[i][j] = f[i - 1][j - 1] && s[i - 1] == p[j - 1]
+		* if p[j - 1] == '*', denote p[j - 2] with x
+		*      f[i][j] is true iff any of the following is true
+		*      1) "x*" repeats 0 time and matches empty: f[i][j - 2]
+		*      2) "x*" repeats >= 1 times and matches "x*x": s[i - 1] == x && f[i - 1][j]
+		* '.' matches any single character
+		*/
+		int m = s.size(), n = p.size();
+		vector<vector<bool>> f(m + 1, vector<bool>(n + 1, false));
+
+		f[0][0] = true;
+		for (int i = 1; i <= m; i++)
+			f[i][0] = false;
+		// p[0.., j - 3, j - 2, j - 1] matches empty iff p[j - 1] is '*' and p[0..j - 3] matches empty
+		for (int j = 1; j <= n; j++)
+			f[0][j] = j > 1 && '*' == p[j - 1] && f[0][j - 2];
+
+		for (int i = 1; i <= m; i++)
+			for (int j = 1; j <= n; j++)
+				if (p[j - 1] != '*')
+					f[i][j] = f[i - 1][j - 1] && (s[i - 1] == p[j - 1] || '.' == p[j - 1]);
+				else
+					// p[0] cannot be '*' so no need to check "j > 1" here
+					f[i][j] = f[i][j - 2] || (s[i - 1] == p[j - 2] || '.' == p[j - 2]) && f[i - 1][j];
+
+		return f[m][n];
+	}
+};
+
+// Hash Table
+class TwoSum {
+	unordered_map<int, int> map;
+public:
+	void add(int number) {
+		map[number]++;
+	}
+
+	bool find(int value) {
+		for (unordered_map<int, int>::iterator it = map.begin(); it != map.end(); it++) {
+			int i = it->first;
+			int j = value - i;
+			if ((i == j && it->second > 1) || (i != j && map.find(j) != map.end())) {
+				return true;
+			}
+		}
+		return false;
+	}
+};
+
+// only contains digits 
+string getHint(string secret, string guess) {
+	int aCnt = 0;
+	int bCnt = 0;
+	vector<int> sVec(10, 0); // 0 ~ 9 for secret
+	vector<int> gVec(10, 0); // 0 ~ 9 for guess 
+	if (secret.size() != guess.size() || secret.empty()) { return "0A0B"; }
+	for (int i = 0; i < secret.size(); ++i) {
+		char c1 = secret[i]; char c2 = guess[i];
+		if (c1 == c2) {
+			++aCnt;
+		}
+		else {
+			++sVec[c1 - '0'];
+			++gVec[c2 - '0'];
+		}
+	}
+	// count b 
+	for (int i = 0; i < sVec.size(); ++i) {
+		bCnt += min(sVec[i], gVec[i]);
+	}
+	return to_string(aCnt) + 'A' + to_string(bCnt) + 'B';
+}
+
+bool containsNearbyDuplicate(vector<int>& nums, int k) {
+	unordered_map<int, int> hashMap;
+	for (int i = 0; i < nums.size(); ++i) {
+		if (hashMap.find(nums[i]) != hashMap.end() && i - hashMap[nums[i]] <= k)  return true;
+		hashMap[nums[i]] = i;
+	}
+	return false;
+}
+
+int next(int n) {
+	int res = 0;
+	while (n) {
+		int t = n % 10;
+		res += t*t;
+		n /= 10;
+	}
+	return res;
+}
+
+bool isHappy(int n) {
+	int i1 = n, i2 = next(n);
+	while (i2 != i1) {
+		i1 = next(i1);
+		i2 = next(next(i2));
+	}
+	return i1 == 1;
+}
+
+	

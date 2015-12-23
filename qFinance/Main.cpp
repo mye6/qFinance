@@ -8,9 +8,9 @@
 
 
 
-int main() {
-	
 
+
+int main() {
 	PRINT(count_lines());
 	
 	system("pause");
