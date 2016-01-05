@@ -10,6 +10,29 @@ struct TreeNode {
 	TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
+struct ListNode {
+	int val;
+	ListNode *next;
+	ListNode(int x) : val(x), next(NULL) {}
+	~ListNode() {
+		cout << "[" << val << "] removed" << endl;
+	}
+};
+
+struct TreeLinkNode {
+	int val;
+	TreeLinkNode *left, *right, *next;
+	TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
+};
+
+
+struct RandomListNode {
+	int label;
+	RandomListNode *next, *random;
+	RandomListNode(int x) : label(x), next(NULL), random(NULL) {}
+};
+
+
 class Solution {
 public:
 	/* Section: Dynamic Programming */
@@ -48,6 +71,10 @@ public:
 
 	/*Section: Hash Table*/
 	static bool wordPattern(string pattern, string str);
+	
+	/*Section: Stack */
+	static string removeDuplicateLetters(string s); // 316
+	static int evalRPN(vector<string>& tokens); // 150
 };
 
 class NumArray {
@@ -80,6 +107,40 @@ public:
 private:
 	unordered_map<string, unordered_set<string>> mp; // performance, unordered_map, O(1) complexity
 };
+
+/* Section: Stack */
+class Queue {
+	stack<int> input, output;
+public:
+	void push(int x);
+	void pop(void);
+	int peek(void);
+	bool empty(void);
+};
+
+class MinStack {
+private:
+	stack<int> s1, s2;
+public:
+	void push(int x);
+	void pop();
+	int top();
+	int getMin();
+};
+
+class Stack {
+private:
+	queue<int> q;
+public:
+	void push(int x);
+	void pop();
+	int top();
+	bool empty();
+};
+
+/* Section: Linked List*/
+
+
 
 #endif
 

@@ -1951,4 +1951,72 @@ bool isHappy(int n) {
 	return i1 == 1;
 }
 
+
+Queue q;
+	q.push(1);
+	q.push(2);
+	q.push(3);
+	q.push(4);
+	q.push(5);
+
+	for (int i = 0; i < 5; ++i) {
+		PRINT(q.peek()); q.pop();
+	}
+	
+	
+	
+	vector<int> data{ 1, 3, 5, 2, -1, 9 };
+	int n = data.size();
+	MinStack ms;
+	for (int i = 0; i < n; ++i) {
+		cout << i << endl;
+		ms.push(data[i]);
+		PRINT(ms.getMin());
+		PRINT(ms.top());
+		SEP;
+	}
+	SEP;
+	SEP;
+	for (int i = 0; i < n; ++i) {
+		cout << i << endl;
+		PRINT(ms.top());
+		PRINT(ms.getMin());
+		ms.pop();
+		SEP;
+	}
+	
+	
+	Stack st;
+	st.push(1);
+	st.push(2);
+	st.push(3);
+	st.push(4);
+	st.push(5);
+
+	for (int i = 0; i < 5; ++i) {
+		PRINT(st.top()); st.pop();
+	}
+	
+	
+	vector<int>	nums{ 1, 3, 5, 7, 9 };
+	ListNode* head = genList(nums);
+	cout << head << endl;
+	head = removeNthFromEnd(head, 2);
+	cout << head << endl;
+	ListNode* rev = reverseList(head);
+	cout << rev << endl;	
+	clear(rev);
+	
+	
+	vector<int>	nums1{ 1, 3, 5, 7, 9 };
+	vector<int>	nums2{ -2, 3, 4, 8, 10 };
+	ListNode *l1 = genList(nums1), *l2 = genList(nums2);
+	PRINT(l1);
+	PRINT(l2);
+
+	l1 = mergeTwoLists(l1, l2);
+	PRINT(l1);
+	
+	
+
 	

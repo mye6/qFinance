@@ -354,3 +354,82 @@ bool ValidWordAbbr::isUnique(string word) {
 	string abbr = word[0] + to_string(n) + word[n - 1];
 	return mp[abbr].count(word) == mp[abbr].size();
 }
+
+/* Section: Stack*/
+void Queue::push(int x) { input.push(x); }
+void Queue::pop(void) { peek(); output.pop(); }
+int Queue::peek(void) {
+	if (output.empty()){
+		while (!input.empty()) {
+			output.push(input.top());
+			input.pop();
+		}
+	}
+	return output.top();
+}
+bool Queue::empty() {
+	return input.empty() && output.empty();
+}
+
+void MinStack::push(int x) {
+	s1.push(x);
+	if (s2.empty() || x <= getMin()) s2.push(x);
+	// s2 empty or x<=getMin() need to add to s2
+}
+void MinStack::pop() {
+	if (s1.top() == getMin()) s2.pop();
+	s1.pop();
+}
+int MinStack::top() {
+	return s1.top();
+}
+int MinStack::getMin() {
+	return s2.top();
+}
+
+void Stack::push(int x) {
+	q.push(x);
+	for (int i = 1; i < (int)q.size(); ++i) {
+		q.push(q.front()); q.pop();
+	}
+}
+void Stack::pop() { q.pop(); }
+int Stack::top() { return q.front(); }
+bool Stack::empty() { return q.empty(); }
+
+string Solution::removeDuplicateLetters(string s) {
+	vector<int> count(256, 0);
+	vector<bool> visited(256, false);
+	for (char c : s) ++count[c];
+	string result = "0";
+	for (char c : s) {
+		--count[c];
+		if (visited[c]) continue;
+		while (c < result.back() && count[result.back()] > 0) {
+			visited[result.back()] = false;
+			result.pop_back();
+		}
+		result += c;
+		visited[c] = true;
+	}
+	return result.substr(1);
+}
+
+int Solution::evalRPN(vector<string>& tokens) {
+	stack<int> stk;
+	for (string s : tokens) {
+		if (s.size() > 1 || isdigit(s[0])) stk.push(stoi(s));
+		else {
+			int x2 = stk.top(); stk.pop();
+			int x1 = stk.top(); stk.pop();
+			switch (s[0]) {
+			case '+': x1 += x2; break;
+			case '-': x1 -= x2; break;
+			case '*': x1 *= x2; break;
+			case '/': x1 /= x2; break;
+			}
+			stk.push(x1);
+		}
+	}
+	return stk.top();
+}
