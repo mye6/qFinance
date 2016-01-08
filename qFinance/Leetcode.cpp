@@ -638,12 +638,12 @@ ListNode* partition(ListNode* head, int x) {
 }
 
 /*Section: Array*/
-// 217
+// 217. Contains Duplicate
 bool containsDuplicate(vector<int>& nums) {
 	return unordered_set<int>(nums.begin(), nums.end()).size() < nums.size();
 }
 
-// 217
+// 217. Contains Duplicate
 bool containsDuplicate2(vector<int>& nums) {
 	sort(nums.begin(), nums.end());
 	for (size_t i = 1; i < nums.size(); ++i)
@@ -651,7 +651,7 @@ bool containsDuplicate2(vector<int>& nums) {
 	return false;
 }
 
-// 219
+// 219. Contains Duplicate II
 bool containsNearbyDuplicate(vector<int>& nums, int k) {
 	unordered_map<int, int> map;
 	for (int i = 0; i < (int)nums.size(); ++i) {

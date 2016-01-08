@@ -2135,5 +2135,37 @@ Queue q;
 	}
 	
 	
+	
+	vector<int> nums{ 3, 1, 5, 1 };
+	TwoSum ts;
+	for (int i : nums) ts.add(i);
+	
+	
+	
+	
+	int n = 4;
+	int i1 = 20, i2 = digitSquareSum(i1);
+	while (i1 != i2 || --n>0) {
+		cout << i1 << " " << i2 << endl;
+		i1 = digitSquareSum(i1);
+		i2 = digitSquareSum(digitSquareSum(i2));
+	}
+	
+	
+	
+	
+	
+	
+	vector<string> strs{ "eat", "tea", "tan", "ate", "nat", "bat" };
+	PRINT(groupAnagrams(strs));
+
+	
+	
+	
+	
+	
+	
+	
+	
 
 	
