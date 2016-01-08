@@ -2017,6 +2017,123 @@ Queue q;
 	l1 = mergeTwoLists(l1, l2);
 	PRINT(l1);
 	
+	vector<int>	nums2{ -2, 3, 4, 8, 10 };
+	ListNode *l1 = genList(nums1), *l2 = genList(nums2);
+	PRINT(l1);
+	PRINT(l2);
+
+	l1 = mergeTwoLists(l1, l2);
+	PRINT(l1);
+	PRINT(countNodes(l1));
+	
+	
+	vector<int>	nums{ 1, 1, 2 };
+	ListNode* head = genList(nums);
+	PRINT(head);
+	head = removeElements(head, 2);
+	PRINT(head);
+	
+	vector<int>	nums1{1, 2, 3};
+	vector<int>	nums2{ 4, 5, 6, 7 };
+	vector<int>	nums3{ 8, 9, 10, 11, 12 };
+	ListNode *head1 = genList(nums1);
+	ListNode *head2 = genList(nums2);
+	ListNode *head3 = genList(nums3);
+	ListNode *tail1 = findTail(head1);
+	ListNode *tail2 = findTail(head2);
+	tail1->next = head3;
+	tail2->next = head3;
+	PRINT(head1);
+	PRINT(head2);
+	ListNode* x = getIntersectionNode(head1, head2);
+	PRINT(x->val);
+
+	PRINT(count_lines());
+	
+	
+	
+	
+	
+	vector<int> nums{ 1, 2, 3, 4, 5, 6, 7 };
+	TreeNode* t = sortedArrayToBST(nums);
+	cout << t << endl;
+	
+	
+	
+	vector<int> nums{ 1, 2, 3, 4, 5, 6, 7 };
+	TreeNode* root = sortedArrayToBST(nums);
+	cout << root << endl;
+	Codec cod;
+	cout << cod.serialize(root) << endl;
+	TreeNode* to = cod.deserialize(cod.serialize(root));
+	cout << to << endl;
+	
+	string s("1 2 # # 3 4 # # 5 # #");
+	TreeNode* to2 = cod.deserialize(s);
+	cout << to2 << endl;
+
+	vector<int> vec = inorderTraversal(root);
+	PRINT(vec);
+	vector<int> vec2 = inorderTraversal(to2);
+	PRINT(vec2);
+
+	vector<int> vec3 = preorderTraversal(to2);
+	PRINT(vec3);
+
+	vector<int> vec4 = postorderTraversal(to2);
+	PRINT(vec4);
+	
+	cout << to2 << endl;
+	PRINT(maxDepth2(to2));
+	
+	
+	
+	
+	Codec cod;
+	//string s("1 2 # # 3 4 # # 5 # #");
+	string s("3 9 # # 20 15 # # 7 # #");
+	TreeNode* root = cod.deserialize(s);
+	cout << root << endl;
+	PRINT(closestValue(root, 3.));
+	PRINT(zigzagLevelOrder(root));
+	PRINT(rightSideView(root));
+	PRINT(hasPathSum(root, 29));
+	
+	
+	
+	Codec cod;
+	string s("6 2 0 # # 4 3 # # 5 # # 8 7 # # 9 # #");
+	TreeNode* t = cod.deserialize(s);
+	vector<string> vec = binaryTreePaths(t);
+	cout << vec << endl;
+	
+	PRINT(numTrees(3));
+	auto trees = generateTrees(3);
+	for (auto tree : trees) {
+		SEP;
+		cout << tree << endl;
+	}
+	
+	
+	
+	Codec cod;
+	string s("6 2 0 # # 4 3 # # 5 # # 8 7 # # 9 # #");
+	TreeNode* t = cod.deserialize(s);
+	flatten(t);
+	cout << t << endl;
+	
+	
+	Codec cod;
+	string s("6 2 0 # # 4 3 # # 5 # # 8 7 # # 9 # #");
+	TreeNode* t = cod.deserialize(s);
+	cout << t << endl;
+	SEP;
+	BSTIterator bsti(t);
+	
+	while (bsti.hasNext()) {
+		PRINT(bsti.next());
+	}
+	
 	
 
 	

@@ -433,3 +433,877 @@ int Solution::evalRPN(vector<string>& tokens) {
 	}
 	return stk.top();
 }
+
+/*Section: Linked List*/
+ListNode* genList(const vector<int>& nums) {
+	ListNode *head = NULL, *tail = NULL;
+	for (size_t i = 0; i < nums.size(); ++i) {
+		ListNode* node = new ListNode(nums[i]);
+		if (i == 0) head = (tail = node);
+		else tail = (tail->next = node);
+	}
+	return head;
+}
+
+ostream& operator<<(ostream& os, ListNode* head) {
+	for (ListNode* cur = head; cur; cur = cur->next) {
+		os << cur->val << "->";
+	}
+	os << "#";
+	return os;
+}
+
+void clear(ListNode* head) {
+	ListNode* tmp;
+	for (ListNode* cur = head; cur; cur = tmp) {
+		tmp = cur->next;
+		delete cur;
+	}
+}
+
+ListNode* reverseList(ListNode* head) {
+	ListNode dummy(0);
+	ListNode* tail = NULL, *tmp;
+	for (ListNode* cur = head; cur; cur = tmp) {
+		tmp = cur->next;
+		cur->next = tail;
+		tail = cur;
+		dummy.next = cur;
+	}
+	return dummy.next;
+}
+
+ListNode* removeNthFromEnd(ListNode* head, int n) {
+	ListNode dummy(0); dummy.next = head;
+	ListNode *t1 = &dummy, *t2 = &dummy;
+	for (int i = 0; i < n; ++i) t2 = t2->next;
+	while (t2->next) { t1 = t1->next; t2 = t2->next; }
+	t1->next = t1->next->next;
+	return dummy.next;
+}
+
+ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+	ListNode dummy(INT_MIN);
+	ListNode* tail = &dummy;
+	while (l1 && l2) {
+		if (l1->val < l2->val) {
+			tail->next = l1;
+			l1 = l1->next;
+		}
+		else {
+			tail->next = l2;
+			l2 = l2->next;
+		}
+		tail = tail->next;
+	}
+	tail->next = (l1 ? l1 : l2);
+	return dummy.next;
+}
+
+int countNodes(ListNode* head) {
+	int res = 0;
+	for (ListNode* cur = head; cur; cur = cur->next) {
+		++res;
+	}
+	return res;
+}
+
+bool isPalindrome(ListNode* head) {
+	ListNode *sp = head, *fp = head, *revp = NULL, *tmp;
+	while (fp && fp->next){
+		fp = fp->next->next;
+		tmp = sp->next;
+		sp->next = revp;
+		revp = sp;
+		sp = tmp;
+	}
+	if (fp) sp = sp->next;
+	while (sp && revp){
+		if (sp->val != revp->val) return false;
+		sp = sp->next;
+		revp = revp->next;
+	}
+	return true;
+}
+
+ListNode* deleteDuplicates(ListNode* head) {
+	ListNode* cur = head;
+	while (cur) {
+		while (cur->next && cur->val == cur->next->val)
+			cur->next = cur->next->next;
+		cur = cur->next;
+	}
+	return head;
+}
+
+ListNode* deleteDuplicates2(ListNode* head) {
+	if (head == NULL) return NULL;
+	ListNode dummy(head->val - 1);
+	ListNode *tail = &dummy, *pre = &dummy;
+	while (head) {
+		if (head->val != pre->val && (head->next == NULL || head->next->val != head->val)) {
+			tail->next = head;
+			tail = tail->next;
+		}
+		pre = head;
+		head = head->next;
+	}
+	tail->next = NULL;
+	return dummy.next;
+}
+
+ListNode* removeElements(ListNode* head, int val) {
+	ListNode dummy(0); dummy.next = head;
+	ListNode *cur = &dummy;
+	while (cur){
+		while (cur->next && cur->next->val == val) cur->next = cur->next->next;
+		cur = cur->next;
+	}
+	return dummy.next;
+}
+
+ListNode* findTail(ListNode* head) {
+	ListNode* tail = head;
+	while (tail && tail->next) {
+		tail = tail->next;
+	}
+	return tail;
+}
+
+ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+	ListNode *hA = headA, *hB = headB;
+	while (hA && hB) {
+		if (hA == hB) return hA;
+		hA = hA->next; hB = hB->next;
+		if (!hA && !hB) return NULL; // both NULL
+		if (!hA) hA = headB; // hA NULL
+		if (!hB) hB = headA; // hB NULL
+	}
+	return NULL;
+}
+
+ListNode* insertionSortList(ListNode* head) {
+	ListNode dummy(INT_MIN);
+	ListNode *prev, *cur, *next;
+	for (ListNode* p = head; p; p = next) {
+		next = p->next;
+		// invariant: list headed by dummy.next is sorted
+		for (prev = &dummy, cur = prev->next;
+			cur && p->val > cur->val;
+			prev = cur, cur = cur->next);
+		prev->next = p;
+		p->next = cur;
+	}
+	return dummy.next;
+}
+
+ListNode* sortList(ListNode* head) {
+	if (!head || !head->next) return head;
+	ListNode *slow = head, *fast = head;
+	while (fast->next && fast->next->next) {
+		slow = slow->next; fast = fast->next->next;
+	}
+	ListNode *a = head, *b = slow->next;
+	slow->next = NULL;
+	ListNode *l1 = sortList(a), *l2 = sortList(b);
+	head = mergeTwoLists(l1, l2);
+	return head;
+}
+
+ListNode* swapPairs(ListNode* head) {
+	ListNode dummy(0); dummy.next = head;
+	ListNode* pre = &dummy, *next;
+	while (head && head->next) {
+		next = head->next;
+		head->next = next->next;
+		next->next = head;
+		pre->next = next;
+		pre = head;
+		head = pre->next;
+	}
+	return dummy.next;
+}
+
+ListNode* partition(ListNode* head, int x) {
+	ListNode node1(0), node2(0);
+	ListNode *tail1 = &node1, *tail2 = &node2;
+	while (head) {
+		if (head->val < x) tail1 = (tail1->next = head);
+		else tail2 = (tail2->next = head);
+		head = head->next;
+	}
+	tail2->next = NULL;
+	tail1->next = node2.next;
+	return node1.next;
+}
+
+/*Section: Array*/
+// 217
+bool containsDuplicate(vector<int>& nums) {
+	return unordered_set<int>(nums.begin(), nums.end()).size() < nums.size();
+}
+
+// 217
+bool containsDuplicate2(vector<int>& nums) {
+	sort(nums.begin(), nums.end());
+	for (size_t i = 1; i < nums.size(); ++i)
+		if (nums[i] == nums[i - 1]) return true;
+	return false;
+}
+
+// 219
+bool containsNearbyDuplicate(vector<int>& nums, int k) {
+	unordered_map<int, int> map;
+	for (int i = 0; i < (int)nums.size(); ++i) {
+		if (map.find(nums[i]) != map.end() && i - map[nums[i]] <= k)
+			return true;
+		map[nums[i]] = i;
+	}
+	return false;
+}
+
+// 287
+int findDuplicate3(vector<int>& nums) {
+	int n = nums.size();
+	if (n == 0 || n == 1) return -1;
+	int slow = nums[0], fast = nums[nums[0]];
+	while (slow != fast) {
+		slow = nums[slow];
+		fast = nums[nums[fast]];
+	}
+	fast = 0;
+	while (fast != slow) {
+		fast = nums[fast];
+		slow = nums[slow];
+	}
+	return slow;
+}
+
+// 26 remove duplicates from sorted array
+int removeDuplicates(vector<int>& nums) {
+	if (nums.empty()) return 0;
+	int i = 1;
+	for (int j = 1; j < (int)nums.size(); ++j) {
+		if (nums[j] != nums[j - 1]) nums[i++] = nums[j];
+	}
+	return i;
+}
+
+// 66 plus one
+vector<int> plusOne(vector<int>& digits) {
+	bool carry = true;
+	for (int i = digits.size() - 1; i >= 0 && carry; --i) {
+		carry = ((++digits[i] %= 10) == 0);
+		if (carry) digits[i] = 0;
+	}
+	if (carry) digits.insert(digits.begin(), 1);
+	return digits;
+}
+
+// 243 shortest distance
+int shortestDistance(vector<string>& words, string word1, string word2) {
+	long long dist(INT_MAX), i1(-dist), i2(dist);
+	int n(words.size());
+	for (int i = 0; i < n; ++i) {
+		if (words[i] == word1) i1 = i;
+		if (words[i] == word2) i2 = i;
+		dist = min(dist, abs(i1 - i2));
+	}
+	return (int)dist;
+}
+
+// 245 shortest distance III
+int shortestDistance3(vector<string>& words, string word1, string word2) {
+	long long dist(INT_MAX), i1(-dist), i2(dist);
+	int n(words.size());
+	for (int i = 0; i < n; ++i) {
+		if (words[i] == word1) i1 = i;
+		if (words[i] == word2) {
+			if (word1 == word2)  i1 = i2;
+			i2 = i;
+		}
+		dist = min(dist, abs(i1 - i2));
+	}
+	return (int)dist;
+}
+
+// 244 shortest word distance II
+wordDistance::wordDistance(vector<string>& words) {
+	for (int i = 0; i < (int)words.size(); ++i)
+		wmap[words[i]].push_back(i);
+}
+
+int wordDistance::shortest(string word1, string word2) {
+	int i = 0, j = 0, dist = INT_MAX;
+	while (i < (int)wmap[word1].size() && j < (int)wmap[word2].size()) {
+		dist = min(dist, abs(wmap[word1][i] - wmap[word2][j]));
+		wmap[word1][i] < wmap[word2][j] ? ++i : ++j;
+	}
+	return dist;
+}
+
+// 189
+void rotate(vector<int>& nums, int k) {
+	int n = nums.size();
+	reverse(nums.begin(), nums.end());
+	reverse(nums.begin(), nums.begin() + k%n);
+	reverse(nums.begin() + k%n, nums.end());
+}
+
+// 189.2
+void rotate2(vector<int>& nums, int k) {
+	int n = nums.size();
+	if (n == 0 || k <= 0) return;
+	vector<int> tmp(nums);
+	for (int i = 0; i < n; ++i) nums[(i + k) % n] = tmp[i];
+}
+
+// 153
+int findMin(vector<int>& nums) {
+	int left = 0, right = nums.size() - 1;
+	while (left < right) {
+		if (nums[left] < nums[right]) return nums[left];
+		int mid = left + (right - left) / 2;
+		if (nums[mid] >= nums[left]) left = mid + 1;
+		else right = mid;
+	}
+	return nums[left];
+}
+
+/*Section: Tree */
+// 297. Serialize and Deserialize Binary Tree
+// preorder approach
+void Codec::serialize(TreeNode* root, ostringstream& out) {
+	if (root) {
+		out << root->val << ' ';
+		serialize(root->left, out);
+		serialize(root->right, out);
+	}
+	else {
+		out << "# ";
+	}
+}
+TreeNode* Codec::deserialize(istringstream& in) {
+	string val;
+	in >> val;
+	if (val == "#") return NULL;
+	TreeNode* root = new TreeNode(stoi(val));
+	root->left = deserialize(in);
+	root->right = deserialize(in);
+	return root;
+}
+string Codec::serialize(TreeNode* root) {
+	ostringstream out;
+	serialize(root, out);
+	return out.str();
+}
+TreeNode* Codec::deserialize(string data) {
+	istringstream in(data);
+	return deserialize(in);
+}
+
+// 108 Convert Sorted Array to Binary Search Tree
+TreeNode* sortedArrayToBST(int start, int end, vector<int>& nums) {
+	if (end <= start) return NULL;
+	int mid = (end + start) / 2;
+	TreeNode* root = new TreeNode(nums[mid]);
+	root->left = sortedArrayToBST(start, mid, nums);
+	root->right = sortedArrayToBST(mid + 1, end, nums);
+	return root;
+}
+TreeNode* sortedArrayToBST(vector<int>& nums) {
+	return sortedArrayToBST(0, nums.size(), nums);
+}
+
+// 226. Invert Binary Tree
+TreeNode* invertTree(TreeNode* root) {
+	if (root == NULL) return NULL;
+	TreeNode* tmp = root->right;
+	root->right = invertTree(root->left);
+	root->left = invertTree(tmp);
+	return root;
+}
+
+// 114. Flatten Binary Tree to Linked List
+void flatten(TreeNode* root) {
+	if (root == NULL) return;
+	flatten(root->left); flatten(root->right);
+	TreeNode* tmp = root->right;
+	root->right = root->left;
+	root->left = NULL;
+	while (root->right) root = root->right;
+	root->right = tmp;
+}
+
+// 156. Binary Tree Upside Down
+TreeNode* upsideDownBinaryTree(TreeNode* root) {
+	TreeNode *curr = root, *prev = NULL, *next = NULL, *temp = NULL;
+	while (curr) {
+		next = curr->left;
+		curr->left = temp;
+		temp = curr->right;
+		curr->right = prev;
+		prev = curr;
+		curr = next;
+	}
+	return prev;
+}
+
+// 144. Binary Tree Preorder Traversal
+void preorderTraversal(TreeNode* root, vector<int>& nodes) {
+	if (root == NULL) return;
+	nodes.push_back(root->val);
+	preorderTraversal(root->left, nodes);
+	preorderTraversal(root->right, nodes);
+}
+vector<int> preorderTraversal(TreeNode* root) {
+	vector<int> nodes;
+	preorderTraversal(root, nodes);
+	return nodes;
+}
+
+// 144. Binary Tree Preorder Traversal
+vector<int> preorderTraversal2(TreeNode* root) {
+	vector<int> res;
+	if (root == NULL) return res;
+	stack<TreeNode*> nodes;
+	nodes.push(root);
+	while (!nodes.empty()) {
+		TreeNode* node = nodes.top(); nodes.pop();
+		res.push_back(node->val);
+		if (node->right) nodes.push(node->right);
+		if (node->left) nodes.push(node->left);
+	}
+	return res;
+}
+
+// 94 Binary Tree Inorder Traversal
+void inorderTraversal(TreeNode* root, vector<int>& nodes) {
+	if (root == NULL) return;
+	inorderTraversal(root->left, nodes);
+	nodes.push_back(root->val);
+	inorderTraversal(root->right, nodes);
+}
+vector<int> inorderTraversal(TreeNode* root) {
+	vector<int> nodes;
+	inorderTraversal(root, nodes);
+	return nodes;
+}
+// 94. Binary Tree Inorder Traversal
+vector<int> inorderTraversal2(TreeNode* root) {
+	vector<int> res;
+	stack<TreeNode*> nodes;
+	while (true) {
+		while (root) { nodes.push(root); root = root->left; }
+		if (nodes.empty()) break;
+		root = nodes.top(); nodes.pop();
+		res.push_back(root->val);
+		root = root->right;
+	}
+	return res;
+}
+
+// 173. Binary Search Tree Iterator
+void BSTIterator::pushAll(TreeNode *node) {
+	while (node) { myStack.push(node); node = node->left; }	
+}
+
+BSTIterator::BSTIterator(TreeNode *root) {
+	pushAll(root);
+}
+
+/** @return whether we have a next smallest number */
+bool BSTIterator::hasNext() {
+	return !myStack.empty();
+}
+
+/** @return the next smallest number */
+int BSTIterator::next() {
+	TreeNode *tmpNode = myStack.top(); myStack.pop();
+	pushAll(tmpNode->right);
+	return tmpNode->val;
+}
+
+// 94 Binary Tree Postorder Traversal
+void postorderTraversal(TreeNode* root, vector<int>& nodes) {
+	if (root == NULL) return;
+	postorderTraversal(root->left, nodes);
+	postorderTraversal(root->right, nodes);
+	nodes.push_back(root->val);
+}
+vector<int> postorderTraversal(TreeNode* root) {
+	vector<int> nodes;
+	postorderTraversal(root, nodes);
+	return nodes;
+}
+
+// 102 Binary Tree Level Order Traversal
+void levelOrder(TreeNode* root, int level, vector<vector<int> >& res) {
+	if (root == NULL) return;
+	if ((int)res.size() < level + 1) res.push_back(vector<int>());
+	res[level].push_back(root->val);
+	levelOrder(root->left, level + 1, res);
+	levelOrder(root->right, level + 1, res);
+}
+vector<vector<int> > levelOrder(TreeNode(*root)) {
+	vector<vector<int> > res;
+	levelOrder(root, 0, res);
+	return res;
+}
+
+// 107 Binary Tree Level Order Traversal II
+void levelOrderBottom(TreeNode* root, int level, vector<vector<int> >& res) {
+	if (root == NULL) return;
+	if ((int)res.size() < level + 1) res.push_back(vector<int>());
+	res[level].push_back(root->val);
+	levelOrderBottom(root->left, level + 1, res);
+	levelOrderBottom(root->right, level + 1, res);
+}
+vector<vector<int> > levelOrderBottom(TreeNode(*root)) {
+	vector<vector<int> > res;
+	levelOrderBottom(root, 0, res);
+	reverse(res.begin(), res.end());
+	return res;
+}
+
+// 103 Binary Tree Zigzag Level Order Traversal II
+void zigzagLevelOrder(TreeNode* root, int level, vector<vector<int> >& res) {
+	if (root == NULL) return;
+	if ((int)res.size() < level + 1) res.push_back(vector<int>());
+	res[level].push_back(root->val);
+	zigzagLevelOrder(root->left, level + 1, res);
+	zigzagLevelOrder(root->right, level + 1, res);
+}
+vector<vector<int> > zigzagLevelOrder(TreeNode(*root)) {
+	vector<vector<int> > res;
+	zigzagLevelOrder(root, 0, res);
+	for (int i = 1; i < (int)res.size(); i += 2) {
+		reverse(res[i].begin(), res[i].end());
+	}
+	return res;
+}
+
+// 199 Binary Tree Right Side View
+void rightSideView(TreeNode* root, int level, vector<int>& res) {
+	if (root == NULL) return;
+	if ((int)res.size() < level + 1)
+		res.push_back(root->val);
+	rightSideView(root->right, level + 1, res);
+	rightSideView(root->left, level + 1, res);
+}
+vector<int> rightSideView(TreeNode* root) {
+	vector<int> res;
+	rightSideView(root, 0, res);
+	return res;
+}
+
+// Self. cout treeNode
+void levelPrint(TreeNode* root, int level, vector<vector<string> >& res) {
+	if ((int)res.size() < level + 1) res.push_back(vector<string>());
+	if (root == NULL) { res[level].push_back("#");  return; }
+	res[level].push_back(to_string(root->val));
+	levelPrint(root->left, level + 1, res);
+	levelPrint(root->right, level + 1, res);
+}
+ostream& operator<<(ostream& os, TreeNode* root) {
+	vector<vector<string> > res;
+	levelPrint(root, 0, res);
+	os << "[" << endl;
+	for (size_t i = 0; i < res.size(); ++i) {
+		os << "[";
+		for (size_t j = 0; j < res[i].size(); ++j) {
+			os << res[i][j];
+			if (j != res[i].size() - 1) os << " ";
+		}
+		os << "]" << endl;
+	}
+	os << "]";
+	return os;
+}
+
+// 104. Maximum Depth of Binary Tree
+int maxDepth(TreeNode* root) {
+	return root == NULL ? 0 : max(maxDepth(root->left), maxDepth(root->right)) + 1;
+}
+
+// 104. Maximum Depth of Binary Tree
+int maxDepth2(TreeNode* root) {
+	if (root == NULL) return 0;
+	int res = 0;
+	queue<TreeNode*> q;
+	q.push(root);
+	while (!q.empty()) {
+		++res;
+		for (int i = 0, n = q.size(); i < n; ++i) {
+			TreeNode* p = q.front(); q.pop();
+			if (p->left != NULL) q.push(p->left);
+			if (p->right != NULL) q.push(p->right);
+		}
+	}
+	return res;
+}
+
+// 111. Minimum Depth of Binary Tree
+int minDepth(TreeNode* root) {
+	if (root == NULL) return 0;
+	if (root->left == NULL) return 1 + minDepth(root->right);
+	if (root->right == NULL) return 1 + minDepth(root->left);
+	return min(minDepth(root->left), minDepth(root->right)) + 1;
+}
+
+// 111. Minimum Depth of Binary Tree
+int minDepth2(TreeNode* root) {
+	if (root == NULL) return 0;
+	int res = 0;
+	queue<TreeNode*> q;
+	q.push(root);
+	while (!q.empty()) {
+		++res;
+		for (int i = 0, n = q.size(); i < n; ++i) {
+			TreeNode* p = q.front(); q.pop();
+			if (p->left == NULL && p->right == NULL) return res;
+			if (p->left != NULL) q.push(p->left);
+			if (p->right != NULL) q.push(p->right);
+		}
+	}
+	return res;
+}
+
+// 110. Balanced Binary Tree
+int height(TreeNode *root) {
+	if (root == NULL) return 0;
+	return max(height(root->left), height(root->right)) + 1;
+}
+bool isBalanced(TreeNode* root) {
+	if (root == NULL) return true;
+	return isBalanced(root->left) && isBalanced(root->right)
+		&& abs(height(root->left) - height(root->right)) <= 1;
+}
+
+// 100. Same Tree
+bool isSameTree(TreeNode* p, TreeNode* q) {
+	if (p == NULL || q == NULL) return (p == q);
+	return (p->val == q->val
+		&& isSameTree(p->left, q->left)
+		&& isSameTree(p->right, q->right));
+}
+
+// 222. Count Complete Tree Nodes
+int countNodes(TreeNode* root) {
+	if (root == NULL) return 0;
+	int leftDepth = 0, rightDepth = 0;
+	for (TreeNode* p = root; p; p = p->left) ++leftDepth;
+	for (TreeNode* p = root; p; p = p->right) ++rightDepth;
+	if (leftDepth == rightDepth) return (1 << leftDepth) - 1;
+	else return countNodes(root->left) + countNodes(root->right) + 1;
+}
+
+// 270. Closest Binary Search Tree Value
+int closestValue2(TreeNode* root, double target) {
+	int res = root->val;
+	while (root) {
+		if ((double)root->val == target) return root->val;
+		if (abs((double)root->val - target) < abs(res - target)) res = root->val;
+		if ((double)root->val > target) root = root->left;
+		else root = root->right;
+	}
+	return (int)res;
+}
+
+// 270. Closest Binary Search Tree Value
+void closestValue(TreeNode* node, double target, double &result){
+	if (node == NULL) return;
+	if (abs((double)node->val - target) < abs(target - result)) result = (double)node->val;
+	if ((double)node->val > target) closestValue(node->left, target, result);
+	if ((double)node->val < target) closestValue(node->right, target, result);
+}
+int closestValue(TreeNode* root, double target) {
+	double result = (double)root->val;
+	closestValue(root, target, result);
+	return (int)result;
+}
+
+// 112. Path Sum
+bool hasPathSum(TreeNode* root, int sum) {
+	if (root == NULL) return false;
+	if (root->left == NULL && root->right == NULL && root->val == sum) return true;
+	else return (hasPathSum(root->left, sum - root->val) || hasPathSum(root->right, sum - root->val));
+}
+
+// 113. Path Sum II
+void pathSum(TreeNode* node, int sum, vector<int>& path, vector<vector<int> >& paths) {
+	if (node == NULL) return;
+	path.push_back(node->val);
+
+	if (node->left == NULL && node->right == NULL && node->val == sum) paths.push_back(path);
+	pathSum(node->left, sum - node->val, path, paths);
+	pathSum(node->right, sum - node->val, path, paths);
+
+	path.pop_back();
+}
+vector<vector<int> > pathSum(TreeNode* root, int sum) {
+	vector<vector<int> > paths;
+	vector<int> path;
+	pathSum(root, sum, path, paths);
+	return paths;
+}
+
+// 257. Binary Tree Paths
+void binaryTreePaths(TreeNode* root, string s, vector<string>& res) {
+	if (root->left == NULL && root->right == NULL) { res.push_back(s); return; }
+	if (root->left)
+		binaryTreePaths(root->left, s + "->" + to_string(root->left->val), res);
+	if (root->right)
+		binaryTreePaths(root->right, s + "->" + to_string(root->right->val), res);
+}
+vector<string> binaryTreePaths(TreeNode* root) {
+	vector<string> res;
+	if (root == NULL) return res;
+	binaryTreePaths(root, to_string(root->val), res);
+	return res;
+}
+
+// 129. Sum Root to Leaf Numbers
+void sumNumbers(TreeNode* node, int csum, int& sum) {
+	csum = csum * 10 + node->val;
+	if (node->left == NULL && node->right == NULL) sum += csum;
+	if (node->left) sumNumbers(node->left, csum, sum);
+	if (node->right) sumNumbers(node->right, csum, sum);
+}
+int sumNumbers(TreeNode* root) {
+	if (root == NULL) return 0;
+	int sum = 0;
+	sumNumbers(root, 0, sum);
+	return sum;
+}
+
+// 101. Symmetric Tree
+bool isSymmetric(TreeNode* left, TreeNode* right) {
+	if (left == NULL || right == NULL) return left == right;
+	if (left->val != right->val) return false;
+	return isSymmetric(left->left, right->right)
+		&& isSymmetric(left->right, right->left);
+}
+bool isSymmetric(TreeNode* root) {
+	if (root == NULL) return true;
+	return isSymmetric(root->left, root->right);
+}
+
+// 101. Symmetric Tree
+bool isSymmetric2(TreeNode* root) {
+	if (root == NULL) return true;
+	stack<TreeNode*> stk;
+	stk.push(root->left); stk.push(root->right);
+	TreeNode* pA, *pB;
+	while (!stk.empty()) {
+		pA = stk.top(); stk.pop();
+		pB = stk.top(); stk.pop();
+		if (pA == NULL && pB == NULL) continue;
+		if (pA == NULL || pB == NULL) return false;
+		if (pA->val != pB->val) return false;
+		stk.push(pA->left); stk.push(pB->right);
+		stk.push(pA->right); stk.push(pB->left);
+	}
+	return true;
+}
+
+// 98. Validate Binary Search Trees
+bool isValidBST(TreeNode* node, long long min, long long max) {
+	if (node == NULL) return true;
+	if (node->val <= min || node->val >= max) return false;
+	return isValidBST(node->left, min, node->val)
+		&& isValidBST(node->right, node->val, max);
+}
+bool isValidBST(TreeNode* root) {
+	return isValidBST(root, LLONG_MIN, LLONG_MAX);
+}
+
+// 230. Kth Smallest Element in a BST
+void kthSmallest(TreeNode* root, int& k, int& res){
+	if (root == NULL || k == 0) return;
+	kthSmallest(root->left, k, res);
+	--k;
+	if (k == 0) res = root->val;
+	kthSmallest(root->right, k, res);
+}
+int kthSmallest(TreeNode* root, int k) {
+	int res;
+	kthSmallest(root, k, res);
+	return res;
+}
+
+// 230. Inorder Successor in BST
+TreeNode* inorderSuccessor(TreeNode* root, TreeNode* p) {
+	if (root == NULL || p == NULL) return NULL;
+	TreeNode *suc = NULL;
+	while (root) {
+		if (root->val <= p->val) root = root->right;
+		else { suc = root; root = root->left; }
+	}
+	return suc;
+}
+
+// 235. Lowest Common Ancestor of a Binary Search Tree
+TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+	if (p->val < root->val && q->val < root->val)
+		return lowestCommonAncestor(root->left, p, q);
+	if (p->val > root->val && q->val > root->val)
+		return lowestCommonAncestor(root->right, p, q);
+	return root;
+}
+
+// 235. Lowest Common Ancestor of a Binary Search Tree
+TreeNode* lowestCommonAncestor2(TreeNode* root, TreeNode* p, TreeNode* q) {
+	TreeNode* cur = root;
+	while (true) {
+		if (p->val < cur->val && q->val < cur->val) cur = cur->left;
+		else if (p->val > cur->val && q->val > cur->val) cur = cur->right;
+		else return cur;
+	}
+}
+
+// 236. Lowest Common Ancestor of a Binary Tree
+TreeNode* lowestCommonAncestorBT(TreeNode* root, TreeNode* p, TreeNode* q) {
+	if (root == NULL || root == p || root == q) return root;
+	TreeNode* left = lowestCommonAncestorBT(root->left, p, q);
+	TreeNode* right = lowestCommonAncestorBT(root->right, p, q);
+	if (left == NULL) return right;
+	if (right == NULL) return left;
+	return root;
+}
+
+// 95. Unique Binary Search Trees I
+int numTrees(int n) {
+	vector<int> d(n + 1);
+	d[0] = d[1] = 1;
+	for (int i = 2; i <= n; ++i) {
+		d[i] = 0;
+		for (int j = 1; j <= i; ++j) {
+			d[i] += d[j - 1] * d[i - j];
+		}
+	}
+	return d[n];
+}
+
+// 96. Unique Binary Search Trees II
+vector<TreeNode*> generateTrees(int left, int right) {
+	if (left > right) return vector<TreeNode*>{NULL};
+	vector<TreeNode*> trees;
+	for (int i = left; i <= right; ++i) {
+		vector<TreeNode*> ltrees = generateTrees(left, i - 1);
+		vector<TreeNode*> rtrees = generateTrees(i + 1, right);
+		for (TreeNode* ltree : ltrees) {
+			for (TreeNode* rtree : rtrees) {
+				TreeNode* root = new TreeNode(i);
+				root->left = ltree;
+				root->right = rtree;
+				trees.push_back(root);
+			}
+		}
+	}
+	return trees;
+}
+vector<TreeNode*> generateTrees(int n) {
+	if (n == 0) return vector<TreeNode*>();
+	return generateTrees(1, n);
+}
