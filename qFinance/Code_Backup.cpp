@@ -2158,6 +2158,29 @@ Queue q;
 	
 	vector<string> strs{ "eat", "tea", "tan", "ate", "nat", "bat" };
 	PRINT(groupAnagrams(strs));
+	
+	string a = "1"; string b = "101";
+	string res = addBinary0(a, b);
+	PRINT(res);
+	
+	
+	
+	
+	
+	vector<int> nums1{ 2, 4, 3 }, nums2{ 5, 6, 4 };
+	ListNode* l1 = genList(nums1);
+	ListNode* l2 = genList(nums2);
+	ListNode* res = addTwoNumbers(l1, l2);
+	PRINT(l1);
+	PRINT(l2);
+	PRINT(res);
+	
+	
+	
+	
+	
+	
+	
 
 	
 	
