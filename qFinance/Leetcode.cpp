@@ -1307,3 +1307,425 @@ vector<TreeNode*> generateTrees(int n) {
 	if (n == 0) return vector<TreeNode*>();
 	return generateTrees(1, n);
 }
+
+/*Section: Hash Table*/
+/*Section: Hash Table*/
+// 1. Two Sum
+vector<int> twoSum(vector<int>& nums, int target) {
+	unordered_map<int, int> imap;
+	vector<int> result;
+	for (int i = 0; i < (int)nums.size(); i++) {
+		int comp = target - nums[i];
+		if (imap.find(comp) != imap.end()) {
+			result.push_back(imap[comp] + 1);
+			result.push_back(i + 1); // not zero based
+			return result;
+		}
+		imap[nums[i]] = i;
+	}
+	return result;
+}
+
+// 167. Two Sum II - Input Array is Sorted
+vector<int> twoSumII(vector<int>& nums, int target) {
+	int l = 0, r = nums.size() - 1;
+	while (l < r) {
+		int s = nums[l] + nums[r];
+		if (s > target) --r;
+		else if (s < target) ++l;
+		else return vector<int>{l + 1, r + 1};
+	}
+	return vector<int>{}; // dummy line
+}
+
+// 15. 3 Sum
+vector<vector<int> > threeSum(vector<int> &nums) {
+	sort(nums.begin(), nums.end());
+	vector<vector<int> > res;
+	int n = nums.size();
+	for (int i = 0; i < n - 2; ++i) {
+		int target = -nums[i];
+		int front = i + 1, back = n - 1;
+		while (front < back) {
+			int sum = nums[front] + nums[back];
+			if (sum < target) ++front;
+			else if (sum > target) --back;
+			else {
+				vector<int> t{ nums[i], nums[front], nums[back] };
+				res.push_back(t);
+				while (front<back && nums[front] == t[1]) ++front;
+				while (front<back && nums[back] == t[2]) --back;
+			}
+		}
+		while (i < n - 2 && nums[i + 1] == nums[i]) ++i;
+	}
+	return res;
+}
+
+// 18. 4 Sum
+vector<vector<int>> fourSum(vector<int>& nums, int target) {
+	vector<vector<int> > res;
+	if (nums.empty()) return res;
+	sort(nums.begin(), nums.end());
+	int n = nums.size();
+	for (int i = 0; i < n - 3; ++i) {
+		int target_3 = target - nums[i];
+		for (int j = i + 1; j < n - 2; ++j) {
+			int target_2 = target_3 - nums[j];
+			int front = j + 1, back = n - 1;
+			while (front < back) {
+				int two_sum = nums[front] + nums[back];
+				if (two_sum < target_2) ++front;
+				else if (two_sum > target_2) --back;
+				else {
+					vector<int> q{ nums[i], nums[j], nums[front], nums[back] };
+					res.push_back(q);
+					while (front < back && nums[front] == q[2]) ++front;
+					while (front < back && nums[back] == q[3]) --back;
+				}
+			}
+			while (j < n - 2 && nums[j + 1] == nums[j]) ++j;
+		}
+		while (i < n - 3 && nums[i + 1] == nums[i]) ++i;
+	}
+	return res;
+}
+
+// 16. 3Sum Closest
+int threeSumClosest(vector<int>& nums, int target) {
+	int n = nums.size();
+	if (n < 3) return 0;
+	sort(nums.begin(), nums.end());
+	int res = nums[0] + nums[1] + nums[2];
+	for (int i = 0; i < n - 2; ++i) {
+		int front = i + 1, back = n - 1;
+		while (front < back) {
+			int sum = nums[i] + nums[front] + nums[back];
+			if (sum == target) return sum;
+			if (abs(target - sum)<abs(target - res)) res = sum;
+			if (sum > target) --back;
+			else ++front;
+		}
+	}
+	return res;
+}
+
+// 170. Two Sum III - Data Structure Design
+void TwoSum::add(int number) { map[number]++; }
+bool TwoSum::find(int value) {
+	for (auto it : map) {
+		int i = it.first, j = value - i;
+		if ((i == j && it.second>1)
+			|| (i != j && map.find(j) != map.end()))
+			return true;
+	}
+	return false;
+}
+
+// 299. Bulls and Cows
+string getHint(string secret, string guess) {
+	if (secret.empty() || secret.size() != guess.size()) return "0A0B";
+	int na = 0, nb = 0;
+	vector<int> svec(10, 0), gvec(10, 0);
+	for (int i = 0; i < (int)secret.size(); ++i) {
+		char c1 = secret[i], c2 = guess[i];
+		if (c1 == c2) { ++na; }
+		else { ++svec[c1 - '0']; ++gvec[c2 - '0']; }
+	}
+	for (int i = 0; i < (int)svec.size(); ++i) nb += min(svec[i], gvec[i]);
+	return to_string(na) + "A" + to_string(nb) + "B";
+}
+
+
+// 202. Happy Number
+int digitSquareSum(int n) {
+	int res = 0;
+	while (n > 0) {
+		int t = n % 10;
+		res += t*t;
+		n /= 10;
+	}
+	return res;
+}
+bool isHappy(int n) {
+	int i1 = n, i2 = digitSquareSum(n);
+	while (i2 != i1) {
+		i1 = digitSquareSum(i1);
+		i2 = digitSquareSum(digitSquareSum(i2));
+	}
+	return i1 == 1;
+}
+
+// 242. Valid Anagram
+bool isAnagram(string s, string t) {
+	sort(s.begin(), s.end());
+	sort(t.begin(), t.end());
+	return s == t;
+}
+
+// 242. Valid Anagram
+bool isAnagram2(string s, string t) {
+	if (s.size() != t.size()) return false;
+	int n = s.length();
+	vector<int> counts(256, 0);
+	for (int i = 0; i < n; ++i) {
+		++counts[s[i]];
+		--counts[t[i]];
+	}
+	for (int count : counts)
+		if (count != 0) return false;
+	return true;
+}
+
+// 249. Group Shifted Strings
+string shift(string s) {
+	string t;
+	int n = s.length();
+	for (int i = 1; i < n; i++) {
+		int diff = s[i] - s[i - 1];
+		if (diff < 0) diff += 26;
+		t += to_string(diff) + ','; // encoding
+	}
+	return t;
+}
+vector<vector<string>> groupStrings(vector<string>& strings) {
+	unordered_map<string, vector<string> > mp;
+	for (string s : strings) mp[shift(s)].push_back(s);
+	vector<vector<string> > groups;
+	for (auto m : mp) {
+		vector<string> group = m.second;
+		sort(group.begin(), group.end());
+		groups.push_back(group);
+	}
+	return groups;
+}
+
+// 49. Group Anagram
+vector<vector<string>> groupAnagrams(vector<string>& strs) {
+	unordered_map<string, vector<string> > smap;
+	for (string s : strs) {
+		string t = s;
+		sort(s.begin(), s.end());
+		smap[s].push_back(t);
+	}
+	vector<vector<string> > res;
+	for (auto it : smap) {
+		sort(it.second.begin(), it.second.end());
+		res.push_back(it.second);
+	}
+	return res;
+}
+
+// 205. Isomorphic Strings
+bool isIsomorphic(string s, string t) {
+	if (s.size() != t.size()) return false;
+	vector<int> smap(256, -1), tmap(256, -1);
+	int n = s.size();
+	for (int i = 0; i < n; ++i) {
+		if (smap[s[i]] != tmap[t[i]]) return false;
+		smap[s[i]] = tmap[t[i]] = i;
+	}
+	return true;
+}
+
+// 3. Longest Substring Without Repeating Characters
+int lengthOfLongestSubstring(string s) {
+	vector<int> smap(256, -1);
+	int res = 0, pos = -1;
+	for (int i = 0; i < (int)s.size(); ++i) {
+		pos = max(pos, smap[s[i]]);
+		smap[s[i]] = i;
+		res = max(res, i - pos);
+	}
+	return res;
+}
+
+// 36. Valid Sudoku
+bool isValidSudoku(vector<vector<char> >& board) {
+	bool used1[9][9] = { false }, used2[9][9] = { false }, used3[9][9] = { false };
+	int m = board.size(), n = board[0].size();
+	for (int i = 0; i < m; ++i) {
+		for (int j = 0; j < n; ++j) {
+			if (board[i][j] != '.') {
+				int num = board[i][j] - '0' - 1, k = i / 3 * 3 + j / 3;
+				if (used1[i][num] || used2[j][num] || used3[k][num]) return false;
+				used1[i][num] = used2[j][num] = used3[k][num] = true;
+			}
+		}
+	}
+	return true;
+}
+
+// 266. Palindrome Permutation
+bool canPermutePalindrome(string s) {
+	vector<int> counts(256, 0);
+	for (char c : s) ++counts[c];
+	int n = 0;
+	for (int i : counts) if (i % 2 != 0) ++n;
+	return n <= 1;
+}
+
+// 247. Strobogrammatic Number
+bool isStrobogrammatic(string num) {
+	unordered_map<char, char> map{ { '0', '0' }, { '1', '1' }, { '6', '9' }, { '8', '8' }, { '9', '6' } };
+	for (int l = 0, r = num.length() - 1; l <= r; ++l, --r)
+		if (map.find(num[l]) == map.end() || map[num[l]] != num[r]) return false;
+	return true;
+}
+
+// 314. Strobogrammatic Number II
+vector<string> findStrobogrammatic(int n, int m) {
+	// n: total #digit, m: internal #digit
+	if (n == 0) return vector<string> {""};
+	if (n == 1) return vector<string> {"0", "1", "8"};
+	vector<string> vec = findStrobogrammatic(n - 2, m);
+	vector<string> res;
+	for (size_t i = 0; i < vec.size(); ++i) {
+		if (n != m) res.push_back("0" + vec[i] + "0");
+		res.push_back("1" + vec[i] + "1");
+		res.push_back("6" + vec[i] + "9");
+		res.push_back("8" + vec[i] + "8");
+		res.push_back("9" + vec[i] + "6");
+	}
+	return res;
+}
+vector<string> findStrobogrammatic(int n) {
+	return findStrobogrammatic(n, n);
+}
+
+// 314. Binary Tree Vertical Order
+vector<vector<int>> verticalOrder(TreeNode* root) {
+	map<int, vector<int>> map;
+	queue<pair<int, TreeNode*>> q;
+	if (root) q.emplace(0, root);
+	while (!q.empty()) {
+		pair<int, TreeNode*> cur = q.front(); q.pop();
+		map[cur.first].push_back(cur.second->val);
+		if (cur.second->left) q.emplace(cur.first - 1, cur.second->left);
+		if (cur.second->right) q.emplace(cur.first + 1, cur.second->right);
+	}
+	vector<vector<int> > res;
+	for (auto i : map) res.push_back(i.second);
+	return res;
+}
+
+// 274. H-Index
+int hIndex(vector<int>& citations) {
+	if (citations.empty()) return 0;
+	int n = citations.size();
+	vector<int> counts(n + 1, 0);
+	for (int citation : citations) {
+		if (citation >= n) ++counts[n];
+		else ++counts[citation];
+	}
+	int paper = 0;
+	for (int i = n; i >= 0; --i) {
+		paper += counts[i];
+		if (paper >= i) return i;
+	}
+	return -1;
+}
+
+// 275. H-Index II
+int hIndexII(vector<int>& citations) {
+	int n = citations.size(), left = 0, right = n - 1;
+	while (left <= right) {
+		int mid = left + (right - left) / 2;
+		if (citations[mid] < n - mid) left = mid + 1;
+		else right = mid - 1;
+	}
+	return n - left;
+}
+
+// 204. Count Primes
+int countPrimes(int n) {
+	vector<bool> prime(n, true);
+	prime[0] = false, prime[1] = false;
+	for (int i = 0; i < sqrt(n); ++i) {
+		if (prime[i]) {
+			for (int j = i*i; j < n; j += i) prime[j] = false;
+		}
+	}
+	return count(prime.begin(), prime.end(), true);
+}
+
+// 311. Sparse Matrix Multiplication
+vector<vector<int>> multiply(vector<vector<int>>& A, vector<vector<int>>& B) {
+	int m = A.size(), p = B.size(), n = B[0].size();
+	vector<vector<int>> C(m, vector<int>(n, 0));
+	unordered_map<int, unordered_map<int, int>> sA, sB;
+	for (int i = 0; i < m; i++)
+		for (int k = 0; k < p; k++)
+			if (A[i][k] != 0) sA[i][k] = A[i][k]; // A: row->(col->val); i,k=>i,k
+
+	for (int j = 0; j < n; j++)
+		for (int k = 0; k < p; k++)
+			if (B[k][j] != 0) sB[j][k] = B[k][j]; // B: col->(row->val); j,k=>k,j
+
+	for (auto iA : sA) // each row in A
+		for (auto iB : sB) // each col in B
+			for (auto iter : iA.second) // every col of each row in A
+				if (iB.second.find(iter.first) != iB.second.end())
+					// Cij=sum(Aik*Bkj for all k), matching row, col
+					C[iA.first][iB.first] += iter.second*iB.second[iter.first];
+	return C;
+}
+
+// 187. Repeated DNA Sequences
+int str2int(string s) {
+	int res = 0;
+	for (int i = 0; i < (int)s.size(); ++i)
+		res = (res << 3) + (s[i] & 7);
+	return res;
+}
+vector<string> findRepeatedDnaSequences(string s) {
+	vector<string> res;
+	unordered_map<int, int> map;
+	for (int i = 0; i + 10 <= (int)s.size(); ++i)
+		if (++map[str2int(s.substr(i, 10))] == 2)
+			res.push_back(s.substr(i, 10));
+	return res;
+}
+
+// 166. Fraction to Recurring Decimal
+string fractionToDecimal(int numerator, int denominator) {
+	if (numerator == 0) return "0";
+	string res;
+	if ((numerator < 0) ^ (denominator < 0)) res += '-';
+	long numer = numerator < 0 ? (long)numerator * (-1) : (long)numerator;
+	long denom = denominator < 0 ? (long)denominator * (-1) : (long)denominator;
+	long integral = numer / denom;
+	res += to_string(integral);
+	long rmd = numer % denom;
+	if (rmd == 0) return res;
+	res += '.';
+	rmd *= 10;
+	unordered_map<long, long> mp;
+	while (rmd > 0) {
+		long quotient = rmd / denom;
+		if (mp.find(rmd) != mp.end()) {
+			res.insert(mp[rmd], 1, '(');
+			res += ')';
+			break;
+		}
+		mp[rmd] = res.size();
+		res += to_string(quotient);
+		rmd = (rmd % denom) * 10;
+	}
+	return res;
+}
+
+// 138. Copy List with Random Pointers
+RandomListNode *copyRandomList(RandomListNode *head) {
+	unordered_map<RandomListNode*, RandomListNode*> map;
+	RandomListNode *newHead = NULL, *newTail = NULL;
+	for (RandomListNode* curr = head; curr; curr = curr->next) {
+		RandomListNode *node = new RandomListNode(curr->label);
+		map[curr] = node;
+		if (newHead == NULL) { newHead = node; newTail = node; }
+		else { newTail->next = node; newTail = node; }
+	}
+	for (RandomListNode* curr = head; curr; curr = curr->next)
+		if (curr->random != NULL) map[curr]->random = map[curr->random];
+	return newHead;
+}

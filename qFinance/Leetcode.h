@@ -371,5 +371,96 @@ int numTrees(int n);
 vector<TreeNode*> generateTrees(int left, int right);
 vector<TreeNode*> generateTrees(int n);
 
+/*Section: Hash Table*/
+// 1. Two Sum
+vector<int> twoSum(vector<int>& nums, int target);
+
+// 167. Two Sum II - Input Array is Sorted
+vector<int> twoSumII(vector<int>& nums, int target);
+
+// 15. 3 Sum
+vector<vector<int> > threeSum(vector<int> &nums);
+
+// 18. 4 Sum
+vector<vector<int>> fourSum(vector<int>& nums, int target);
+
+// 16. 3Sum Closest
+int threeSumClosest(vector<int>& nums, int target);
+
+// 170. Two Sum III - Data Structure Design
+class TwoSum {
+	unordered_map<int, int> map;
+public:
+	void add(int number);
+	bool find(int value);
+};
+
+// 299. Bulls and Cows
+string getHint(string secret, string guess);
+
+// 202. Happy Number
+int digitSquareSum(int n);
+bool isHappy(int n);
+
+// 242. Valid Anagram
+bool isAnagram(string s, string t);
+
+// 242. Valid Anagram
+bool isAnagram2(string s, string t);
+
+// 249. Group Shifted Strings
+string shift(string s);
+vector<vector<string>> groupStrings(vector<string>& strings);
+
+// 49. Group Anagram
+vector<vector<string>> groupAnagrams(vector<string>& strs);
+
+// 205. Isomorphic Strings
+bool isIsomorphic(string s, string t);
+
+// 3. Longest Substring Without Repeating Characters
+int lengthOfLongestSubstring(string s);
+
+// 36. Valid Sudoku
+bool isValidSudoku(vector<vector<char> >& board);
+
+// 266. Palindrome Permutation
+bool canPermutePalindrome(string s);
+
+// 246. Strobogrammatic Number
+bool isStrobogrammatic(string num);
+
+// 247. Strobogrammatic Number II
+vector<string> findStrobogrammatic(int n, int m);
+vector<string> findStrobogrammatic(int n);
+
+// 314. Binary Tree Vertical Order
+vector<vector<int>> verticalOrder(TreeNode* root);
+
+// 274. H-Index
+int hIndex(vector<int>& citations);
+
+// 275. H-Index II
+int hIndexII(vector<int>& citations);
+
+// 204. Count Primes
+int countPrimes(int n);
+
+// 311. Sparse Matrix Multiplication
+vector<vector<int>> multiply(vector<vector<int>>& A, vector<vector<int>>& B);
+
+// 187. Repeated DNA Sequences
+int str2int(string s);
+vector<string> findRepeatedDnaSequences(string s);
+
+// 166. Fraction to Recurring Decimal
+string fractionToDecimal(int numerator, int denominator);
+
+// 138. Copy List with Random Pointers
+RandomListNode *copyRandomList(RandomListNode *head);
+
+
+
+
 #endif
 
