@@ -216,6 +216,9 @@ void rotate2(vector<int>& nums, int k);
 // 153
 int findMin(vector<int>& nums);
 
+// 325. Maximum Size Subarray Sum Equals k
+int maxSubArrayLen(vector<int>& nums, int k);
+
 /*Section: Tree*/
 // 297. Serialize and Deserialize Binary Tree, preorder approach
 class Codec {
@@ -459,8 +462,149 @@ string fractionToDecimal(int numerator, int denominator);
 // 138. Copy List with Random Pointers
 RandomListNode *copyRandomList(RandomListNode *head);
 
+/*Section: Math*/
+// 231. Power of Two, bit
+bool isPowerOfTwo0(int n);
 
+// 231. Power of Two, map
+bool isPowerOfTwo1(int n);
 
+// 231. Power of Two, module
+bool isPowerOfTwo2(int n);
+
+// 231. Power of Two, log
+bool isPowerOfTwo3(int n);
+
+// 231. Power of Two, iterative
+bool isPowerOfTwo4(int n);
+
+// 231. Power of Two, recursive
+bool isPowerOfTwo5(int n);
+
+// 326. Power of Three, module
+bool isPowerOfThree1(int n);
+
+// 326. Power of Three, log
+bool isPowerOfThree2(int n);
+
+// 326. Power of Three, iterative O(h), n=3^h
+bool isPowerOfThree3(int n);
+
+// 326. Power of Three, recursive
+bool isPowerOfThree4(int n);
+
+// 67. Add Binary
+string addBinary0(string a, string b);
+
+// 8. String to Integer (atoi)
+int atoi0(const char *str);
+
+// 223. Rectangle Area
+int computeArea(int A, int B, int C, int D, int E, int F, int G, int H);
+
+// 263. Ugly Number
+bool isUgly(int num);
+
+// 264. Ugly Number II
+int nthUglyNumber(int n);
+
+// 313. Super Ugly Number
+int nthSuperUglyNumber(int n, vector<int>& primes);
+
+// 2. Add Two Numbers
+ListNode* addTwoNumbers(ListNode* l1, ListNode* l2);
+
+// 43. Multiply Strings
+string multiply(string num1, string num2);
+
+// 258. Add Digits, conditions
+int addDigits(int num);
+
+// 258. Add Digits, simplication
+int addDigits2(int num);
+
+// 172. Factorial Trailing Zeroes, O(log2(N)), n = #factor-5's
+// 100--> 24, 5^2. 2 loops
+int trailingZeroes(int n);
+
+// 168. Excel Sheet Column Title
+string convertToTitle(int n);
+
+// 171. Excel Sheet Column Number
+int titleToNumber(string s);
+
+// 9. Palindrome Number
+bool isPalindrome(int x);
+
+// 7. Reverse Integer
+int reverse(int x);
+
+// 13. Roman to Integer
+int romanToInt(string s);
+
+// 22. Integer to Roman
+string intToRoman(int num);
+
+// 273. Integer to English Words
+string int_string(int n);
+string numberToWords(int n);
+
+// 279. Perfect Squares
+int numSquares(int n);
+
+// 268. Missing Number
+int missingNumber(vector<int>& nums);
+
+// 233. Number of Digit One
+long long currDigitOne(long long left, long long right, long long digit);
+int countDigitOne(int n);
+
+// 224. Basic Calculator
+int calculate(string s);
+
+// 150. Evaluate Reverse Polish Notation
+int evalRPN(vector<string>& tokens);
+
+// 69. Sqrt(x)
+int mySqrt(int x);
+
+// 319. Bulb Switcher
+int bulbSwitch(int n);
+
+// 29. Divide Two Integers
+int divide(int dividend, int divisor);
+
+// 50. Pow(x, n), recursive
+double mypow(double x, int n);
+
+// 50, Pow(x, n), iterative
+double myPow2(double x, int n);
+
+// calculate e^x using taylor expansion
+double exp_taylor2(double x);
+
+// Fibonacci sequence, hard coded, O(1)
+long long Fib1(int n);
+
+// Fibonacci sequence, matrix, O(logN)
+void multiply(long long F[2][2], long long M[2][2]);
+void power(long long F[2][2], int n);
+long long Fib2(int n);
+
+// Fibonacci sequence, static array, O(N)
+long long Fib3(int n);
+
+// Fibonacci sequence, formula, O(logN)
+long long Fib4(int n);
+
+// Fibonacci sequence, recursion, O(2^N)
+long long Fib5(int n);
+
+// Factorial sequence, static array, O(1)
+long long Fac1(int n);
+
+// Factorial sequence, static array, O(N)
+long long Fac2(int n);
 
 #endif
 

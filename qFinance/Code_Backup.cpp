@@ -2177,6 +2177,45 @@ Queue q;
 	
 	
 	
+	PRINT(trailingZeroes(100));
+	
+	
+	for (int i = 1; i <= 28; ++i) {
+		cout << i << ": " << convertToTitle(i) << endl;
+	}
+	
+	
+	for (int i = 1; i <= 99; ++i) {
+		cout << i << ": " << numberToWords(i) << endl;
+	}
+	
+	
+	for (int i = 1; i <= 50; ++i) {
+		cout << i << ": " << Fib1(i) << ", " << Fib1(i)
+			<< ", " << Fib2(i) << ", " << Fib3(i) 
+			<< ", " << Fib4(i) <<  endl;		
+	}
+	
+	
+	for (int i = 1; i <= 30; ++i) {
+		cout << i << ": " << Fib1(i) << ", " << Fib2(i) << ", " <<  Fib3(i) << endl;
+	}
+	SEP;
+	for (int i = 30; i >= 1; --i) {
+		cout << i << ": " << Fib1(i) << ", " << Fib2(i) << ", " << Fib3(i) << endl;
+	}
+	
+	
+	for (int i = 0; i <= 32; ++i) {
+		PRINT(i);
+		PRINT(isPowerOfTwo1(i));
+		PRINT(isPowerOfTwo2(i));
+		SEP;
+	}
+
+	
+	
+	
 	
 	
 	

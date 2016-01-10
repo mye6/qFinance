@@ -72,7 +72,10 @@ double exp_taylor(double x) {
 	if (x < 0.) return 1.0 / exp_taylor(-x);
 	double x_over_n = x;
 	double n = 1.;
-	if (log2(x) > 1.) { n = power_rec(2., (int)floor(log2(x))); x_over_n = x / n; }
+	if (log2(x) > 1.) {
+		n = power_rec(2., (int)floor(log2(x)));
+		x_over_n = x / n;
+	}
 	double res = 1., taylor_term = x_over_n, denom = 1.;
 	while (taylor_term > numeric_limits<double>::min()) {
 		res += taylor_term;

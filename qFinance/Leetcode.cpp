@@ -770,6 +770,20 @@ int findMin(vector<int>& nums) {
 	return nums[left];
 }
 
+// 325. Maximum Size Subarray Sum Equals k
+int maxSubArrayLen(vector<int>& nums, int k) {
+	unordered_map<int, int> mp; mp[0] = -1; // cumsum->index, 0 at index -1, convenient
+	int res = 0;
+	for (int i = 0, csum = 0; i < (int)nums.size(); ++i) {
+		csum += nums[i];
+		if (mp.find(csum - k) != mp.end()) // find ?..i subarray sum to k
+			res = max(res, i - mp[csum - k]);
+		if (mp.find(csum) == mp.end()) // only the earliest csum
+			mp[csum] = i;
+	}
+	return res;
+}
+
 /*Section: Tree */
 // 297. Serialize and Deserialize Binary Tree
 // preorder approach
@@ -1565,7 +1579,7 @@ bool canPermutePalindrome(string s) {
 	return n <= 1;
 }
 
-// 247. Strobogrammatic Number
+// 246. Strobogrammatic Number
 bool isStrobogrammatic(string num) {
 	unordered_map<char, char> map{ { '0', '0' }, { '1', '1' }, { '6', '9' }, { '8', '8' }, { '9', '6' } };
 	for (int l = 0, r = num.length() - 1; l <= r; ++l, --r)
@@ -1573,9 +1587,9 @@ bool isStrobogrammatic(string num) {
 	return true;
 }
 
-// 314. Strobogrammatic Number II
+// 247. Strobogrammatic Number II
 vector<string> findStrobogrammatic(int n, int m) {
-	// n: total #digit, m: internal #digit
+	// n: current #digit, m: total #digit
 	if (n == 0) return vector<string> {""};
 	if (n == 1) return vector<string> {"0", "1", "8"};
 	vector<string> vec = findStrobogrammatic(n - 2, m);
@@ -1728,4 +1742,547 @@ RandomListNode *copyRandomList(RandomListNode *head) {
 	for (RandomListNode* curr = head; curr; curr = curr->next)
 		if (curr->random != NULL) map[curr]->random = map[curr->random];
 	return newHead;
+}
+
+/*Section: Math*/
+// 231. Power of Two, bit
+bool isPowerOfTwo0(int n) {
+	if (n <= 0) return false;
+	return !(n&(n - 1));
+}
+
+// 231. Power of Two, map
+bool isPowerOfTwo1(int n) {
+	unordered_set<int> set{
+		1, 2, 4, 8, 16, 32, 64, 128, 256, 512,
+		1024, 2048, 4096, 8192, 16384, 32768,
+		65536, 131072, 262144, 524288, 1048576,
+		2097152, 4194304, 8388608, 16777216,
+		33554432, 67108864, 134217728, 268435456,
+		536870912, 1073741824 };
+	return (set.find(n) != set.end());
+}
+
+// 231. Power of Two, module
+bool isPowerOfTwo2(int n) {
+	return (n > 0) && (1073741824 % n == 0);
+	// 2^30 = 1073741824
+}
+
+// 231. Power of Two, log
+bool isPowerOfTwo3(int n) {
+	if (n <= 0) return false;
+	double x = log10(n) / log10(2);
+	return x == floor(x); // only x=2^n will give true
+}
+
+// 231. Power of Two, iterative
+bool isPowerOfTwo4(int n) {
+	if (n > 1) {
+		while (n % 2 == 0) n /= 2;
+	}
+	return n == 1;
+}
+
+// 231. Power of Two, recursive
+bool isPowerOfTwo5(int n) {
+	return n>0 && (n == 1 || (n % 2 == 0 && isPowerOfTwo5(n / 2)));
+}
+
+// 326. Power of Three, module
+bool isPowerOfThree1(int n) {
+	return (n > 0) && (1162261467 % n == 0);
+	// 3^19 = 1162261467
+}
+
+// 326. Power of Three, log
+bool isPowerOfThree2(int n) {
+	if (n <= 0) return false;
+	double x = log10(n) / log10(3);
+	return x == floor(x); // only x=3^n will give true
+}
+
+// 326. Power of Three, iterative O(h), n=3^h
+bool isPowerOfThree3(int n) {
+	if (n > 1) {
+		while (n % 3 == 0) n /= 3;
+	}
+	return n == 1;
+}
+
+// 326. Power of Three, recursive
+bool isPowerOfThree4(int n) {
+	return n>0 && (n == 1 || (n % 3 == 0 && isPowerOfThree4(n / 3)));
+}
+
+// 67. Add Binary
+string addBinary0(string a, string b) {
+	string s = "";
+	int c = 0, i = a.size() - 1, j = b.size() - 1;
+	while (i >= 0 || j >= 0 || c == 1) {
+		c += (i >= 0 ? a[i--] - '0' : 0);
+		c += (j >= 0 ? b[j--] - '0' : 0);
+		s = char(c % 2 + '0') + s;
+		c /= 2;
+	}
+	return s;
+}
+
+// 8. String to Integer (atoi)
+int atoi0(const char *str) {
+	int sign = 1, base = 0, i = 0;
+	while (str[i] == ' ') ++i;
+	if (str[i] == '-' || str[i] == '+') sign = 1 - 2 * (str[i++] == '-');
+	while (str[i] >= '0' && str[i] <= '9') {
+		if (base > INT_MAX / 10 || (base == INT_MAX / 10 && str[i] - '0'>7)) {
+			if (sign == 1) return INT_MAX;
+			else return INT_MIN;
+		}
+		base = 10 * base + (str[i++] - '0');
+	}
+	return base * sign;
+}
+
+// 223. Rectangle Area
+int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
+	int left = max(A, E), right = max(min(C, G), left);
+	int bottom = max(B, F), top = max(min(D, H), bottom);
+	return (C - A)*(D - B) - (right - left)*(top - bottom) + (G - E)*(H - F);
+}
+
+// 263. Ugly Number
+bool isUgly(int num) {
+	for (int i = 2; i < 6 && num>0; ++i) {
+		while (num%i == 0) num /= i;
+	}
+	return num == 1;
+}
+
+// 264. Ugly Number II
+int nthUglyNumber(int n) {
+	if (n <= 0) return 0;
+	if (n == 1) return 1;
+	int t2 = 0, t3 = 0, t5 = 0;
+	vector<int> d(n);
+	d[0] = 1;
+	for (int i = 1; i < n; ++i) {
+		d[i] = min(d[t2] * 2, min(d[t3] * 3, d[t5] * 5));
+		if (d[i] == d[t2] * 2) ++t2;
+		if (d[i] == d[t3] * 3) ++t3;
+		if (d[i] == d[t5] * 5) ++t5;
+	}
+	return d[n - 1];
+}
+
+// 313. Super Ugly Number
+int nthSuperUglyNumber(int n, vector<int>& primes) {
+	int k = primes.size();
+	vector<int> index(k, 0), d(n, INT_MAX);
+	d[0] = 1;
+	for (int i = 1; i < n; ++i){
+		for (int j = 0; j < k; ++j)
+			d[i] = min(d[i], d[index[j]] * primes[j]);
+		for (int j = 0; j < k; ++j)
+			index[j] += (d[i] == d[index[j]] * primes[j]);
+	}
+	return d[n - 1];
+}
+
+// 2. Add Two Numbers
+ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+	ListNode dummy(-1), *tail = &dummy;
+	int carry = 0;
+	while (l1 || l2 || carry > 0) {
+		int tmp = ((l1 ? l1->val : 0) + (l2 ? l2->val : 0) + carry);
+		tail->next = new ListNode(tmp % 10);
+		tail = tail->next;
+		carry = tmp / 10;
+		l1 ? l1 = l1->next : NULL;
+		l2 ? l2 = l2->next : NULL;
+	}
+	return dummy.next;
+}
+
+// 43. Multiply Strings
+string multiply(string num1, string num2) {
+	int n1 = num1.size(), n2 = num2.size();
+	string res(n1 + n2, '0');
+	for (int i = n1 - 1; i >= 0; --i) {
+		int carry = 0;
+		for (int j = n2 - 1; j >= 0; --j) {
+			int tmp = (res[i + j + 1] - '0') + (num1[i] - '0')*(num2[j] - '0') + carry;
+			res[i + j + 1] = tmp % 10 + '0';
+			carry = tmp / 10;
+		}
+		res[i] += carry;
+	}
+	size_t startpos = res.find_first_not_of('0');
+	return (startpos == string::npos ? "0" : res.substr(startpos));
+}
+
+// 258. Add Digits, conditions
+int addDigits(int num) {
+	if (num == 0) return 0;
+	if ((num != 0) && (num % 9 == 0)) return 9;
+	else return (num % 9); // if ((num != 0) && (num % 9 != 0))
+}
+
+// 258. Add Digits, simplication
+int addDigits2(int num) {
+	return 1 + (num - 1) % 9;
+}
+
+// 172. Factorial Trailing Zeroes, O(log2(N)), n = #factor-5's
+// 100--> 24, 5^2. 2 loops
+int trailingZeroes(int n) {
+	int res = 0;
+	for (long long i = 5; n / i > 0; i *= 5) res += (int)(n / i);
+	return res;
+}
+
+// 168. Excel Sheet Column Title
+string convertToTitle(int n) {
+	string res = "";
+	while (n > 0) {
+		res = (char)('A' + (n - 1) % 26) + res;
+		n = (n - 1) / 26; // only 27 can have two letters
+	}
+	return res;
+}
+
+// 171. Excel Sheet Column Number
+int titleToNumber(string s) {
+	int res = 0;
+	for (char c : s) res = 26 * res + (c - 'A' + 1);
+	return res;
+}
+
+// 9. Palindrome Number
+bool isPalindrome(int x) {
+	if (x<0 || (x != 0 && x % 10 == 0)) return false;
+	int sum = 0;
+	while (x > sum) {
+		sum = sum * 10 + x % 10;
+		x /= 10;
+	}
+	return (x == sum) || (x == sum / 10);
+}
+
+// 7. Reverse Integer
+int reverse(int x) {
+	long long res = 0;
+	while (x != 0) {
+		res = res * 10 + x % 10;
+		x /= 10;
+	}
+	return (res<INT_MIN || res>INT_MAX) ? 0 : (int)res;
+}
+
+// 13. Roman to Integer
+int romanToInt(string s) {
+	unordered_map<char, int> T = {
+			{ 'I', 1 }, { 'V', 5 }, { 'X', 10 },
+			{ 'L', 50 }, { 'C', 100 },
+			{ 'D', 500 }, { 'M', 1000 } };
+	int sum = T[s.back()];
+	for (int i = s.length() - 2; i >= 0; --i) {
+		if (T[s[i]] < T[s[i + 1]]) sum -= T[s[i]];
+		else sum += T[s[i]];
+	}
+	return sum;
+}
+
+// 22. Integer to Roman
+string intToRoman(int num) {
+	string M[] = { "", "M", "MM", "MMM" };
+	string C[] = { "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" };
+	string X[] = { "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" };
+	string I[] = { "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" };
+	return M[num / 1000] + C[(num % 1000) / 100] + X[(num % 100) / 10] + I[num % 10];
+}
+
+// 273. Integer to English Words
+string int_string(int n) {
+	static vector<string> below_20 = { "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen" };
+	static vector<string> below_100 = { "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety" };
+	if (n >= 1000000000)   return int_string(n / 1000000000) + " Billion" + int_string(n - 1000000000 * (n / 1000000000));
+	else if (n >= 1000000) return int_string(n / 1000000) + " Million" + int_string(n - 1000000 * (n / 1000000));
+	else if (n >= 1000)    return int_string(n / 1000) + " Thousand" + int_string(n - 1000 * (n / 1000));
+	else if (n >= 100)     return int_string(n / 100) + " Hundred" + int_string(n - 100 * (n / 100));
+	else if (n >= 20)      return string(" ") + below_100[n / 10 - 2] + int_string(n - 10 * (n / 10)); // add " " in the beginning
+	else if (n >= 1)       return string(" ") + below_20[n - 1]; // add " " in the beginning
+	else return "";
+}
+string numberToWords(int n) {
+	if (n == 0) return "Zero";
+	else return int_string(n).substr(1);
+}
+
+// 279. Perfect Squares
+int numSquares(int n) {
+	if (n <= 0) return 0;
+	vector<int> D(n + 1, INT_MAX);
+	D[0] = 0;
+	for (int i = 1; i <= n; ++i) {
+		for (int j = 1; j*j <= i; ++j) {
+			D[i] = min(D[i], D[i - j*j] + 1);
+		}
+	}
+	return D[n];
+}
+
+// 268. Missing Number
+int missingNumber(vector<int>& nums) {
+	int missing = 0, n = nums.size();
+	for (int i = 0; i < n; ++i)
+		missing ^= ((i + 1) ^ nums[i]);
+	return missing;
+}
+
+// 233. Number of Digit One
+long long currDigitOne(long long left, long long right, long long digit) {
+	long long units = left % 10; // # at 1's
+	long long aboveUnits = left / 10; // # at above 1's
+	if (units >= 2) return (aboveUnits + 1)*digit;
+	else if (units == 1) return aboveUnits*digit + (right + 1);
+	else return aboveUnits*digit; // # at 1's == 0	
+}
+int countDigitOne(int n) {
+	long long res = 0;
+	for (long long digit = 1; digit <= n; digit *= 10) {
+		long long left = n / digit, right = n % digit;
+		res += currDigitOne(left, right, digit);
+		PRINT(currDigitOne(left, right, digit));
+	}
+	return (int)res;
+}
+
+// 224. Basic Calculator
+int calculate(string s) {
+	stack<int> stk; stk.push(1); stk.push(1);
+	int res = 0, n = s.size();
+	for (int i = 0; i < n; ++i) {
+		if (s[i] >= '0' && s[i] <= '9') {
+			int num = s[i] - '0';
+			int j = i + 1;
+			while (j < n && (s[j] >= '0' && s[j] <= '9')) {
+				num = 10 * num + (s[j] - '0');
+				++j;
+			}
+			res += stk.top() * num;
+			i = j - 1;
+			stk.pop();
+		}
+		else if (s[i] == '+' || s[i] == '(') {
+			stk.push(stk.top());
+		}
+		else if (s[i] == '-') {
+			stk.push(-1 * stk.top());
+		}
+		else if (s[i] == ')') {
+			stk.pop();
+		}
+	}
+	return res;
+}
+
+// 150. Evaluate Reverse Polish Notation
+int evalRPN(vector<string>& tokens) {
+	stack<int> stn;
+	for (auto s : tokens) {
+		if (s.size()>1 || isdigit(s[0])) stn.push(stoi(s));
+		else {
+			auto x2 = stn.top(); stn.pop();
+			auto x1 = stn.top(); stn.pop();
+			switch (s[0]) {
+			case '+': x1 += x2; break;
+			case '-': x1 -= x2; break;
+			case '*': x1 *= x2; break;
+			case '/': x1 /= x2; break;
+			}
+			stn.push(x1);
+		}
+	}
+	return stn.top();
+}
+
+// 69. Sqrt(x)
+int mySqrt(int x) {
+	if (x == 0) return 0;
+	int low = 1, high = x;
+	while (true) {
+		int mid = low + (high - low) / 2;
+		if (mid > x / mid) high = mid - 1;
+		else {
+			if (mid + 1 > x / (mid + 1)) return mid;
+			low = mid + 1;
+		}
+	}
+}
+
+// 319. Bulb Switcher
+int bulbSwitch(int n) {
+	return (int)sqrt(n);
+}
+
+// 29. Divide Two Integers
+int divide(int dividend, int divisor) {
+	// handling the case of overflow
+	if (divisor == 1) return dividend;
+	if (dividend == INT_MIN && abs(divisor) == 1) return INT_MAX;
+	int sign = ((dividend > 0) ^ (divisor > 0)) ? -1 : 1;
+
+	long res = 0, n = abs((long)dividend), d = abs((long)divisor);
+	while (n >= d) {
+		long temp = d;
+		long power = 1;
+		while ((temp << 1) <= n) {
+			power <<= 1;
+			temp <<= 1;
+		}
+		res += power;
+		n -= temp;
+	}
+	return sign * res;
+}
+
+// 50. Pow(x, n), recursive
+double mypow(double x, int n) {
+	if (n == 0) return 1;
+	if (n < 0){ n = -n; x = 1 / x; }
+	return (n % 2 == 0) ? pow(x*x, n / 2) : x*pow(x*x, n / 2);
+}
+
+// 50, Pow(x, n), iterative
+double myPow2(double x, int n) {
+	double ans = 1;
+	unsigned long long p;
+	if (n < 0) { p = -n; x = 1 / x; }
+	else { p = n; }
+
+	while (p != 0) {
+		if (p & 1) ans *= x;
+		x *= x;
+		p >>= 1;
+	}
+	return ans;
+}
+
+// calculate e^x using taylor expansion
+double exp_taylor2(double x) { // originally from utility
+	// obtain the exp function by multiplication/addition through Taylor expansion
+	if (x < 0.) return 1.0 / exp_taylor(-x);
+	double x_over_n = x;
+	double n = 1.;
+	if (log2(x) > 1.) {
+		n = power_rec(2., (int)floor(log2(x)));
+		x_over_n = x / n;
+	}
+	double res = 1., taylor_term = x_over_n, denom = 1.;
+	while (taylor_term > numeric_limits<double>::min()) {
+		res += taylor_term;
+		taylor_term *= x_over_n / (++denom);
+	}
+	return power_rec(res, (int)n);
+}
+
+// Fibonacci sequence, hard coded, O(1)
+long long Fib1(int n) {
+	static vector<long long> F{
+		1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987,
+		1597, 2584, 4181, 6765, 10946, 17711, 28657, 46368, 75025, 121393,
+		196418, 317811, 514229, 832040, 1346269, 2178309, 3524578, 5702887,
+		9227465, 14930352, 24157817, 39088169, 63245986, 102334155, 165580141,
+		267914296, 433494437, 701408733, 1134903170, 1836311903, 2971215073,
+		4807526976, 7778742049, 12586269025, 20365011074, 32951280099, 53316291173,
+		86267571272, 139583862445, 225851433717, 365435296162, 591286729879,
+		956722026041, 1548008755920, 2504730781961, 4052739537881, 6557470319842,
+		10610209857723, 17167680177565, 27777890035288, 44945570212853, 72723460248141,
+		117669030460994, 190392490709135, 308061521170129, 498454011879264, 806515533049393,
+		1304969544928657, 2111485077978050, 3416454622906707, 5527939700884757, 8944394323791464,
+		14472334024676221, 23416728348467685, 37889062373143906, 61305790721611591,
+		99194853094755497, 160500643816367088, 259695496911122585, 420196140727489673,
+		679891637638612258, 1100087778366101931, 1779979416004714189, 2880067194370816120
+	};
+	if (n <= 0) return -1;
+	return F[n - 1];
+}
+
+// Fibonacci sequence, matrix, O(logN)
+void multiply(long long F[2][2], long long M[2][2]) {
+	long long x = F[0][0] * M[0][0] + F[0][1] * M[1][0];
+	long long y = F[0][0] * M[0][1] + F[0][1] * M[1][1];
+	long long z = F[1][0] * M[0][0] + F[1][1] * M[1][0];
+	long long w = F[1][0] * M[0][1] + F[1][1] * M[1][1];
+	F[0][0] = x; F[0][1] = y;
+	F[1][0] = z; F[1][1] = w;
+}
+void power(long long F[2][2], int n) {
+	if (n == 0 || n == 1) return;
+	long long M[2][2] = { { 1, 1 }, { 1, 0 } };
+	power(F, n / 2);
+	multiply(F, F);
+	if (n % 2 != 0) multiply(F, M);
+}
+long long Fib2(int n) {
+	long long F[2][2] = { { 1, 1 }, { 1, 0 } };
+	if (n <= 0) return 0;
+	power(F, n - 1);
+	return F[0][0];
+}
+
+
+// Fibonacci sequence, static array, O(N)
+long long Fib3(int n) {
+	static vector<long long> F{ 1, 1 };
+	if (n <= 0) return 0;
+	if (n > (int)F.size()) {
+		for (int i = F.size(); i < n; ++i)
+			F.push_back(F[i - 2] + F[i - 1]);
+	}
+	return F[n - 1];
+}
+
+// Fibonacci sequence, formula, O(logN)
+long long Fib4(int n) {
+	static long double Phi = (1. + sqrt(5.)) / 2.;
+	static long double phi = (1. - sqrt(5.)) / 2.;
+	static long double sqrt5 = sqrt(5.);
+	double res = (pow(Phi, n) - pow(phi, n)) / sqrt5;
+	return (long long)res;
+}
+
+
+// Fibonacci sequence, recursion, O(2^N)
+long long Fib5(int n) {
+	if (n <= 0) return 0;
+	if (n == 1 || n == 2) return 1;
+	return Fib4(n - 2) + Fib4(n - 1);
+}
+
+// Factorial sequence, static array, O(1)
+long long Fac1(int n) {
+	if (n < 0) return 0;
+	if (n > 20) return -1;
+	static vector<long long> F{
+		1, 1, 2, 6, 24, 120, 720, 5040, 40320,
+		362880, 3628800, 39916800, 479001600,
+		6227020800, 87178291200, 1307674368000,
+		20922789888000, 355687428096000,
+		6402373705728000, 121645100408832000,
+		2432902008176640000
+	};
+	return F[n];
+}
+
+// Factorial sequence, static array, O(N)
+long long Fac2(int n) {
+	static vector<long long> F{ 1, 1 };
+	if (n < 0) return 0;
+	if (n + 1 >(int)F.size()) {
+		for (int i = F.size(); i <= n; ++i) {
+			F.push_back(F[i - 1] * i);
+		}
+	}
+	return F[n];
 }
