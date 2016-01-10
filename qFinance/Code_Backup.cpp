@@ -2232,7 +2232,12 @@ Queue q;
 	PRINT(majorityElementII(nums));
 	
 	
+	vector<int> nums{ 3, 5, 2, 1, 6, 4 };
+	PRINT(nums);
+	wiggleSort(nums);
+	PRINT(nums);
 	
+	PRINT(count_lines());
 	
 	
 	

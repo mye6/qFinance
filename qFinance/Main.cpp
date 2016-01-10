@@ -192,16 +192,202 @@ void wiggleSort(vector<int>& nums) {
 			swap(nums[i], nums[i - 1]);
 }
 
+// 35. Search Insertion Position
+int searchInsert(vector<int>& nums, int target) {
+	int low = 0, high = nums.size() - 1;
+	while (low <= high) {
+		int mid = low + (high - low) / 2;
+		if (nums[mid] < target) low = mid + 1;
+		else high = mid - 1;
+	}
+	return low;
+}
+
+// 33. Search in Rotated Sorted Array
+int searchRotatedArray(vector<int>& nums, int target) {
+	int start = 0, end = nums.size() - 1;
+	while (start < end) {
+		int mid = start + (end - start) / 2;
+		if (nums[mid] == target) return mid;
+		if (nums[mid] > nums[end]) {  // eg. 3,4,5,6,|1,2
+			if (nums[start] <= target && target < nums[mid]) end = mid - 1;
+			else start = mid + 1;
+		}
+		else {  // eg. 5,6,|1,2,3,4
+			if (nums[mid] < target && target <= nums[end]) start = mid + 1;
+			else end = mid - 1;
+		}
+	}
+	return (nums[start] == target ? start : -1);
+}
+
+// 81. Search in Rotated Sorted Array II
+bool searchRotatedArrayII(vector<int>& nums, int target) {
+	int start = 0, end = nums.size() - 1;
+	while (start < end) {
+		int mid = start + (end - start) / 2;
+		if (nums[mid] == target) return true;
+		if (nums[mid] > nums[end]) {  // eg. 3,4,5,6,|1,2
+			if (nums[start] <= target && target < nums[mid]) end = mid - 1;
+			else start = mid + 1;
+		}
+		else if (nums[mid] < nums[end]) {  // eg. 5,6,|1,2,3,4
+			if (nums[mid] < target && target <= nums[end]) start = mid + 1;
+			else end = mid - 1;
+		}
+		else {
+			--end; // need to make sure nums[mid]!=nums[end]
+		}
+	}
+	return (nums[start] == target ? true : false);
+}
+
+// 34. Search for a Range
+vector<int> searchRange(vector<int>& nums, int target) {
+	vector<int> res(2, -1);
+	int i = 0, j = nums.size() - 1;	
+	// Search for the left one, while won't stop even when found
+	while (i < j) {
+		int mid = i + (j - i) / 2; // mid biased to the left
+		if (nums[mid] < target) i = mid + 1;
+		else j = mid;
+	}
+	if (nums[i] != target) return res;
+	else res[0] = i;
+	// Search for the right one, while won't stop even when found
+	j = nums.size() - 1; // use the current i
+	while (i < j) {
+		int mid = i + (j - i) / 2 + 1; // mid biased to the right
+		if (nums[mid] > target) j = mid - 1;
+		else i = mid;
+	}
+	res[1] = j; // if the same as i, still use it
+	return res;
+}
+
+// 74. Search a 2D Matrix
+bool searchMatrix(vector<vector<int>>& matrix, int target) {
+	int n = matrix.size(), m = matrix[0].size();
+	int l = 0, r = m * n - 1;
+	while (l < r){
+		int mid = (l + r - 1) / 2;
+		if (matrix[mid / m][mid % m] < target) l = mid + 1;
+		else r = mid;
+	}
+	return matrix[r / m][r % m] == target;
+}
+
+// 240. Search a 2D Matrix II
+bool searchMatrixII(vector<vector<int>>& matrix, int target) {
+	if (matrix.empty() || matrix[0].empty()) return false;
+	for (int i = 0, j = matrix[0].size() - 1; i < (int)matrix.size() && j >= 0; ) {
+		if (matrix[i][j] == target) return true;
+		if (matrix[i][j] < target) ++i;
+		else --j;
+	}
+	return false;
+}
+
+// 48.1. Rotate Image
+void rotate(vector<vector<int>>& matrix) {
+	vector<vector<int>> result = matrix;
+	for (size_t i = 0; i < matrix.size(); i++) {
+		for (size_t j = 0; j < matrix.size(); j++) {
+			result[j][matrix.size() - i - 1] = matrix[i][j];
+		}
+	}
+	matrix = result;
+}
+
+// 48.2. Rotate Image
+void rotate2(vector<vector<int>>& matrix) {
+	reverse(matrix.begin(), matrix.end());
+	for (size_t i = 0; i < matrix.size(); ++i)
+		for (size_t j = i + 1; j < matrix[i].size(); ++j)
+			swap(matrix[i][j], matrix[j][i]);
+}
+
+// 238. Product of Array Except Self
+vector<int> productExceptSelf(vector<int>& nums) {
+	int N = nums.size();
+	vector<int> res(N, 1);	
+	int left = 1, right = 1;
+	for (int i = 0; i < N; ++i) {
+		res[i] *= left;
+		res[N - 1 - i] *= right;
+		left *= nums[i];
+		right *= nums[N - 1 - i];
+	}
+	return res;
+}
+
+// 39. Combination Sum
+void combinationSum(vector<int>& candidates, int target,
+	vector<vector<int> >& res, vector<int>& combination, int begin) {
+	if (target == 0) { res.push_back(combination);	return; }
+	for (int i = begin; i < (int)candidates.size() && candidates[i] <= target; ++i) {
+		combination.push_back(candidates[i]);
+		combinationSum(candidates, target - candidates[i], res, combination, i);
+		combination.pop_back();
+	}
+}
+vector<vector<int> > combinationSum(vector<int>& candidates, int target) {
+	sort(candidates.begin(), candidates.end());
+	vector<vector<int> > res;
+	vector<int> combination;
+	combinationSum(candidates, target, res, combination, 0);
+	return res;
+}
+
+// 40. Combination Sum II
+void combinationSum2(vector<int>& candidates, int target,
+	vector<vector<int> >& res, vector<int>& combination, int begin) {
+	if (target == 0) { res.push_back(combination); return; }
+	for (int i = begin; i<(int)candidates.size() && candidates[i] <= target; ++i) {
+		if (i == begin || candidates[i] != candidates[i - 1]) {
+			combination.push_back(candidates[i]);
+			combinationSum2(candidates, target - candidates[i],
+				res, combination, i + 1);
+			combination.pop_back();
+		}
+	}
+}
+vector<vector<int> > combinationSum2(vector<int>& candidates, int target) {
+	sort(candidates.begin(), candidates.end());
+	vector<std::vector<int> > res;
+	vector<int> combination;
+	combinationSum2(candidates, target, res, combination, 0);
+	return res;
+}
+
+// 216. Combination Sum III
+void combinationSum3(int need, int target, vector<vector<int>>& res,
+	vector<int>& combination, int begin) {
+	if (need == 0 && target == 0){ res.push_back(combination); return; }
+	for (int i = begin; i < 10 && i <= target; i++){
+		combination.push_back(i);
+		combinationSum3(need - 1, target - i, res, combination, i + 1);
+		combination.pop_back();
+	}
+}
+vector<vector<int>> combinationSum3(int k, int n) {
+	vector<vector<int>> res;
+	vector<int> combination;
+	combinationSum3(k, n, res, combination, 1);
+	return res;
+}
+
+
+
+
+
+
+
 
 
 int main(){
-	vector<int> nums{ 3, 5, 2, 1, 6, 4 };
-	PRINT(nums);
-	wiggleSort(nums);
-	PRINT(nums);
-	
-	PRINT(count_lines());
-	
+	vector<int> nums{ 2, 3, 6, 7 };
+	PRINT(combinationSum2(nums, 7));
 	
 
 	system("pause");
