@@ -2215,12 +2215,21 @@ Queue q;
 
 	
 	
+	vector<int> nums{ 1, 1, 1, 2, 2, 3 };
+	ListNode* l = genList(nums);
+	l = deleteDuplicates(l);
+	PRINT(l);
+	
+	PRINT(majorityElement1(nums));
+	PRINT(majorityElement2(nums));
+	PRINT(majorityElement3(nums));
+	PRINT(majorityElement4(nums));
 	
 	
 	
 	
-	
-
+	vector<int> nums{ 1, 5, 1, 1, 1, 9, 3, 4, 3, 2 };
+	PRINT(majorityElementII(nums));
 	
 	
 	

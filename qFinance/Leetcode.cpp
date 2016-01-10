@@ -526,6 +526,7 @@ bool isPalindrome(ListNode* head) {
 	return true;
 }
 
+// 83. Remove Duplicate from Sorted List
 ListNode* deleteDuplicates(ListNode* head) {
 	ListNode* cur = head;
 	while (cur) {
@@ -536,6 +537,7 @@ ListNode* deleteDuplicates(ListNode* head) {
 	return head;
 }
 
+// 82. Remove Duplicate from Sorted List II
 ListNode* deleteDuplicates2(ListNode* head) {
 	if (head == NULL) return NULL;
 	ListNode dummy(head->val - 1);
@@ -742,7 +744,7 @@ int wordDistance::shortest(string word1, string word2) {
 	return dist;
 }
 
-// 189
+// 189. Rotate Array
 void rotate(vector<int>& nums, int k) {
 	int n = nums.size();
 	reverse(nums.begin(), nums.end());
@@ -750,7 +752,7 @@ void rotate(vector<int>& nums, int k) {
 	reverse(nums.begin() + k%n, nums.end());
 }
 
-// 189.2
+// 189.2 Rotate Array
 void rotate2(vector<int>& nums, int k) {
 	int n = nums.size();
 	if (n == 0 || k <= 0) return;
@@ -758,7 +760,7 @@ void rotate2(vector<int>& nums, int k) {
 	for (int i = 0; i < n; ++i) nums[(i + k) % n] = tmp[i];
 }
 
-// 153
+// 153. Find Minimum in Rotated Sorted Array
 int findMin(vector<int>& nums) {
 	int left = 0, right = nums.size() - 1;
 	while (left < right) {
