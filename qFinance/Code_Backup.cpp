@@ -2240,6 +2240,9 @@ Queue q;
 	PRINT(count_lines());
 	
 	
+	vector<int> nums{ 2, 3, 6, 7 };
+	PRINT(combinationSum2(nums, 7));
+	
 	
 	
 	

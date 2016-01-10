@@ -606,5 +606,160 @@ long long Fac1(int n);
 // Factorial sequence, static array, O(N)
 long long Fac2(int n);
 
+/*Section: Array*/
+// 80. Remove Duplicates from Sorted Array II
+int removeDuplicatesII(vector<int>& nums);
+
+// 27. Remove Element
+int removeElement(vector<int>& nums, int val);
+
+// 118. Pascal's Triangle
+vector<vector<int> > generatePascal(int numRows);
+
+// 119. Pascal's Triangle II
+vector<int> getRow(int rowIndex);
+
+// 283. Move Zeroes
+void moveZeroes(vector<int>& nums);
+
+// 88. Merge Sorted Array
+void mergeSortedArray(vector<int>& nums1, int m, vector<int>& nums2, int n);
+
+// 169.1 Majority Element, hash table : value->count.O(N)
+int majorityElement1(vector<int>& nums);
+
+// 169.2 Majority Element, Moore Voting Algorithm, O(N)
+int majorityElement2(vector<int>& nums);
+
+// 169.3 Majority Element, sort and return the mid element : O(NlogN)
+int majorityElement3(vector<int>& nums);
+
+// 169.3 Majority Element, sort and count length.O(NlogN)
+int majorityElement4(vector<int>& nums);
+
+// 229. Majority Element II
+vector<int> majorityElementII(vector<int>& nums);
+
+// 229. Majority Element II
+vector<int> majorityElement(vector<int>& nums);
+
+// 62.1. Unique Paths
+int uniquePaths(int m, int n);
+
+// 62.2. Unique Paths
+int combination(int m, int n);
+int uniquePaths2(int m, int n);
+
+// 63. Unique Paths II
+int uniquePathsWithObstacles(vector<vector<int>>& a);
+
+// 73. Set Matrix Zeroes
+void setZeroes(vector<vector<int> > &matrix);
+
+// 280. Wiggle Sort
+void wiggleSort(vector<int>& nums);
+
+// 35. Search Insertion Position
+int searchInsert(vector<int>& nums, int target);
+
+// 33. Search in Rotated Sorted Array
+int searchRotatedArray(vector<int>& nums, int target);
+
+// 81. Search in Rotated Sorted Array II
+bool searchRotatedArrayII(vector<int>& nums, int target);
+
+// 34. Search for a Range
+vector<int> searchRange(vector<int>& nums, int target);
+
+// 74. Search a 2D Matrix
+bool searchMatrix(vector<vector<int>>& matrix, int target);
+
+// 240. Search a 2D Matrix II
+bool searchMatrixII(vector<vector<int>>& matrix, int target);
+
+// 48.1. Rotate Image
+void rotate(vector<vector<int>>& matrix);
+
+// 48.2. Rotate Image
+void rotate2(vector<vector<int>>& matrix);
+
+// 238. Product of Array Except Self
+vector<int> productExceptSelf(vector<int>& nums);
+
+// 39. Combination Sum
+void combinationSum(vector<int>& candidates, int target,
+	vector<vector<int> >& res, vector<int>& combination, int begin);
+vector<vector<int> > combinationSum(vector<int>& candidates, int target);
+
+// 40. Combination Sum II
+void combinationSum2(vector<int>& candidates, int target,
+	vector<vector<int> >& res, vector<int>& combination, int begin);
+vector<vector<int> > combinationSum2(vector<int>& candidates, int target);
+
+// 216. Combination Sum III
+void combinationSum3(int need, int target, vector<vector<int>>& res,
+	vector<int>& combination, int begin);
+vector<vector<int>> combinationSum3(int k, int n);
+
+// 78.1. Subsets, Recursive
+void genSubsets(vector<int>& nums, int start, vector<int>& sub, vector<vector<int>>& subs);
+vector<vector<int>> subsets(vector<int>& nums);
+
+// 78.2. Subsets, Iterative
+vector<vector<int>> subsets2(vector<int>& nums);
+
+// 90.1. Subsets II, recursive
+void subsetsWithDup(vector<int>& nums, int begin, vector<int> &sub, vector<vector<int> >& subs);
+vector<vector<int> > subsetsWithDup(vector<int>& nums);
+
+// 90.2. Subsets II, iterative
+vector<vector<int>> subsetsWithDup2(vector<int>& nums);
+
+// 31. Next Permutation
+void nextPermutation(vector<int>& nums);
+
+// 163. Missing Ranges
+string get_range(int start, int end);
+vector<string> findMissingRanges(vector<int>& nums, int lower, int upper);
+
+// 259. 3Sum Smaller
+int threeSumSmaller(vector<int>& nums, int target);
+
+// 209. Minimum Size Subarray Sum
+int minSubArrayLen(int s, vector<int>& nums);
+
+// 64. Minimum Path Sum
+int minPathSum(vector<vector<int>>& grid);
+
+// 79. Word Search
+bool wordSearch(vector<vector<char>>& board, string& word,
+	int row, int col, int begin, int M, int N, int len);
+bool wordSearch(vector<vector<char>>& board, string word);
+
+// 55. Jump Game
+bool canJump(vector<int>& nums);
+
+// 45. Jump Game II
+int jump(vector<int>& nums);
+
+// 289. Game of Life
+void gameOfLife(vector<vector<int>>& board);
+
+// 54. Spiral Matrix
+vector<int> spiralOrder(vector<vector<int>>& matrix);
+
+// 59. Spiral Matrix II
+vector<vector<int> > generateMatrix(int n);
+
+// 162. Find Peak Element
+int findPeakElement(vector<int>& nums);
+
+// 75. Sort Colors
+void sortColors(vector<int>& nums);
+
+// 11. Container with Most Water
+int maxArea(vector<int>& height);
+
+
 #endif
 
