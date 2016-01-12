@@ -173,6 +173,12 @@ ListNode* swapPairs(ListNode* head);
 
 ListNode* partition(ListNode* head, int x);
 
+// 141. Linked List Cycle
+bool hasCycle(ListNode* head);
+
+// 142. Linked List Cycle II
+ListNode* detectCycle(ListNode* head);
+
 /*Section: Array*/
 // 217
 bool containsDuplicate(vector<int>& nums);
@@ -759,6 +765,176 @@ void sortColors(vector<int>& nums);
 
 // 11. Container with Most Water
 int maxArea(vector<int>& height);
+
+
+/*Section: String*/
+// 14. Longest Common Prefix
+string longestCommonPrefix(vector<string>& strs);
+
+// 20. Valid Parentheses
+bool isValidParentheses(string s);
+
+// 165. Compare Version Numbers
+int compareVersion(string version1, string version2);
+
+// 38. Count and Say
+string countSay(string s);
+string countAndSay(int n);
+
+// 58. Length of Last Word
+int lengthOfLastWord(string s);
+
+// 6. ZigZag Conversion
+string convertZigZag(string s, int numRows);
+
+// 125. Valid Palindrome
+bool isPalindrome(string s);
+
+// 293. Flip Game
+vector<string> generatePossibleNextMoves(string s);
+
+// 294. Flip Game II
+bool canWin(string s);
+
+// 28. Implement strStr()
+int strStr(string haystack, string needle);
+
+// 93. Restore IP Address
+bool isValidIPAddress(string s);
+vector<string> restoreIpAddresses(string s);
+
+// 5. Longest Palindrome Substring
+string longestPalindrome(string s);
+
+// 17. Letter Combinations of a Phone Number
+void letterCombinations(string& digits, int i, string s, vector<string>& res);
+vector<string> letterCombinations(string digits);
+
+// 151. Reverse Words in a String
+void reverseWords(string &s);
+
+// 186. Reverse Words in a String II
+void reverseWordsII(string &s);
+
+// 161. One Edit Distance
+bool isOneEditDistance(string s, string t);
+
+// 22. Generate Parentheses
+void generateParenthesis(int n, int m, string s, vector<string>& res);
+vector<string> generateParenthesis(int n);
+
+// 271. Encode and Decode a String
+string encodeToString(vector<string>& strs);
+vector<string> decodeToVec(string s);
+
+// 71. Simplify Path
+string simplifyPath(string path);
+
+// 91. Deconde ways
+int numDecodings(string s);
+
+// 227. Basic Calculator II
+int calculateII(string s);
+
+
+/*Section: Backtracking*/
+// 77. Combinations
+void combine(int begin, int n, int pos, int k,
+	vector<int>& com, vector<vector<int> >& coms);
+vector<vector<int> > combine(int n, int k);
+
+// 254. Factor Combinations
+vector<vector<int>> getFactors(int n, int k);
+vector<vector<int>> getFactors(int n);
+
+// 320. Generalized Abbreviation
+void generateAbbreviations(bool prevNum, int i, string abbr, vector<string>& res, string& word);
+vector<string> generateAbbreviations(string word);
+
+// 267. Palindrome Permutations II
+vector<string> permutations(string& s);
+vector<string> generatePalindromes(string s);
+
+// 46. Permutations
+void permute(int pos, vector<int>& nums, vector<vector<int>>& res);
+vector<vector<int>> permute(vector<int>& nums);
+
+// 47. Permutations II
+void permuteUnique(int pos, vector<int> nums, vector<vector<int>>& res);
+vector<vector<int>> permuteUnique(vector<int>& nums);
+
+// 60. Permutation Sequence
+string getPermutation(int n, int k);
+
+// 131. Palindrome Partitioning
+void partitionPalindrome(int pos, vector<string>& t, vector<vector<string>>& res, string& s);
+vector<vector<string> > partitionPalindrome(string s);
+
+// 89. Gray Code
+vector<int> grayCode(int n);
+
+/*Section: Dynamic Programming*/
+//276. Paint Fence
+int numWays(int n, int k);
+
+// 256. Paint House
+int minCost(vector<vector<int>>& costs);
+
+// 198. House Robber
+int rob(vector<int>& nums);
+
+// 213. House Robber II
+int rob_line(vector<int>& nums);
+int rob2(vector<int>& nums);
+
+// 70. Climbing Stairs
+int climbStairs(int n);
+
+// 121. Best Time to Buy and Sell Stock
+int maxProfit(vector<int>& prices);
+
+// 122. Best Time to Buy and Sell Stock II
+int maxProfitII(vector<int> &prices);
+
+// 123. Best Time to Buy and Sell Stock III
+int maxProfitIII(vector<int>& prices);
+
+// 309. Best Time to Buy and Sell Stock with Cooldown
+int maxProfitIV(vector<int>& prices);
+
+// 120. Triangle
+int minimumTotal(vector<vector<int>>& triangle);
+
+// 53. Maximum Subarray
+int maxSubArray(vector<int>& nums);
+
+// 152. Maximum Product Subarray
+int maxProduct(vector<int>& A);
+
+// 300.1. Longest Increasing Subsequence, DP, O(N^2)
+int lengthOfLIS1(vector<int>& nums);
+
+// 300.2. Longest Increasing Subsequence, Online, O(NlogN)
+int lengthOfLIS_2(vector<int>& nums);
+
+//221. Maximal Square
+int maximalSquare(vector<vector<char>>& matrix);
+
+// 322. Coin Change
+int coinChange(vector<int>& coins, int amount);
+
+/*Section: Depth First Search and Breadth First Search*/
+// 200.1. Number of Islands, DFS
+void numIslandsDFS(vector<vector<char>>& grid, int i, int j);
+int numIslands(vector<vector<char>>& grid);
+
+// 200.2. Number of Islands, BFS
+void numIslandsBFS(vector<vector<char>>& grid, int x, int y);
+int numIslands2(vector<vector<char>>& grid);
+
+// 130. Surrounded Regions, BFS
+void bfs(int i, int j, vector<vector<char>>& board);
+void solve(vector<vector<char>>& board);
 
 
 #endif

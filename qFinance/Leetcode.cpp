@@ -639,6 +639,34 @@ ListNode* partition(ListNode* head, int x) {
 	return node1.next;
 }
 
+// 141. Linked List Cycle
+bool hasCycle(ListNode* head) {
+	ListNode *slow = head, *fast = head;
+	while (fast && fast->next) {
+		fast = fast->next->next;
+		slow = slow->next;
+		if (slow == fast) return true;
+	}
+	return false;
+}
+
+// 142. Linked List Cycle II
+ListNode* detectCycle(ListNode* head) {
+	ListNode *slow = head, *fast = head;
+	while (fast && fast->next) {
+		slow = slow->next;
+		fast = fast->next->next;
+		if (slow == fast) break;
+	}
+	if (!fast || !fast->next) return NULL;
+	fast = head;
+	while (slow != fast) {
+		slow = slow->next;
+		fast = fast->next;
+	}
+	return slow;
+}
+
 /*Section: Array*/
 // 217. Contains Duplicate
 bool containsDuplicate(vector<int>& nums) {
@@ -1994,7 +2022,7 @@ int romanToInt(string s) {
 	return sum;
 }
 
-// 22. Integer to Roman
+// 12. Integer to Roman
 string intToRoman(int num) {
 	string M[] = { "", "M", "MM", "MMM" };
 	string C[] = { "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" };
@@ -2023,8 +2051,7 @@ string numberToWords(int n) {
 // 279. Perfect Squares
 int numSquares(int n) {
 	if (n <= 0) return 0;
-	vector<int> D(n + 1, INT_MAX);
-	D[0] = 0;
+	vector<int> D(n + 1, INT_MAX); D[0] = 0;
 	for (int i = 1; i <= n; ++i) {
 		for (int j = 1; j*j <= i; ++j) {
 			D[i] = min(D[i], D[i - j*j] + 1);
@@ -2978,3 +3005,817 @@ int maxArea(vector<int>& height) {
 	}
 	return water;
 }
+
+
+/*Section: String*/
+// 14. Longest Common Prefix
+string longestCommonPrefix(vector<string>& strs) {
+	if (strs.size() == 0) return "";
+	for (int i = 0; i < (int)strs[0].size(); ++i)
+		for (int j = 1; j < (int)strs.size(); ++j)
+			if (!(i < (int)strs[j].size() && strs[0][i] == strs[j][i]))
+				return strs[0].substr(0, i);
+	return strs[0];
+}
+
+// 20. Valid Parentheses
+bool isValidParentheses(string s) {
+	stack<char> stk;
+	for (char c : s){
+		if (c == '(' || c == '{' || c == '['){
+			stk.push(c);
+		}
+		else{
+			if (stk.empty()) return false;
+			if (c == ')' && stk.top() != '(') return false;
+			if (c == '}' && stk.top() != '{') return false;
+			if (c == ']' && stk.top() != '[') return false;
+			stk.pop();
+		}
+	}
+	return stk.empty();
+}
+
+// 165. Compare Version Numbers
+int compareVersion(string version1, string version2) {
+	int i = 0, j = 0, n1 = version1.size(), n2 = version2.size();
+	int num1 = 0, num2 = 0;
+	while (i < n1 || j < n2) {
+		while (i < n1 && version1[i] != '.')
+			num1 = num1 * 10 + (version1[i++] - '0');
+		while (j < n2 && version2[j] != '.')
+			num2 = num2 * 10 + (version2[j++] - '0');
+		if (num1 > num2) return 1;
+		if (num1 < num2) return -1;
+		num1 = 0, num2 = 0;
+		++i; ++j;
+	}
+	return 0;
+}
+
+// 38. Count and Say
+string countSay(string s) {
+	string res = "";
+	for (int i = 0; i < (int)s.size(); ++i) {
+		int count = 1;
+		while ((i + 1 < (int)s.size()) && (s[i] == s[i + 1])) {
+			++count;
+			++i;
+		}
+		res += to_string(count) + s[i];
+	}
+	return res;
+}
+string countAndSay(int n) {
+	if (n == 0) return string("");
+	string res = "1";
+	while (--n > 0)
+		res = countSay(res);
+	return res;
+}
+
+// 58. Length of Last Word
+int lengthOfLastWord(string s) {
+	int len = 0, tail = s.length() - 1;
+	while (tail >= 0 && s[tail] == ' ') --tail;
+	while (tail >= 0 && s[tail] != ' ') { ++len; --tail; }
+	return len;
+}
+
+
+// 6. ZigZag Conversion
+string convertZigZag(string s, int numRows) {
+	if (s == "" || numRows == 1) return s;
+	vector<string> vecstr(numRows);
+	int n = s.size(), row = 0, direct = 1;
+	for (int i = 0; i < n; ++i) {
+		vecstr[row].push_back(s[i]);
+		if (row == numRows - 1) direct = -1;
+		if (row == 0) direct = 1;
+		row += direct;
+	}
+	string res = "";
+	for (int i = 0; i <= numRows - 1; ++i) res += vecstr[i];
+	return res;
+}
+
+// 125. Valid Palindrome
+bool isPalindrome(string s) {
+	for (int i = 0, j = s.size() - 1; i < j; ++i, --j) {
+		while (!isalnum(s[i]) && i < j) ++i;
+		while (!isalnum(s[j]) && i < j) --j;
+		if (toupper(s[i]) != toupper(s[j])) return false;
+	}
+	return true;
+}
+
+// 293. Flip Game
+vector<string> generatePossibleNextMoves(string s) {
+	vector<string> moves;
+	for (int i = 0; i < (int)s.size() - 1; ++i) {
+		if (s[i] == '+' && s[i + 1] == '+') {
+			s[i] = s[i + 1] = '-';
+			moves.push_back(s);
+			s[i] = s[i + 1] = '+';
+		}
+	}
+	return moves;
+}
+
+// 294. Flip Game II
+bool canWin(string s) {
+	for (int i = 0; i <= (int)s.size() - 2; ++i) {
+		if (s[i] == '+' && s[i + 1] == '+') {
+			s[i] = '-'; s[i + 1] = '-';
+			bool wins = !canWin(s);
+			s[i] = '+'; s[i + 1] = '+';
+			if (wins) return true;
+		}
+	}
+	return false;
+}
+
+// 28. Implement strStr()
+int strStr(string haystack, string needle) {
+	int m = haystack.length(), n = needle.length();
+	if (n == 0) return 0;
+	for (int i = 0; i < m - n + 1; ++i) {
+		int j = 0;
+		for (; j < n; j++)
+			if (haystack[i + j] != needle[j])
+				break;
+		if (j == n) return i;
+	}
+	return -1;
+}
+
+// 93. Restore IP Address
+bool isValidIPAddress(string s){
+	if (s.size() > 3 || s.size() == 0 ||
+		(s.front() == '0' && s.size()>1) || stoi(s) > 255) return false;
+	return true;
+}
+vector<string> restoreIpAddresses(string s) {
+	vector<string> res;
+	int len = s.size();
+	for (int i = 1; i < 4 && (i - 1) < len - 3; ++i){
+		string s1 = s.substr(0, i);
+		if (!isValidIPAddress(s1)) break;
+		for (int j = 1; j < 4 && (j + i - 1)<len - 2; ++j){
+			string s2 = s.substr(i, j);
+			if (!isValidIPAddress(s2)) break;
+			for (int k = 1; k<4 && (k + j + i - 1)<len - 1; ++k){
+				string s3 = s.substr(i + j, k);
+				string s4 = s.substr(i + j + k, len - i - j - k);
+				if (isValidIPAddress(s3) && isValidIPAddress(s4)) {
+					string solution = s1 + "." + s2 + "." + s3 + "." + s4;
+					res.push_back(solution);
+				}
+			}
+		}
+	}
+	return res;
+}
+
+// 5. Longest Palindrome Substring
+string longestPalindrome(string s) {
+	if (s.size() < 2) return s;
+	int n = s.size(), left = 0, len = 1;
+	for (int start = 0; start < n - len / 2;) {
+		int l = start, r = start;
+		while (r < n - 1 && s[r + 1] == s[r]) ++r;
+		start = r + 1;
+		while (r < n - 1 && l > 0 && s[r + 1] == s[l - 1]) {
+			++r; --l;
+		}
+		if (len < r - l + 1) {
+			left = l; len = r - l + 1;
+		}
+	}
+	return s.substr(left, len);
+}
+
+// 17. Letter Combinations of a Phone Number
+void letterCombinations(string& digits, int i, string s, vector<string>& res) {
+	static vector<string> v = { "", "", "abc", "def",
+		"ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
+	if (i == (int)digits.size()) { res.push_back(s); return; }
+	int b = digits[i] - '0';
+	for (int k = 0; k < (int)v[b].size(); ++k)
+		letterCombinations(digits, i + 1, s + v[b][k], res);
+}
+vector<string> letterCombinations(string digits) {
+	vector<string> res;
+	if (digits.size() == 0) return res;
+	letterCombinations(digits, 0, "", res);
+	return res;
+}
+
+// 151. Reverse Words in a String
+void reverseWords(string &s) {
+	istringstream is(s);
+	string tmp;
+	is >> s;
+	while (is >> tmp) s = tmp + " " + s;
+	if (s[0] == ' ') s = "";
+}
+
+// 186. Reverse Words in a String
+void reverseWordsII(string &s) {
+	reverse(s.begin(), s.end());
+	for (int i = 0, j = 0; i < (int)s.size(); i = j + 1) {
+		for (j = i; j < (int)s.size() && !isblank(s[j]); ++j);
+		reverse(s.begin() + i, s.begin() + j);
+	}
+}
+
+// 161. One Edit Distance
+bool isOneEditDistance(string s, string t) {
+	string &ss = s, &tt = t;
+	if (ss.size() > tt.size()) swap(ss, tt);
+	int lens = ss.size(), lent = tt.size();
+	if (lent - lens >= 2) return false;
+	int notequal = (lens == lent ? 0 : 1);
+	int diffcount = 0;
+	for (int i = 0; i < lent; i++) {
+		if (t[i] != s[i - diffcount*notequal]) ++diffcount;
+	}
+	return diffcount == 1;
+}
+
+// 22. Generate Parentheses
+void generateParenthesis(int n, int m, string s, vector<string>& res){
+	if (n == 0 && m == 0) { res.push_back(s); return; } // n: # remaining "("; m: # remaining ")"
+	if (n>0) generateParenthesis(n - 1, m + 1, s + "(", res); // added "(", n-1, m+1
+	if (m>0) generateParenthesis(n, m - 1, s + ")", res); // added ")", m-1
+}
+vector<string> generateParenthesis(int n) {
+	vector<string> res;
+	generateParenthesis(n, 0, "", res);
+	return res;
+}
+
+
+// 271. Encode and Decode a String
+string encodeToString(vector<string>& strs) {
+	string encoded = "";
+	for (string& str : strs) {
+		int len = str.size();
+		encoded += to_string(len) + "@" + str; // #@..#@..
+	}
+	return encoded;
+}
+vector<string> decodeToVec(string s) {
+	vector<string> r;
+	int head = 0, n = s.size();
+	while (head < n) {
+		int at_pos = s.find_first_of('@', head);
+		int len = stoi(s.substr(head, at_pos - head));
+		head = at_pos + 1;
+		r.push_back(s.substr(head, len));
+		head += len;
+	}
+	return r;
+}
+
+// 71. Simplify Path
+string simplifyPath(string path) {
+	vector<string> strs;
+	stringstream ss(path);
+	string tmp;
+	while (getline(ss, tmp, '/')) {
+		if (tmp == "" || tmp == ".") continue;
+		if (tmp == ".." && !strs.empty()) strs.pop_back();
+		else if (tmp != "..") strs.push_back(tmp);
+	}
+	string res = "";
+	for (string str : strs) res += "/" + str;
+	return res.empty() ? "/" : res;
+}
+
+// 91. Deconde ways
+int numDecodings(string s) {
+	if (s.size() == 0 || s.front() == '0') return 0;
+	int n = s.size(), Max = n + 1;
+	vector<int> D(n, Max);
+	D[0] = 1;
+	for (int i = 1; i < n; ++i) {
+		char cur = s[i], pre = s[i - 1];
+		if (cur == '0') {
+			if (pre == '1' || pre == '2') D[i] = (i - 2 >= 0 ? D[i - 2] : 1);
+			else D[i] = 0;
+		}
+		if ('1' <= cur && cur <= '6') {
+			if ('1' <= pre && pre <= '2')
+				D[i] = D[i - 1] + (i - 2 >= 0 ? D[i - 2] : 1);
+			else D[i] = D[i - 1];
+		}
+		if ('7' <= cur && cur <= '9') {
+			if ('1' == pre)
+				D[i] = D[i - 1] + (i - 2 >= 0 ? D[i - 2] : 1);
+			else D[i] = D[i - 1];
+		}
+	}
+	return D[n - 1];
+}
+
+// 227. Basic Calculator II
+int calculateII(string s) {
+	istringstream in('+' + s + '+');
+	long long total = 0, term = 0, n;
+	char op;
+	while (in >> op) {
+		if (op == '+' || op == '-') {
+			total += term;
+			in >> term;
+			term *= 44 - op; // (op == '+' ? 1 : -1);
+		}
+		else {
+			in >> n;
+			if (op == '*') term *= n;
+			else term /= n;
+		}
+	}
+	return (int)total;
+}
+
+
+/*Section: Backtracking*/
+// 77. Combinations
+void combine(int begin, int n, int pos, int k,
+	vector<int>& com, vector<vector<int> >& coms) {
+	if (pos == k) { coms.push_back(com); return; }
+	for (int i = begin; i <= n; ++i) {
+		com[pos++] = i;
+		combine(i + 1, n, pos, k, com, coms);
+		--pos;
+	}
+}
+vector<vector<int> > combine(int n, int k) {
+	vector<vector<int> > coms;
+	vector<int> com(k, 0);
+	combine(1, n, 0, k, com, coms);
+	return coms;
+}
+
+// 254. Factor Combinations
+vector<vector<int>> getFactors(int n, int k){
+	vector<vector<int> > res;
+	if (n <= 0 || k <= 0) return res;
+	for (int i = k; i <= sqrt(n); ++i){
+		if (n % i != 0) continue;
+		res.push_back(vector<int>{i, n / i});
+		vector<vector<int>> res2 = getFactors(n / i, i);
+		for (vector<int>& tmp : res2) {
+			tmp.insert(tmp.begin(), i);
+			res.push_back(tmp);
+		}
+	}
+	return res;
+}
+vector<vector<int>> getFactors(int n) {
+	return getFactors(n, 2);
+}
+
+// 320. Generalized Abbreviation
+void generateAbbreviations(bool prevNum, int i, string abbr, vector<string>& res, string& word) {
+	if (i == word.length()) { res.push_back(abbr); return; }
+	generateAbbreviations(false, i + 1, abbr + word[i], res, word); // case1: add letter, unconditionally
+	if (!prevNum) // case2: use number, only when no abbreviation before
+		for (int len = 1; i + len <= (int)word.length(); ++len)
+			generateAbbreviations(true, i + len, abbr + to_string(len), res, word);
+}
+vector<string> generateAbbreviations(string word) {
+	vector<string> res;
+	generateAbbreviations(false, 0, "", res, word);
+	return res;
+}
+
+// 267. Palindrome Permutations II
+vector<string> permutations(string& s) {
+	vector<string> perms;
+	string t(s);
+	do {
+		perms.push_back(s);
+		next_permutation(s.begin(), s.end());
+	} while (s != t);
+	return perms;
+}
+vector<string> generatePalindromes(string s) {
+	vector<string> palindromes;
+	unordered_map<char, int> counts;
+	for (char c : s) counts[c]++;
+	int odd = 0; char mid;
+	string half;
+	for (auto p : counts) {
+		if (p.second & 1) {
+			odd++, mid = p.first;
+			if (odd > 1) return palindromes;
+		}
+		half += string(p.second / 2, p.first);
+	}
+	palindromes = permutations(half);
+	for (string& p : palindromes) {
+		string t(p);
+		reverse(t.begin(), t.end());
+		if (odd) t = mid + t;
+		p += t;
+	}
+	return palindromes;
+}
+
+// 46. Permutations
+void permute(int pos, vector<int>& nums, vector<vector<int>>& res){
+	if (pos == nums.size() - 1) { res.push_back(nums); return; }
+	for (int i = pos; i < (int)nums.size(); ++i){
+		swap(nums[i], nums[pos]);
+		permute(pos + 1, nums, res);
+		swap(nums[i], nums[pos]);
+	}
+}
+vector<vector<int>> permute(vector<int>& nums) {
+	vector<vector<int> > res;
+	permute(0, nums, res);
+	return res;
+}
+
+// 47. Permutations II
+void permuteUnique(int pos, vector<int> nums, vector<vector<int>>& res){
+	if (pos == nums.size() - 1) { res.push_back(nums); return; }
+	for (int i = pos; i < (int)nums.size(); ++i){
+		if (i != pos && nums[i] == nums[pos]) continue;
+		swap(nums[i], nums[pos]);
+		permuteUnique(pos + 1, nums, res);
+		//swap(nums[i], nums[pos]);
+	}
+}
+vector<vector<int>> permuteUnique(vector<int>& nums) {
+	sort(nums.begin(), nums.end());
+	vector<vector<int> > res;
+	permuteUnique(0, nums, res);
+	return res;
+}
+
+// 60. Permutation Sequence
+string getPermutation(int n, int k) {
+	vector<int> fac(10, 1);
+	for (int i = 1; i <= 9; i++) fac[i] = i * fac[i - 1];
+	vector<char> nums{ '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+	string res = "";
+	while (n > 0){
+		int temp = (k - 1) / fac[n - 1];
+		res += nums[temp];
+		nums.erase(nums.begin() + temp);
+		k = k - temp * fac[n - 1];
+		n--;
+	}
+	return res;
+}
+
+// 131. Palindrome Partitioning
+void partitionPalindrome(int pos, vector<string>& t, vector<vector<string>>& res, string& s) {
+	if (pos == s.size()) { res.push_back(t); return; }
+	for (int i = pos; i < (int)s.size(); ++i) {
+		int l = pos, r = i; // try to find palindrome
+		while (l < r && s[l] == s[r]) ++l, --r;
+		if (l >= r) {
+			t.push_back(s.substr(pos, i - pos + 1));
+			partitionPalindrome(i + 1, t, res, s);
+			t.pop_back();
+		}
+	}
+}
+vector<vector<string> > partitionPalindrome(string s) {
+	vector<vector<string>> res;
+	vector<string> t;
+	partitionPalindrome(0, t, res, s);
+	return res;
+}
+
+// 89. Gray Code
+vector<int> grayCode(int n) {
+	vector<int> res;
+	if (n == 0) {
+		res.push_back(0); return res;
+	}
+	res = grayCode(n - 1);
+	int jump = (1 << (n - 1));
+	for (int i = res.size() - 1; i >= 0; --i)
+		res.push_back(res[i] + jump);
+	return res;
+}
+
+/*Section: Dynamic Programming*/
+//276. Paint Fence
+int numWays(int n, int k) {
+	if (n == 0 || k == 0) return 0;
+	vector<int> D(n); // #total ways 0..i-1
+	for (int i = 0; i < n; ++i) {
+		if (i == 0) D[i] = k;
+		else if (i == 1) D[i] = k*k;
+		else D[i] = (k - 1)*(D[i - 2] + D[i - 1]);
+	}
+	return D[n - 1];
+}
+
+// 256. Paint House
+int minCost(vector<vector<int>>& costs) {
+	if (costs.empty()) return 0;
+	int n = costs.size();
+	for (int i = 1; i < n; i++) {
+		costs[i][0] += min(costs[i - 1][1], costs[i - 1][2]);
+		costs[i][1] += min(costs[i - 1][0], costs[i - 1][2]);
+		costs[i][2] += min(costs[i - 1][0], costs[i - 1][1]);
+	}
+	return min(costs[n - 1][0], min(costs[n - 1][1], costs[n - 1][2]));
+}
+
+// 198. House Robber
+int rob(vector<int>& nums) {
+	if (nums.empty()) return 0;
+	int n = nums.size();
+	vector<int> D(n);
+	for (int i = 0; i < n; ++i) {
+		if (i == 0) D[i] = nums[0];
+		else if (i == 1) D[i] = max(nums[0], nums[1]);
+		else D[i] = max(D[i - 2] + nums[i], D[i - 1]);
+	}
+	return D[n - 1];
+}
+
+// 213. House Robber II
+int rob_line(vector<int>& nums) {
+	if (nums.empty()) return 0;
+	int n = nums.size();
+	vector<int> D(n);
+	for (int i = 0; i < n; ++i) {
+		if (i == 0) D[i] = nums[0];
+		else if (i == 1) D[i] = max(nums[0], nums[1]);
+		else D[i] = max(D[i - 2] + nums[i], D[i - 1]);
+	}
+	return D[n - 1];
+}
+int rob2(vector<int>& nums) {
+	int n = nums.size();
+	if (n == 0) return 0;
+	if (n == 1) return nums[0];
+	vector<int> nums1(nums), nums2(nums);
+	nums1.erase(nums1.begin());
+	nums2.pop_back();
+	return max(rob_line(nums1), rob_line(nums2));
+}
+
+
+// 70. Climbing Stairs
+int climbStairs(int n) {
+	vector<int> D(n);
+	for (int i = 1; i <= n; ++i) {
+		if (i == 1) D[i - 1] = 1;
+		else if (i == 2) D[i - 1] = 2;
+		else D[i - 1] = D[i - 2] + D[i - 3];
+	}
+	return D[n - 1];
+}
+
+// 121. Best Time to Buy and Sell Stock
+int maxProfit(vector<int>& prices) {
+	int minPrice = INT_MAX, maxPro = 0;
+	for (int price : prices) {
+		minPrice = min(price, minPrice);
+		maxPro = max(maxPro, price - minPrice);
+	}
+	return maxPro;
+}
+
+// 122. Best Time to Buy and Sell Stock II
+int maxProfitII(vector<int> &prices) {
+	int ret = 0;
+	for (size_t p = 1; p < prices.size(); ++p)
+		ret += max(prices[p] - prices[p - 1], 0);
+	return ret;
+}
+
+// 123. Best Time to Buy and Sell Stock III
+int maxProfitIII(vector<int>& prices) {
+	if (prices.empty()) return 0;
+	int n = prices.size();
+	vector<int> leftProfit(n), rightProfit(n);
+	int leftMin = prices[0], rightMax = prices[n - 1];
+	leftProfit[0] = 0; rightProfit[n - 1] = 0;
+	for (int i = 1, j = n - 2; i <= n - 1 && j >= 0; ++i, --j) {
+		leftProfit[i] = max(leftProfit[i - 1], prices[i] - leftMin);
+		leftMin = min(leftMin, prices[i]);
+		rightProfit[j] = max(rightProfit[j + 1], rightMax - prices[j]);
+		rightMax = max(rightMax, prices[j]);
+	}
+	int res = 0;
+	for (int i = 1; i < n; ++i) {
+		res = max(res, leftProfit[i] + rightProfit[i]);
+	}
+	return res;
+}
+
+// 309. Best Time to Buy and Sell Stock with Cooldown
+int maxProfitIV(vector<int>& prices) {
+	int n = prices.size();
+	if (n < 2) return 0;
+	vector<vector<int> > D(4, vector<int>(n, 0));
+	// #0: 0-buy; #1: 0-rest; #2: 1-sell; #3: 1-rest
+	D[0][0] = -prices[0], D[1][0] = 0, D[2][0] = 0, D[3][0] = -prices[0];
+	for (int i = 1; i < n; ++i) {
+		D[0][i] = D[1][i - 1] - prices[i];
+		D[1][i] = max(D[1][i - 1], D[2][i - 1]);
+		D[2][i] = max(D[0][i - 1], D[3][i - 1]) + prices[i];
+		D[3][i] = max(D[0][i - 1], D[3][i - 1]);
+	}
+	return max(D[1][n - 1], D[2][n - 1]);
+}
+
+// 120. Triangle
+int minimumTotal(vector<vector<int>>& triangle) {
+	vector<int> res(triangle.size(), triangle[0][0]);
+	for (int i = 1; i < (int)triangle.size(); ++i)
+		for (int j = i; j >= 0; --j) {
+		if (j == 0) res[0] += triangle[i][j];
+		else if (j == i) res[j] = triangle[i][j] + res[j - 1];
+		else res[j] = triangle[i][j] + min(res[j - 1], res[j]);
+		}
+	return *min_element(res.begin(), res.end());
+}
+
+// 53. Maximum Subarray
+int maxSubArray(vector<int>& nums) {
+	if (nums.size() == 0) return 0;
+	int n = nums.size(), ans = nums[0], sum = 0;
+	for (int i = 0; i < n; ++i) {
+		sum += nums[i];
+		ans = max(sum, ans); // ans[i] = max(sum[i-1]+nums[i], ans[i-1])
+		sum = max(sum, 0); // sum[i] = max(sum[i-1] + nums[i], 0)
+	}
+	return ans;
+}
+
+// 152. Maximum Product Subarray
+int maxProduct(vector<int>& A) {
+	int n = A.size();
+	if (n == 0) return 0;
+	int Max = A[0], Min = A[0], res = A[0];
+	for (int i = 1; i < n; i++) {
+		if (A[i] >= 0) {
+			Max = max(Max * A[i], A[i]);
+			Min = min(Min * A[i], A[i]);
+		}
+		else {
+			int temp = Max;
+			Max = max(Min * A[i], A[i]);
+			Min = min(temp * A[i], A[i]);
+		}
+		res = max(res, Max);
+	}
+	return res;
+}
+
+// 300.1. Longest Increasing Subsequence, DP, O(N^2)
+int lengthOfLIS1(vector<int>& nums) {
+	if (nums.empty()) return 0;
+	int n = nums.size();
+	vector<int> D(n, 1);
+	int res = 1;
+	for (int i = 1; i < n; ++i) {
+		for (int j = 0; j < i; ++j) {
+			if (nums[j] < nums[i]) D[i] = max(D[i], D[j] + 1);
+		}
+		res = max(res, D[i]);
+	}
+	return res;
+}
+
+// 300.2. Longest Increasing Subsequence, Online, O(NlogN)
+int lengthOfLIS_2(vector<int>& nums) {
+	vector<int> res;
+	for (int i = 0; i<(int)nums.size(); ++i) {
+		auto it = std::lower_bound(res.begin(), res.end(), nums[i]);
+		if (it == res.end()) res.push_back(nums[i]);
+		else *it = nums[i];
+	}
+	return res.size();
+}
+
+//221. Maximal Square
+int maximalSquare(vector<vector<char>>& matrix) {
+	if (matrix.empty() || matrix[0].empty()) return 0;
+	int m = matrix.size(), n = matrix[0].size();
+	vector<vector<int> > size(m, vector<int>(n, 0));
+	int maxsize = 0;
+	for (int j = 0; j < n; j++) {
+		size[0][j] = matrix[0][j] - '0';
+		maxsize = max(maxsize, size[0][j]);
+	}
+	for (int i = 1; i < m; i++) {
+		size[i][0] = matrix[i][0] - '0';
+		maxsize = max(maxsize, size[i][0]);
+	}
+	for (int i = 1; i < m; i++) {
+		for (int j = 1; j < n; j++) {
+			if (matrix[i][j] == '1') {
+				size[i][j] = min(size[i - 1][j - 1], min(size[i - 1][j], size[i][j - 1])) + 1;
+				maxsize = max(maxsize, size[i][j]);
+			}
+		}
+	}
+	return maxsize * maxsize;
+}
+
+// 322. Coin Change
+int coinChange(vector<int>& coins, int amount) {
+	int Max = amount + 1;
+	vector<int> D(amount + 1, Max); D[0] = 0;
+	for (int i = 1; i <= amount; i++)
+		for (int j = 0; j < (int)coins.size(); j++)
+			if (coins[j] <= i) D[i] = min(D[i], D[i - coins[j]] + 1);
+
+	return D[amount] > amount ? -1 : D[amount];
+}
+
+/*Section: Depth First Search and Breadth First Search*/
+// 200.1. Number of Islands, DFS
+void numIslandsDFS(vector<vector<char>>& grid, int i, int j){
+	if (i < 0 || j < 0 || i >= (int)grid.size() || j >= (int)grid[0].size()) return;
+	if (grid[i][j] == '0') return;
+	grid[i][j] = '0'; // make the island disappear once found
+	numIslandsDFS(grid, i - 1, j); // DFS, recursive
+	numIslandsDFS(grid, i + 1, j);
+	numIslandsDFS(grid, i, j - 1);
+	numIslandsDFS(grid, i, j + 1);
+}
+int numIslands(vector<vector<char>>& grid) {
+	int m = grid.size(), n = grid[0].size(), res = 0;
+	for (int i = 0; i < m; ++i)
+		for (int j = 0; j < n; ++j)
+			if (grid[i][j == '1']) { ++res; numIslandsDFS(grid, i, j); }
+	return res;
+}
+
+// 200.2. Number of Islands, BFS
+void numIslandsBFS(vector<vector<char>>& grid, int x, int y) {
+	int m = grid.size(), n = grid[0].size();
+	queue<vector<int> > q; q.push({ x, y });
+	grid[x][y] = '0';
+	while (!q.empty()) {
+		x = q.front()[0], y = q.front()[1]; q.pop();
+		if (x > 0 && grid[x - 1][y] == '1') {
+			q.push({ x - 1, y }); grid[x - 1][y] = '0';
+		}
+		if (x + 1 < m && grid[x + 1][y] == '1') {
+			q.push({ x + 1, y }); grid[x + 1][y] = '0';
+		}
+		if (y > 0 && grid[x][y - 1] == '1') {
+			q.push({ x, y - 1 });
+			grid[x][y - 1] = '0';
+		}
+		if (y + 1 < n && grid[x][y + 1] == '1') {
+			q.push({ x, y + 1 });
+			grid[x][y + 1] = '0';
+		}
+	}
+}
+int numIslands2(vector<vector<char>>& grid) {
+	int m = grid.size(), n = grid[0].size(), res = 0;
+	for (int i = 0; i < m; ++i)
+		for (int j = 0; j < n; ++j)
+			if (grid[i][j] == '1') { ++res; numIslandsBFS(grid, i, j); }
+	return res;
+}
+
+// 130. Surrounded Regions, BFS
+void bfs(int i, int j, vector<vector<char>>& board) {
+	int m = board.size(), n = board[0].size();
+	queue<vector<int>> q; q.push({ i, j });
+	while (!q.empty()) {
+		int x = q.front()[0], y = q.front()[1]; q.pop();
+		if (x >= 0 && x < m && y >= 0 && y < n && board[x][y] == 'O') {
+			board[x][y] = '#';
+			q.push({ x - 1, y });
+			q.push({ x + 1, y });
+			q.push({ x, y - 1 });
+			q.push({ x, y + 1 });
+		}
+	}
+}
+void solve(vector<vector<char>>& board) {
+	if (board.empty() || board[0].empty()) return;
+	int m = board.size(), n = board[0].size();
+	for (int i = 0; i < m; ++i) {
+		if (board[i][0] == 'O') bfs(i, 0, board);
+		if (board[i][n - 1] == 'O') bfs(i, n - 1, board);
+	}
+	for (int j = 0; j < n; ++j) {
+		if (board[0][j] == 'O') bfs(0, j, board);
+		if (board[m - 1][j] == 'O') bfs(m - 1, j, board);
+	}
+	for (int i = 0; i < m; ++i)
+		for (int j = 0; j < n; ++j)
+			if (board[i][j] == '#') board[i][j] = 'O';
+			else board[i][j] = 'X';
+}
+

@@ -2244,7 +2244,28 @@ Queue q;
 	PRINT(combinationSum2(nums, 7));
 	
 	
+	for (int i = 1; i <= 10; ++i) {
+		cout << i << ": " << countAndSay(i) << endl;
+	}
 	
+	
+	for (int i = 3; i <= 10; ++i) {
+		string s(i, '+');
+		cout << i << "| " << s << ": " << canWin(s) << endl;
+	}
+	
+	
+	
+	
+	vector<string> vec{"mao", "jhu", "boa", "he", "bing"};
+	PRINT(vec);
+	SEP;
+	string s = encodeToString(vec);
+	PRINT(s);
+	SEP;
+	vector<string> res = decodeToVec(s);
+	PRINT(res);
+	SEP;
 	
 
 	
